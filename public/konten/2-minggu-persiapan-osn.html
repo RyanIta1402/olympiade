@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Program 14 Hari OSN Matematika SD (Kelas 5 &amp; 6)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --sub: #f1f5f9;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --primary-text: #ffffff;
+      --success: #16a34a;
+      --warning: #d97706;
+      --error: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+    .badge {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--primary-text);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    h1 { margin: 4px 0; font-size: 20px; }
+    h2 { margin: 0 0 8px 0; font-size: 16px; }
+    p { margin: 0; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .between { justify-content: space-between; }
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--sub);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tab-btn { flex: 1 1 auto; text-align: center; }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .hidden { display: none !important; }
+    .timer-box {
+      background: var(--sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .timer-digits { font-family: ui-monospace, monospace; font-size: 26px; font-weight: 800; }
+    .subcard {
+      background: var(--sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="number"], select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+    }
+    .day-select {
+      width: 100%;
+      font-weight: 600;
+      padding: 10px 12px;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+    .problem-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--card);
+      margin-top: 10px;
+    }
+    .problem-q {
+      background: var(--sub);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 8px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .feedback { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .ok { color: var(--success); }
+    .no { color: var(--error); }
+    .hint-box {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .sol-box {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #14532d;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--sub);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header + Day Selector + Timer -->
+    <div class="card">
+      <div class="row between">
+        <div>
+          <div class="badge" id="dayBadge">HARI 3 • OSN SD KELAS 5 &amp; 6</div>
+          <h1 id="dayTitle">Teori Bilangan Langganan OSN</h1>
+          <p class="muted" id="daySubtitle">Pilih hari dari dropdown di bawah untuk berpindah materi dan latihan.</p>
+        </div>
+        <div class="row">
+          <button id="prevDayBtn" class="btn">← Sebelumnya</button>
+          <button id="nextDayBtn" class="btn">Berikutnya →</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <label for="daySelect" class="muted" style="font-weight:700;">Pilih Hari Pembelajaran (Hari 1 – Hari 14):</label>
+        <select id="daySelect" class="day-select"></select>
+      </div>
+
+      <div class="timer-box">
+        <div>
+          <div class="muted" id="timerModeLabel">Timer Pembelajaran (Mode Harian)</div>
+          <div id="timerDisplay" class="timer-digits">75:00</div>
+          <div id="timerStatus" class="muted">Siap dimulai</div>
+        </div>
+        <div class="row">
+          <button class="btn preset-btn" data-m="10">10m</button>
+          <button class="btn preset-btn" data-m="20">20m</button>
+          <button class="btn preset-btn" data-m="30">30m</button>
+          <button class="btn preset-btn" data-m="75">75m</button>
+          <button class="btn preset-btn" data-m="90">90m</button>
+          <button id="toggleTimerBtn" class="btn btn-primary">Mulai</button>
+          <button id="resetTimerBtn" class="btn">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs" id="stageTabs">
+      <button class="btn tab-btn active" data-tab="t1" id="tabLabel1">1. Pemanasan</button>
+      <button class="btn tab-btn" data-tab="t2" id="tabLabel2">2. Konsep Inti</button>
+      <button class="btn tab-btn" data-tab="t3" id="tabLabel3">3. Latihan Soal</button>
+      <button class="btn tab-btn" data-tab="t4" id="tabLabel4">4. Koreksi &amp; Skor</button>
+    </div>
+
+    <!-- TAHAP 1 -->
+    <div id="panel-t1" class="card tab-panel">
+      <h2 id="t1Heading">Tahap 1: Pemanasan &amp; Review</h2>
+      <p class="muted" id="t1Desc"></p>
+      <div id="warmupList"></div>
+    </div>
+
+    <!-- TAHAP 2 -->
+    <div id="panel-t2" class="card tab-panel hidden">
+      <h2 id="t2Heading">Tahap 2: Konsep Inti</h2>
+      <p class="muted" id="t2Desc"></p>
+      <div id="conceptsList"></div>
+
+      <!-- Alat Bantu Khusus Hari 3 -->
+      <div id="day3Tools" class="hidden">
+        <div class="subcard">
+          <strong>Alat Uji Aturan Keterbagian (Interaktif)</strong>
+          <p class="muted" style="margin:4px 0 8px;">Masukkan bilangan untuk menguji keterbagian 3, 4, 8, 9, dan 11:</p>
+          <div class="row">
+            <input id="divInput" type="number" value="4653" style="width:160px;" />
+            <button id="testDivBtn" class="btn btn-primary">Uji Bilangan</button>
+          </div>
+          <div id="divResult" style="margin-top:10px; font-size:13px;"></div>
+        </div>
+
+        <div class="subcard">
+          <strong>Simulator Pola Digit Satuan Eksponen</strong>
+          <p class="muted" style="margin:4px 0 8px;">Pilih basis dan pangkat untuk melihat siklus 4-nya:</p>
+          <div class="row">
+            <label class="muted">Basis:
+              <select id="powBase">
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </label>
+            <label class="muted">Pangkat:
+              <input id="powExp" type="number" value="2025" min="1" style="width:110px;" />
+            </label>
+            <button id="calcPowBtn" class="btn btn-primary">Lihat Pola</button>
+          </div>
+          <div id="powResult" style="margin-top:10px; font-size:13px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAHAP 3 -->
+    <div id="panel-t3" class="card tab-panel hidden">
+      <div class="row between">
+        <div>
+          <h2 id="t3Heading">Tahap 3: Latihan Mandiri</h2>
+          <p class="muted">Kerjakan di kertas buram dulu, lalu ketik jawaban untuk mengecek.</p>
+        </div>
+        <div id="scoreBadge" class="pill">Skor: 0 / 0</div>
+      </div>
+      <div id="problemsList"></div>
+    </div>
+
+    <!-- TAHAP 4 -->
+    <div id="panel-t4" class="card tab-panel hidden">
+      <h2 id="t4Heading">Tahap 4: Koreksi, Ringkasan Skor &amp; Error Log</h2>
+      <p class="muted">Cek soal yang masih salah, tanyakan penyebabnya ke anak, lalu catat ke Error Log.</p>
+      <div id="summaryBox" class="subcard"></div>
+      <div class="subcard">
+        <strong>Checklist Penutup Tentor Hari Ini:</strong>
+        <ul id="closingList" style="margin:6px 0 0 18px; font-size:13px; padding:0;"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const daysCurriculum = [
+      {
+        day: 1, week: 1, mode: "Simulasi Pemetaan", totalMins: 90,
+        tabMins: ["10m", "15m", "45m", "20m"],
+        title: "Tes Pemetaan & Evaluasi Ujian Sebelumnya",
+        subtitle: "Mengenali pola soal yang sering salah (IOB 14 Nov & KSGI 1 Nov) agar fokus belajar tepat sasaran.",
+        warmups: [
+          { q: "Hitung cepat: 25 × 16 = ...", ans: "400", exp: "25 × 4 × 4 = 100 × 4 = 400." }
+        ],
+        concepts: [
+          { title: "Aturan Strategi 2 Putaran (Triase)", body: "Putaran 1: kerjakan soal Mudah–Sedang dulu. Jika 2,5 menit belum ketemu ide, tandai dan lewati. Putaran 2: kembali ke soal sulit." },
+          { title: "3 Jebakan Terbesar dari Ujian Sebelumnya", body: "1) Salah hitung di langkah akhir, 2) Terjebak kata 'lebih dari' (> vs ≥), 3) Kehabisan waktu di soal Essay bagian akhir." }
+        ],
+        problems: [
+          { tag: "Mesin Fungsi • Mudah", q: "Mesin mengubah angka: kalikan 4, lalu kurangi 2. Mulai dari 1, digunakan 5 kali. Hasil akhirnya adalah...", ans: "342", hint: "Buat tabel langkah 1 sampai 5 di kertas buram.", sol: "1 → 2 → 6 → 22 → 86 → 342." },
+          { tag: "Pencacahan • Mudah", q: "Kartu bernomor 1, 2, 3, 4, 5. Dipilih 3 kartu berbeda. Berapa cara agar jumlahnya lebih dari 9?", ans: "4", hint: "Jumlah 'lebih dari 9' berarti minimal 10 (jumlah 9 tidak ikut).", sol: "{1,4,5}, {2,3,5}, {2,4,5}, {3,4,5} → 4 cara." },
+          { tag: "Kerja Mundur • Sedang", q: "Bilangan ditambah 10, dikali 2, dikurangi 30, lalu dibagi 5 hasilnya 30. Bilangan awalnya adalah...", ans: "80", hint: "Balikkan operasi dari 30: kali 5, tambah 30, bagi 2, kurang 10.", sol: "30 × 5 = 150 → +30 = 180 → ÷2 = 90 → −10 = 80." },
+          { tag: "Kecepatan • Sedang", q: "Kereta panjang 120 m melaju 20 m/detik melewati terowongan panjang 480 m. Berapa detik waktu untuk seluruh kereta keluar?", ans: "30", hint: "Total jarak = panjang kereta + panjang terowongan.", sol: "(120 + 480) ÷ 20 = 600 ÷ 20 = 30 detik." }
+        ],
+        closing: ["Catat topik mana yang paling lama dikerjakan.", "Pastikan anak menulis langkah di kertas buram dengan rapi."]
+      },
+      {
+        day: 2, week: 1, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Berhitung Cerdas, Rasio & Kerja Mundur",
+        subtitle: "Melatih kelincahan angka, deret Gauss, Bar Model perbandingan, dan pecahan teleskopik.",
+        warmups: [
+          { q: "Hitung cerdas: 18 × 25 + 18 × 75 = ...", ans: "1800", exp: "18 × (25 + 75) = 18 × 100 = 1800." },
+          { q: "Suatu angka dikali 3 lalu dikurang 4 hasilnya 20. Angka awalnya adalah...", ans: "8", exp: "(20 + 4) ÷ 3 = 8." }
+        ],
+        concepts: [
+          { title: "Deret Gauss (Penjumlahan Berurutan)", body: "Pasangkan angka pertama dan terakhir: Jumlah = (Awal + Akhir) × Banyak Suku ÷ 2." },
+          { title: "Bar Model untuk Rasio & Pecahan Teleskopik", body: "Gambarkan kotak-kotak untuk perbandingan. Untuk pecahan 1/(n(n+1)), pecah menjadi 1/n − 1/(n+1) agar saling mencoret." }
+        ],
+        problems: [
+          { tag: "Deret Gauss • Mudah", q: "Hitung jumlah dari 1 + 2 + 3 + ... + 50.", ans: "1275", hint: "Pasangkan 1+50, 2+49, dst. Ada berapa pasang?", sol: "(1 + 50) × 50 ÷ 2 = 51 × 25 = 1275." },
+          { tag: "Distributif • Mudah", q: "Hitung nilai dari 25 × 36 + 25 × 64.", ans: "2500", hint: "Keluarkan angka 25 dengan sifat distributif.", sol: "25 × (36 + 64) = 25 × 100 = 2500." },
+          { tag: "Rasio • Sedang", q: "Perbandingan uang Ali dan Budi adalah 3 : 5. Selisih uang mereka Rp24.000. Berapa jumlah uang mereka berdua? (tulis angka saja, misal: 50000)", ans: "96000", hint: "Selisih 5 − 3 = 2 bagian = 24.000. Cari nilai 1 bagian lalu kalikan (3+5).", sol: "1 bagian = 12.000. Jumlah = 8 × 12.000 = 96000." },
+          { tag: "Teleskopik • Sedang", q: "Hitung hasil dari 1/2 + 1/6 + 1/12 + 1/20 (tulis pecahan a/b).", ans: "4/5", hint: "Ubah menjadi (1 − 1/2) + (1/2 − 1/3) + (1/3 − 1/4) + (1/4 − 1/5).", sol: "Suku tengah saling habis, tersisa 1 − 1/5 = 4/5." },
+          { tag: "Kerja Mundur • Sedang", q: "Sebuah bilangan dibagi 3, ditambah 7, lalu dikali 4 menghasilkan 44. Berapakah bilangan itu?", ans: "12", hint: "Mulai dari 44: bagi 4, kurangi 7, kali 3.", sol: "(44 ÷ 4 − 7) × 3 = (11 − 7) × 3 = 12." }
+        ],
+        closing: ["Pastikan anak bisa menggambar Bar Model untuk soal rasio.", "Review kembali cara memecah pecahan teleskopik."]
+      },
+      {
+        day: 3, week: 1, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Teori Bilangan Langganan OSN",
+        subtitle: "Aturan keterbagian (3, 4, 8, 9, 11), KPK gerak melingkar/bersisa, dan pola digit satuan eksponen.",
+        isDay3: true,
+        warmups: [
+          { q: "Mesin: kali 3, lalu tambah 1. Mulai dari 2, dijalankan 3 kali. Hasilnya adalah...", ans: "67", exp: "2 → 7 → 22 → 67." },
+          { q: "Kerja mundur: dikurangi 5, lalu dikali 2 hasilnya 24. Bilangan awalnya adalah...", ans: "17", exp: "24 ÷ 2 + 5 = 17." }
+        ],
+        concepts: [
+          { title: "Aturan Keterbagian Kunci", body: "Habis dibagi 3/9: jumlah digit habis dibagi 3/9. Habis dibagi 4/8: 2/3 digit terakhir habis dibagi 4/8. Habis dibagi 11: selisih digit selang-seling = 0 atau kelipatan 11." },
+          { title: "KPK Gerak Melingkar & Sisa", body: "Cari waktu 1 putaran penuh tiap anak (Keliling ÷ Kecepatan), lalu cari KPK-nya untuk bertemu di titik start." }
+        ],
+        problems: [
+          { tag: "Keterbagian 4 & 9 • Mudah", q: "Bilangan 5 angka 24A8B habis dibagi 36. Jika A dan B berbeda, nilai terbesar A + B adalah...", ans: "13", hint: "Habis dibagi 36 berarti habis dibagi 4 dan 9.", sol: "8B habis dibagi 4 → B ∈ {0,4,8}. Jumlah digit 14+A+B = 27 → A+B = 13 (valid saat B=8, A=5)." },
+          { tag: "Keterbagian 11 • Sedang", q: "Bilangan 4 angka 4X5Y habis dibagi 11. Jika X = 2Y dan Y bukan nol, bilangan 4X5Y adalah...", ans: "4653", hint: "Selisih (4 + 5) dan (X + Y) harus 0 atau kelipatan 11.", sol: "9 − 3Y = 0 → Y = 3, X = 6 → 4653." },
+          { tag: "KPK & Sisa • Mudah-Sedang", q: "Kelereng Andi kurang dari 150. Dibagi ke 4, 5, atau 6 teman selalu sisa 3. Banyak kelereng terbanyak adalah...", ans: "123", hint: "Cari KPK(4,5,6) lalu tambah 3.", sol: "KPK = 60. Kelipatan 60 + 3 < 150 terbanyak adalah 123." },
+          { tag: "KPK Melingkar • Sedang", q: "Lintasan melingkar 400 m. Rafi lari 5 m/detik, Bima 4 m/detik dari start & arah sama. Bertemu lagi di start setelah ... detik.", ans: "400", hint: "Hitung waktu 1 putaran masing-masing, lalu cari KPK.", sol: "Rafi = 80s, Bima = 100s. KPK(80, 100) = 400 detik." },
+          { tag: "Digit Satuan • Sedang", q: "Tentukan angka satuan dari 3^2025 + 7^2026.", ans: "2", hint: "Siklus satuan pangkat 3 dan 7 berulang setiap 4.", sol: "3^2025 (sisa 1) → 3. 7^2026 (sisa 2) → 9. 3 + 9 = 12 → satuan 2." },
+          { tag: "Modulo Kalender • Sedang-Sulit", q: "Hari ini Rabu. Jatuh pada hari apakah 2^100 hari lagi? (tulis nama hari)", ans: "jumat", hint: "Cari pola sisa 2^n dibagi 7: {2, 4, 1} berulang tiap 3.", sol: "100 ÷ 3 sisa 1 → sisa 2. Rabu + 2 hari = Jumat." }
+        ],
+        closing: ["Pastikan anak paham ciri habis dibagi 11.", "Ingatkan: pangkat habis dibagi 4 (sisa 0) ambil urutan ke-4, bukan 0."]
+      },
+      {
+        day: 4, week: 1, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Geometri Visual (Tanpa Rumus Rumit)",
+        subtitle: "Keliling geser sisi, luas potong-tempel, sudut poligon, ketaksamaan segitiga, dan kubus.",
+        warmups: [
+          { q: "Berapa angka satuan dari 2^10?", ans: "4", exp: "10 ÷ 4 sisa 2 → urutan ke-2 dari {2,4,8,6} adalah 4." }
+        ],
+        concepts: [
+          { title: "Keliling Geser Sisi & Sudut Poligon", body: "Bangun berbentuk tangga tanpa cekungan ke dalam memiliki keliling sama dengan persegi panjang pembungkusnya. Jumlah sudut segi-n = (n − 2) × 180°." },
+          { title: "Ketaksamaan Segitiga & Kubus Dicat", body: "Pada segitiga, jumlah dua sisi mana pun HARUS lebih besar dari sisi ketiga (a + b > c). Kubus 3×3×3 dicat luar: tepat 2 sisi dicat ada di tengah tiap rusuk (12 rusuk)." }
+        ],
+        problems: [
+          { tag: "Keliling • Mudah", q: "Persegi panjang 12 cm × 8 cm dipotong satu sudutnya membentuk tangga (tanpa lekukan ke dalam). Keliling bangun baru adalah ... cm.", ans: "40", hint: "Geser sisi-sisi tangga ke luar membentuk persegi panjang utuh.", sol: "Keliling tetap 2 × (12 + 8) = 40 cm." },
+          { tag: "Luas Segitiga • Mudah", q: "Sebuah segitiga memiliki alas 10 cm dan tinggi 6 cm. Luasnya adalah ... cm².", ans: "30", hint: "Luas = ½ × alas × tinggi.", sol: "½ × 10 × 6 = 30 cm²." },
+          { tag: "Sudut Poligon • Sedang", q: "Berapa besar satu sudut dalam segi-5 beraturan? (dalam derajat)", ans: "108", hint: "Total sudut segi-5 = (5−2) × 180° = 540°.", sol: "540° ÷ 5 = 108°." },
+          { tag: "Ketaksamaan Segitiga • Sedang", q: "Dua sisi segitiga adalah 5 cm dan 9 cm. Panjang sisi ketiga bilangan bulat. Berapa panjang terbesar yang mungkin? (cm)", ans: "13", hint: "Sisi ketiga harus kurang dari 5 + 9.", sol: "Sisi < 14, bilangan bulat terbesar adalah 13." },
+          { tag: "Kubus Satuan • Sedang-Sulit", q: "Kubus 3×3×3 dicat merah seluruh permukaannya. Berapa banyak kubus satuan yang terkena cat pada tepat 2 sisi?", ans: "12", hint: "Kubus yang kena 2 sisi berada di tengah setiap rusuk (bukan di pojok).", sol: "Ada 12 rusuk, tiap rusuk ada 1 kubus tengah → 12 kubus." }
+        ],
+        closing: ["Perkuat konsep ketaksamaan segitiga (pernah keluar di IOB No. 9).", "Biasakan menggambar sketsa sebelum menghitung geometri."]
+      },
+      {
+        day: 5, week: 1, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Kombinatorika & Logika Dasar",
+        subtitle: "Aturan perkalian (Filling Slots), jabat tangan, lintasan kisi (Grid Path), dan Sarang Merpati.",
+        warmups: [
+          { q: "Jumlah sudut dalam sebuah segitiga adalah ... derajat.", ans: "180", exp: "Semua segitiga memiliki jumlah sudut 180°." }
+        ],
+        concepts: [
+          { title: "Filling Slots & Grid Path", body: "Untuk menyusun bilangan, buat kotak slot dan KALIKAN banyak pilihan tiap kotak. Untuk jalur kisi-kisi, jumlahkan angka dari kiri dan bawah di tiap titik sudut." },
+          { title: "Prinsip Sarang Merpati (Pigeonhole)", body: "Untuk mencari 'minimal ambil agar PASTI dapat...', bayangkan skenario TERBURUK (paling sial) lalu tambah 1." }
+        ],
+        problems: [
+          { tag: "Filling Slots • Mudah", q: "Banyak bilangan 3-angka berbeda yang dapat disusun dari angka {1, 2, 3, 4, 5} adalah...", ans: "60", hint: "Ada 5 pilihan ratusan, lalu 4 puluhan, lalu 3 satuan.", sol: "5 × 4 × 3 = 60." },
+          { tag: "Jabat Tangan • Mudah", q: "Ada 8 anak saling berjabat tangan satu sama lain tepat 1 kali. Total jabat tangan adalah...", ans: "28", hint: "Gunakan rumus n × (n − 1) ÷ 2.", sol: "8 × 7 ÷ 2 = 28." },
+          { tag: "Grid Path • Sedang", q: "Banyak jalur terpendek dari kiri bawah ke kanan atas pada petak 3 × 2 (3 kanan, 2 atas) adalah...", ans: "10", hint: "Jumlahkan angka di sudut kotak mulai dari 1 di tepi kiri dan bawah.", sol: "C(5, 2) = (5 × 4) ÷ 2 = 10 jalur." },
+          { tag: "Pigeonhole • Sedang", q: "Di kotak ada 5 kaos kaki merah, 4 biru, 3 kuning. Minimal berapa harus diambil tanpa melihat agar PASTI dapat sepasang warna sama?", ans: "4", hint: "Skenario terburuk: terambil 1 merah, 1 biru, 1 kuning (3 buah masih beda semua).", sol: "3 + 1 = 4 kaos kaki." },
+          { tag: "Inklusi-Eksklusi • Sedang", q: "Dari 30 siswa, 18 suka Matematika, 15 suka IPA, 5 tidak suka keduanya. Berapa yang suka keduanya?", ans: "8", hint: "Yang suka minimal satu = 30 − 5 = 25.", sol: "18 + 15 − 25 = 8 siswa." }
+        ],
+        closing: ["Pastikan anak paham beda Filling Slots (dikali) vs penjumlahan.", "Ulangi trik skenario terburuk pada soal Pigeonhole."]
+      },
+      {
+        day: 6, week: 1, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Jurus 'Saat Mentok' + Review Minggu 1",
+        subtitle: "Melatih 3 trik heuristics: uji angka kecil, daftar teratur, dan kerja mundur bertingkat.",
+        warmups: [
+          { q: "Banyak jabat tangan dari 5 orang adalah...", ans: "10", exp: "5 × 4 ÷ 2 = 10." }
+        ],
+        concepts: [
+          { title: "3 Jurus Saat Lupa Rumus", body: "1) Uji angka kecil (ganti 100 jadi 4 dulu), 2) Buat daftar teratur/tabel agar tidak ada yang terlewat, 3) Bekerja mundur dari kondisi akhir." }
+        ],
+        problems: [
+          { tag: "Pengelompokan • Mudah", q: "Hitung hasil dari 1 − 2 + 3 − 4 + 5 − 6 + ... + 99 − 100.", ans: "-50", hint: "Kelompokkan per dua angka: (1−2) + (3−4) + ...", sol: "Ada 50 pasang, tiap pasang bernilai −1 → 50 × (−1) = −50." },
+          { tag: "Daftar Teratur • Sedang", q: "Banyak cara menukar Rp10.000 dengan uang Rp5.000 dan/atau Rp2.000 adalah ... cara.", ans: "2", hint: "Coba dari banyak lembar Rp5.000: 2 lembar, 1 lembar, 0 lembar.", sol: "(2×5000) dan (5×2000). Jika 1×5000 sisa 5000 tak bisa dibagi 2000. Total 2 cara." },
+          { tag: "Kerja Mundur • Sulit", q: "Ibu membagi permen ke 3 anak berturut-turut; tiap anak mengambil setengah sisa lalu ditambah 1. Setelah anak ke-3 permen habis (0). Permen mula-mula ada...", ans: "14", hint: "Mundur dari 0: tambah 1 lalu kali 2, ulangi 3 kali.", sol: "0 → (0+1)×2=2 → (2+1)×2=6 → (6+1)×2=14." },
+          { tag: "Pola Berulang • Mudah", q: "Tentukan angka ke-50 dari pola 2, 5, 8, 1, 2, 5, 8, 1, ...", ans: "5", hint: "Pola berulang tiap 4 angka. Bagi 50 dengan 4.", sol: "50 ÷ 4 = 12 sisa 2 → angka ke-2 adalah 5." }
+        ],
+        closing: ["Review semua soal yang salah dari Hari 2 sampai Hari 5.", "Istirahat cukup untuk menyambut Hari 7."]
+      },
+      {
+        day: 7, week: 1, mode: "Istirahat", totalMins: 15,
+        tabMins: ["5m", "5m", "5m", "0m"],
+        title: "Istirahat Total / Teka-teki Santai",
+        subtitle: "Pemulihan energi otak agar segar memasuki Minggu 2. Tidak perlu latihan berat.",
+        warmups: [
+          { q: "Pola Fibonacci: 1, 1, 2, 3, 5, 8, 13, ... Angka berikutnya adalah...", ans: "21", exp: "8 + 13 = 21." }
+        ],
+        concepts: [
+          { title: "Kenapa Istirahat Penting?", body: "Otak butuh jeda untuk menguatkan memori konsep Minggu 1. Cukup main 1–2 teka-teki santai lalu istirahat." }
+        ],
+        problems: [
+          { tag: "Teka-teki Logika • Santai", q: "Seekor siput memanjat sumur 10 m. Tiap siang naik 3 m, tiap malam turun 2 m. Pada hari ke berapa siput sampai di puncak?", ans: "8", hint: "Pada malam ke-7 siput ada di ketinggian 7 m. Besok siangnya naik 3 m langsung sampai!", sol: "Hari ke-8 siang (7 + 3 = 10 m, tidak perlu turun lagi)." }
+        ],
+        closing: ["Tutup laptop/buku setelah teka-teki ini dan istirahat penuh."]
+      },
+      {
+        day: 8, week: 2, mode: "Simulasi 1", totalMins: 90,
+        tabMins: ["10m", "15m", "45m", "20m"],
+        title: "Simulasi 1 (Suasana Lomba Asli)",
+        subtitle: "Latihan paket soal campuran berbatas waktu dan langsung bedah kesalahan.",
+        warmups: [
+          { q: "Rata-rata dari 10, 14, dan 18 adalah...", ans: "14", exp: "(10 + 14 + 18) ÷ 3 = 14." }
+        ],
+        concepts: [
+          { title: "Fokus Simulasi 1", body: "Kerjakan mandiri tanpa bantuan, pastikan soal nomor akhir sempat dibaca dan dikerjakan." }
+        ],
+        problems: [
+          { tag: "Rata-rata • Mudah", q: "Rata-rata 4 bilangan adalah 15. Jika ditambah 1 bilangan lagi, rata-ratanya menjadi 16. Bilangan ke-5 adalah...", ans: "20", hint: "Cari total 5 bilangan dikurangi total 4 bilangan.", sol: "(5 × 16) − (4 × 15) = 80 − 60 = 20." },
+          { tag: "Sisa Pembagian • Mudah", q: "Berapakah sisa pembagian 2026 oleh 9?", ans: "1", hint: "Jumlahkan digit-digitnya lalu bagi 9.", sol: "2 + 0 + 2 + 6 = 10 → 10 ÷ 9 sisa 1." },
+          { tag: "Geometri • Mudah", q: "Luas persegi panjang 48 cm² dengan panjang 8 cm. Kelilingnya adalah ... cm.", ans: "28", hint: "Cari lebarnya dulu (48 ÷ 8).", sol: "Lebar = 6 cm. Keliling = 2 × (8 + 6) = 28 cm." },
+          { tag: "Kecepatan • Sedang", q: "Budi bersepeda 12 km/jam selama 45 menit. Jarak tempuhnya adalah ... km.", ans: "9", hint: "45 menit = 3/4 jam.", sol: "12 × 3/4 = 9 km." },
+          { tag: "Kombinatorika • Sedang", q: "Banyak bilangan genap 2-angka dari digit {1, 2, 3, 4} jika angka boleh berulang adalah...", ans: "8", hint: "Puluhan: 4 pilihan, Satuan (genap): 2 pilihan (2 atau 4).", sol: "4 × 2 = 8 bilangan." }
+        ],
+        closing: ["Catat 1–2 topik yang masih salah untuk dibenahi di Hari 9."]
+      },
+      {
+        day: 9, week: 2, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Tambal Lubang Terbesar",
+        subtitle: "Memperkuat topik yang paling sering memicu kesalahan: pencacahan gambar, persen bertingkat, FPB, dan sudut jam.",
+        warmups: [
+          { q: "20% dari 150 adalah...", ans: "30", exp: "0,2 × 150 = 30." }
+        ],
+        concepts: [
+          { title: "Diskon Bertingkat & Sudut Jam", body: "Diskon 20% lalu 10% BUKAN 30%, melainkan dikali 0,8 × 0,9 = 0,72. Pada jam, tiap 1 jam jarum bergeser 30°." }
+        ],
+        problems: [
+          { tag: "Pencacahan • Sedang", q: "Sebuah segitiga besar dibagi menjadi 3 bagian oleh garis-garis dari puncak ke alas. Total seluruh segitiga yang terlihat ada...", ans: "6", hint: "Hitung segitiga ukuran 1 bagian, 2 bagian, dan 3 bagian.", sol: "3 + 2 + 1 = 6 segitiga." },
+          { tag: "Persen Bertingkat • Sedang", q: "Harga baju Rp100.000 didiskon 20%, lalu didiskon lagi 10%. Harga akhirnya Rp... (tulis angka saja)", ans: "72000", hint: "Setelah diskon 20% jadi 80.000, lalu diskon 10% dari 80.000.", sol: "100.000 × 0,8 × 0,9 = 72000." },
+          { tag: "FPB • Mudah", q: "Tentukan FPB dari 36 dan 48.", ans: "12", hint: "Faktor terbesar yang bisa membagi 36 dan 48.", sol: "FPB(36, 48) = 12." },
+          { tag: "Sudut Jam • Mudah-Sedang", q: "Besar sudut terkecil antara jarum jam dan jarum menit pada pukul 04.00 adalah ... derajat.", ans: "120", hint: "Setiap angka pada jam berjarak 30°.", sol: "4 × 30° = 120°." }
+        ],
+        closing: ["Pastikan tidak terkecoh menjumlahkan persentase diskon bertingkat secara langsung."]
+      },
+      {
+        day: 10, week: 2, mode: "Simulasi 2", totalMins: 90,
+        tabMins: ["10m", "15m", "45m", "20m"],
+        title: "Simulasi 2 (Latih Strategi Triase 2 Putaran)",
+        subtitle: "Membiasakan eksekusi Putaran 1 (Mudah–Sedang) dan Putaran 2 (Sulit) tanpa panik.",
+        warmups: [
+          { q: "99 × 12 + 12 = ...", ans: "1200", exp: "(99 + 1) × 12 = 1200." }
+        ],
+        concepts: [
+          { title: "Disiplin Putaran 1 & Putaran 2", body: "35 menit pertama fokus menyapu soal pasti bisa. 25 menit berikutnya baru kerjakan soal yang dilewati. 10 menit terakhir cek ulang!" }
+        ],
+        problems: [
+          { tag: "Putaran 1 • Mudah", q: "Hitung: 999 × 15 + 15.", ans: "15000", hint: "Sifat distributif: (999 + 1) × 15.", sol: "1000 × 15 = 15000." },
+          { tag: "Putaran 1 • Mudah", q: "Keliling sebuah persegi adalah 36 cm. Luasnya adalah ... cm².", ans: "81", hint: "Cari panjang sisinya dulu (36 ÷ 4).", sol: "Sisi = 9 cm → Luas = 9 × 9 = 81 cm²." },
+          { tag: "Putaran 1 • Sedang", q: "Jumlah dua bilangan adalah 30 dan selisihnya 8. Bilangan yang paling besar adalah...", ans: "19", hint: "Bilangan besar = (Jumlah + Selisih) ÷ 2.", sol: "(30 + 8) ÷ 2 = 19." },
+          { tag: "Putaran 2 • Sulit", q: "Tentukan angka satuan dari 7^100.", ans: "1", hint: "Siklus satuan 7^n adalah {7, 9, 3, 1}. 100 habis dibagi 4 (sisa 0).", sol: "Sisa 0 ambil urutan ke-4 dari {7, 9, 3, 1}, yaitu 1." },
+          { tag: "Putaran 2 • Sedang", q: "Banyak cara memilih 2 siswa dari 6 siswa untuk menjadi Ketua dan Wakil Ketua adalah...", ans: "30", hint: "Urutan diperhatikan (Ketua ≠ Wakil): 6 pilihan ketua × 5 pilihan wakil.", sol: "6 × 5 = 30 cara." }
+        ],
+        closing: ["Evaluasi apakah 10 menit terakhir benar-benar dipakai untuk cek ulang jawaban."]
+      },
+      {
+        day: 11, week: 2, mode: "Harian", totalMins: 75,
+        tabMins: ["10m", "20m", "30m", "15m"],
+        title: "Latihan Anti-Jebakan (Ketelitian 100%)",
+        subtitle: "Melatih kepekaan terhadap jebakan kalimat tanya, konversi satuan, dan tanda ketaksamaan.",
+        warmups: [
+          { q: "2 meter + 50 cm = ... cm.", ans: "250", exp: "200 cm + 50 cm = 250 cm." }
+        ],
+        concepts: [
+          { title: "4 Jebakan Paling Sering di OSN SD", body: "1) Ditanya nilai beberapa tahun lagi (bukan sekarang), 2) Satuan berbeda (m vs cm vs liter), 3) Tanda > vs ≥, 4) Ditanya keliling padahal yang dihitung luas." }
+        ],
+        problems: [
+          { tag: "Jebakan Tanya • Sedang", q: "Usia Kakak 2 kali usia Adik. Jumlah usia mereka sekarang 24 tahun. Berapa usia Kakak 3 tahun lagi?", ans: "19", hint: "Cari usia Kakak sekarang dulu, lalu JANGAN lupa tambah 3!", sol: "Adik = 8, Kakak = 16. 3 tahun lagi = 16 + 3 = 19 tahun." },
+          { tag: "Jebakan Satuan • Sedang", q: "Balok panjang 2 m, lebar 150 cm, tinggi 100 cm. Berapa liter volumenya? (1 liter = 1 dm³)", ans: "3000", hint: "Ubah semua ukuran ke dm terlebih dahulu (1 m = 10 dm, 10 cm = 1 dm).", sol: "20 dm × 15 dm × 10 dm = 3000 liter." },
+          { tag: "Jebakan Tanda • Mudah", q: "Banyak bilangan bulat x yang memenuhi 3 < x ≤ 8 adalah...", ans: "5", hint: "3 tidak ikut (<), sedangkan 8 ikut (≤).", sol: "4, 5, 6, 7, 8 → ada 5 bilangan." },
+          { tag: "Jebakan Keliling • Sedang", q: "Kebun persegi luasnya 64 m². Di sekelilingnya dipasang pagar dengan biaya Rp10.000/meter. Total biaya adalah Rp... (tulis angka saja)", ans: "320000", hint: "Cari sisi (√64 = 8), hitung KELILING (4 × 8), baru kali Rp10.000.", sol: "Keliling = 32 m → Biaya = 32 × 10.000 = 320000." }
+        ],
+        closing: ["Biasakan menggarisbawahi kata terakhir pada kalimat tanya di setiap soal."]
+      },
+      {
+        day: 12, week: 2, mode: "Review Ringan", totalMins: 45,
+        tabMins: ["10m", "10m", "15m", "10m"],
+        title: "Bedah Total Buku Error Log",
+        subtitle: "Mengingat kembali jebakan-jebakan dari Hari 1–11 tanpa menambah beban materi baru.",
+        warmups: [
+          { q: "100 − 20 × 3 + 10 = ...", ans: "50", exp: "Kerjakan perkalian dulu: 100 − 60 + 10 = 50." }
+        ],
+        concepts: [
+          { title: "Aturan Hari 12", body: "Baca ulang semua catatan Error Log. Pastikan tidak ada lagi salah hitung operasi campuran atau salah baca syarat soal." }
+        ],
+        problems: [
+          { tag: "Operasi Campuran • Mudah", q: "Hitung: 100 − 20 × 3 + 10.", ans: "50", hint: "Perkalian didahulukan sebelum pengurangan/penjumlahan.", sol: "100 − 60 + 10 = 50." },
+          { tag: "Sisa Pembagian • Sedang", q: "Berapakah sisa pembagian 3^12 oleh 4?", ans: "1", hint: "Cek pola sisa: 3^1 ÷ 4 sisa 3, 3^2 ÷ 4 sisa 1, 3^3 sisa 3...", sol: "Pangkat genap selalu bersisa 1 → jawab 1." },
+          { tag: "Bilangan Prima • Mudah", q: "Berapa banyak bilangan prima antara 10 dan 20?", ans: "4", hint: "Daftarkan bilangan ganjil antara 10 dan 20, lalu cek yang tidak punya pembagi lain.", sol: "11, 13, 17, 19 → 4 bilangan." }
+        ],
+        closing: ["Ringkas 3 pengingat paling penting yang harus dibawa anak saat ujian."]
+      },
+      {
+        day: 13, week: 2, mode: "Review Ringan", totalMins: 45,
+        tabMins: ["10m", "10m", "15m", "10m"],
+        title: "Pemanasan Ringan & Percaya Diri",
+        subtitle: "Menjaga ritme berpikir dengan soal mudah–sedang agar anak tampil percaya diri besok.",
+        warmups: [
+          { q: "125 × 8 = ...", ans: "1000", exp: "Pasangan perkalian istimewa: 125 × 8 = 1000." }
+        ],
+        concepts: [
+          { title: "Menjaga Kepercayaan Diri", body: "Hari ini cukup kerjakan soal kategori Mudah agar pikiran tetap tajam dan mental siap tempur." }
+        ],
+        problems: [
+          { tag: "Pecahan & Persen • Mudah", q: "Hitung hasil dari 1/4 + 0,5 + 25% (dalam desimal/bulat).", ans: "1", hint: "Ubah semua ke desimal atau persen.", sol: "0,25 + 0,5 + 0,25 = 1." },
+          { tag: "Lingkaran • Mudah", q: "Keliling lingkaran dengan jari-jari 7 cm (π = 22/7) adalah ... cm.", ans: "44", hint: "Keliling = 2 × π × r.", sol: "2 × (22/7) × 7 = 44 cm." },
+          { tag: "Hitung Cepat • Mudah", q: "Hitung: 125 × 8.", ans: "1000", hint: "Pasangan perkalian spesial.", sol: "125 × 8 = 1000." }
+        ],
+        closing: ["Puji progres anak selama 13 hari ini!"]
+      },
+      {
+        day: 14, week: 2, mode: "H-1 Lomba", totalMins: 15,
+        tabMins: ["5m", "5m", "5m", "0m"],
+        title: "H-1 Lomba: Stop Belajar Berat",
+        subtitle: "Tutup semua buku soal. Siapkan perlengkapan lomba, makan bergizi, dan tidur lebih awal.",
+        warmups: [
+          { q: "Pemanasan santai: 2026 − 2000 + 26 = ...", ans: "52", exp: "26 + 26 = 52." }
+        ],
+        concepts: [
+          { title: "Checklist Perlengkapan & Mental", body: "Siapkan pensil 2B (2 buah), penghapus bersih, rautan, kartu peserta, dan botol air minum. Ingat: kerjakan soal mudah dulu saat lomba!" }
+        ],
+        problems: [
+          { tag: "Pemanasan Mental • Santai", q: "Hitung santai: 2026 − 2000 + 26.", ans: "52", hint: "26 + 26.", sol: "52. Selamat berjuang di hari lomba!" }
+        ],
+        closing: ["Tidur cukup lebih awal dan sarapan bergizi besok pagi. Semoga sukses!"]
+      }
+    ];
+
+    let currentDayNum = 3;
+    let userStatus = {};
+    let timerSec = 75 * 60;
+    let timerId = null;
+
+    // Populate Dropdown
+    const daySelect = document.getElementById("daySelect");
+    daysCurriculum.forEach(d => {
+      const opt = document.createElement("option");
+      opt.value = d.day;
+      opt.textContent = `Minggu ${d.week} • Hari ${d.day} (${d.totalMins}m) — ${d.title}`;
+      daySelect.appendChild(opt);
+    });
+
+    function getDay() {
+      return daysCurriculum.find(d => d.day === currentDayNum);
+    }
+
+    // Timer
+    function renderTimer() {
+      const m = String(Math.floor(timerSec / 60)).padStart(2, "0");
+      const s = String(timerSec % 60).padStart(2, "0");
+      document.getElementById("timerDisplay").textContent = `${m}:${s}`;
+    }
+
+    function setTimerMins(mins) {
+      clearInterval(timerId);
+      timerId = null;
+      timerSec = mins * 60;
+      document.getElementById("toggleTimerBtn").textContent = "Mulai";
+      document.getElementById("timerStatus").textContent = `Target ${mins} menit siap`;
+      renderTimer();
+    }
+
+    document.querySelectorAll(".preset-btn").forEach(btn => {
+      btn.addEventListener("click", () => setTimerMins(Number(btn.dataset.m)));
+    });
+
+    document.getElementById("toggleTimerBtn").addEventListener("click", () => {
+      const btn = document.getElementById("toggleTimerBtn");
+      const st = document.getElementById("timerStatus");
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        btn.textContent = "Lanjut";
+        st.textContent = "Dijeda";
+      } else {
+        if (timerSec <= 0) timerSec = getDay().totalMins * 60;
+        btn.textContent = "Jeda";
+        st.textContent = "Sedang berjalan...";
+        timerId = setInterval(() => {
+          timerSec--;
+          renderTimer();
+          if (timerSec <= 0) {
+            clearInterval(timerId);
+            timerId = null;
+            btn.textContent = "Mulai";
+            st.textContent = "Waktu habis!";
+          }
+        }, 1000);
+      }
+    });
+
+    document.getElementById("resetTimerBtn").addEventListener("click", () => setTimerMins(getDay().totalMins));
+
+    // Tabs
+    function switchTab(t) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === t));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("hidden", p.id !== `panel-${t}`));
+      if (t === "t4") renderSummary();
+    }
+
+    document.getElementById("stageTabs").addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab-btn");
+      if (btn) switchTab(btn.dataset.tab);
+    });
+
+    // Load Day
+    function loadDay(dayNum) {
+      currentDayNum = dayNum;
+      daySelect.value = String(dayNum);
+      userStatus = {};
+      const d = getDay();
+
+      document.getElementById("dayBadge").textContent = `MINGGU ${d.week} • HARI ${d.day} • TOTAL ${d.totalMins} MENIT`;
+      document.getElementById("dayTitle").textContent = d.title;
+      document.getElementById("daySubtitle").textContent = d.subtitle;
+      document.getElementById("timerModeLabel").textContent = `Timer Pembelajaran (${d.mode} — ${d.totalMins} Menit)`;
+      setTimerMins(d.totalMins);
+
+      document.getElementById("tabLabel1").textContent = `1. Pemanasan (${d.tabMins[0]})`;
+      document.getElementById("tabLabel2").textContent = `2. Konsep Inti (${d.tabMins[1]})`;
+      document.getElementById("tabLabel3").textContent = `3. Latihan ${d.problems.length} Soal (${d.tabMins[2]})`;
+      document.getElementById("tabLabel4").textContent = `4. Koreksi & Skor (${d.tabMins[3]})`;
+
+      // Stage 1: Warmups
+      document.getElementById("t1Heading").textContent = `Tahap 1: Pemanasan (${d.tabMins[0]})`;
+      document.getElementById("t1Desc").textContent = `Review ringan sebelum masuk materi Hari ${d.day}.`;
+      document.getElementById("warmupList").innerHTML = d.warmups.map((w, i) => `
+        <div class="subcard">
+          <strong>Pemanasan ${i + 1}:</strong>
+          <p style="margin:6px 0;">${w.q}</p>
+          <div class="row">
+            <input id="warm-in-${i}" type="text" placeholder="Jawaban..." style="width:130px;" />
+            <button class="btn btn-primary warm-check-btn" data-idx="${i}">Cek</button>
+          </div>
+          <div id="warm-fb-${i}" class="feedback"></div>
+        </div>
+      `).join("");
+
+      // Stage 2: Concepts
+      document.getElementById("t2Heading").textContent = `Tahap 2: Konsep Inti (${d.tabMins[1]})`;
+      document.getElementById("t2Desc").textContent = `Poin kunci yang perlu disampaikan tentor pada Hari ${d.day}.`;
+      document.getElementById("conceptsList").innerHTML = d.concepts.map((c, i) => `
+        <div class="subcard">
+          <strong>${i + 1}. ${c.title}</strong>
+          <p style="margin-top:4px; font-size:13px;">${c.body}</p>
+        </div>
+      `).join("");
+      document.getElementById("day3Tools").classList.toggle("hidden", !d.isDay3);
+
+      // Stage 3: Problems
+      document.getElementById("t3Heading").textContent = `Tahap 3: Latihan Mandiri ${d.problems.length} Soal (${d.tabMins[2]})`;
+      document.getElementById("scoreBadge").textContent = `Skor: 0 / ${d.problems.length}`;
+      document.getElementById("problemsList").innerHTML = d.problems.map((p, i) => `
+        <div class="problem-card">
+          <div class="row between">
+            <span class="pill">Soal ${i + 1} • ${p.tag}</span>
+            <span id="p-status-${i}" class="muted">Belum dijawab</span>
+          </div>
+          <div class="problem-q">${p.q}</div>
+          <div class="row">
+            <input id="p-in-${i}" type="text" placeholder="Ketik jawaban..." style="width:150px;" />
+            <button class="btn btn-primary p-check-btn" data-idx="${i}">Cek Jawaban</button>
+            <button class="btn p-hint-btn" data-idx="${i}">Hint Tentor</button>
+            <button class="btn p-sol-btn" data-idx="${i}">Pembahasan</button>
+          </div>
+          <div id="p-fb-${i}" class="feedback"></div>
+          <div id="p-hint-${i}" class="hint-box hidden"><strong>Hint Tentor:</strong> ${p.hint}</div>
+          <div id="p-sol-${i}" class="sol-box hidden"><strong>Pembahasan:</strong> ${p.sol}</div>
+        </div>
+      `).join("");
+
+      // Stage 4: Closing
+      document.getElementById("closingList").innerHTML = d.closing.map(c => `<li>${c}</li>`).join("");
+      renderSummary();
+      switchTab("t1");
+    }
+
+    function renderSummary() {
+      const d = getDay();
+      const totalOk = Object.values(userStatus).filter(Boolean).length;
+      document.getElementById("summaryBox").innerHTML = `
+        <strong>Hasil Latihan Hari ${d.day}: ${totalOk} dari ${d.problems.length} Soal Benar</strong>
+        <div style="margin-top:8px; font-size:13px;">
+          ${d.problems.map((p, i) => {
+            const st = userStatus[i] === true ? "✅ Benar" : userStatus[i] === false ? "❌ Masih Salah" : "⚪ Belum Dikerjakan";
+            return `<div>Soal ${i + 1} (${p.tag}): <strong>${st}</strong></div>`;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    // Event Listeners for Warmup & Problems
+    document.getElementById("warmupList").addEventListener("click", (e) => {
+      const btn = e.target.closest(".warm-check-btn");
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const w = getDay().warmups[idx];
+      const val = document.getElementById(`warm-in-${idx}`).value.trim().toLowerCase();
+      const fb = document.getElementById(`warm-fb-${idx}`);
+      if (val === w.ans.toLowerCase()) {
+        fb.className = "feedback ok";
+        fb.textContent = `✅ Benar! (${w.exp})`;
+      } else {
+        fb.className = "feedback no";
+        fb.textContent = `❌ Belum tepat. (${w.exp})`;
+      }
+    });
+
+    document.getElementById("problemsList").addEventListener("click", (e) => {
+      const idx = Number(e.target.dataset.idx);
+      if (isNaN(idx)) return;
+      const d = getDay();
+      const p = d.problems[idx];
+      if (!p) return;
+
+      if (e.target.classList.contains("p-check-btn")) {
+        const val = document.getElementById(`p-in-${idx}`).value.trim().toLowerCase();
+        if (!val) return;
+        const fb = document.getElementById(`p-fb-${idx}`);
+        const st = document.getElementById(`p-status-${idx}`);
+        if (val === p.ans.toLowerCase()) {
+          userStatus[idx] = true;
+          fb.className = "feedback ok";
+          fb.textContent = "✅ Benar!";
+          st.textContent = "✅ Benar";
+        } else {
+          userStatus[idx] = false;
+          fb.className = "feedback no";
+          fb.textContent = "❌ Belum tepat, coba cek ulang atau buka Hint Tentor.";
+          st.textContent = "❌ Perlu dicek";
+        }
+        const totalOk = Object.values(userStatus).filter(Boolean).length;
+        document.getElementById("scoreBadge").textContent = `Skor: ${totalOk} / ${d.problems.length}`;
+      }
+      if (e.target.classList.contains("p-hint-btn")) {
+        document.getElementById(`p-hint-${idx}`).classList.toggle("hidden");
+      }
+      if (e.target.classList.contains("p-sol-btn")) {
+        document.getElementById(`p-sol-${idx}`).classList.toggle("hidden");
+      }
+    });
+
+    // Day Navigation
+    daySelect.addEventListener("change", () => loadDay(Number(daySelect.value)));
+    document.getElementById("prevDayBtn").addEventListener("click", () => {
+      if (currentDayNum > 1) loadDay(currentDayNum - 1);
+    });
+    document.getElementById("nextDayBtn").addEventListener("click", () => {
+      if (currentDayNum < 14) loadDay(currentDayNum + 1);
+    });
+
+    // Day 3 Interactive Helpers
+    function runDivTest() {
+      const n = Math.abs(parseInt(document.getElementById("divInput").value.trim(), 10));
+      const box = document.getElementById("divResult");
+      if (isNaN(n)) { box.textContent = "Masukkan angka valid."; return; }
+      const digits = String(n).split("").map(Number);
+      const sumDigits = digits.reduce((a, b) => a + b, 0);
+      let oddPos = 0, evenPos = 0;
+      digits.forEach((d, i) => (i % 2 === 0 ? oddPos += d : evenPos += d));
+      box.innerHTML = `
+        <div>• <strong>Habis dibagi 3?</strong> ${n % 3 === 0 ? "✅ YA" : "❌ TIDAK"} (Jumlah digit = ${sumDigits})</div>
+        <div>• <strong>Habis dibagi 4?</strong> ${n % 4 === 0 ? "✅ YA" : "❌ TIDAK"} (2 digit terakhir = ${String(n % 100).padStart(2, "0")})</div>
+        <div>• <strong>Habis dibagi 8?</strong> ${n % 8 === 0 ? "✅ YA" : "❌ TIDAK"} (3 digit terakhir = ${n % 1000})</div>
+        <div>• <strong>Habis dibagi 9?</strong> ${n % 9 === 0 ? "✅ YA" : "❌ TIDAK"} (Jumlah digit = ${sumDigits})</div>
+        <div>• <strong>Habis dibagi 11?</strong> ${n % 11 === 0 ? "✅ YA" : "❌ TIDAK"} (Selisih selang-seling = ${Math.abs(oddPos - evenPos)})</div>
+      `;
+    }
+    document.getElementById("testDivBtn").addEventListener("click", runDivTest);
+    runDivTest();
+
+    function runPowSim() {
+      const b = Number(document.getElementById("powBase").value);
+      const exp = Number(document.getElementById("powExp").value);
+      const box = document.getElementById("powResult");
+      if (!exp || exp < 1) { box.textContent = "Masukkan pangkat minimal 1."; return; }
+      const cycles = { 2: [2, 4, 8, 6], 3: [3, 9, 7, 1], 7: [7, 9, 3, 1], 8: [8, 4, 2, 6] };
+      const cyc = cycles[b];
+      const rem = exp % 4;
+      const ans = cyc[rem === 0 ? 3 : rem - 1];
+      box.innerHTML = `
+        <div>• Siklus <strong>${b}<sup>n</sup></strong>: <code>{${cyc.join(", ")}}</code></div>
+        <div>• <code>${exp} ÷ 4 = ${Math.floor(exp/4)}</code> sisa <strong>${rem}</strong> → Angka satuan: <strong style="color:var(--primary);">${ans}</strong></div>
+      `;
+    }
+    document.getElementById("calcPowBtn").addEventListener("click", runPowSim);
+    runPowSim();
+
+    // Init on Day 3
+    loadDay(3);
+  </script>
+</body>
+</html>

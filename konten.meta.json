@@ -30,11 +30,11 @@
     "description": "Simulasi ujian penuh lengkap dengan timer dan pembahasan, nyaman dipakai di HP maupun laptop.",
     "category": "Simulasi Ujian"
   },
-  "hari-3-teori-bilangan": {
-    "title": "Hari 3 — Teori Bilangan Langganan OSN",
-    "description": "Sesi 4 tahap: pemanasan, konsep inti teori bilangan, 6 soal mandiri, lalu koreksi dan error log.",
+  "2-minggu-persiapan-osn": {
+    "title": "Program 14 Hari Persiapan OSN",
+    "description": "Rencana belajar dua minggu untuk kelas 5 & 6. Tiap hari 4 tahap: pemanasan, konsep inti, latihan mandiri, lalu koreksi dan error log.",
     "category": "Materi Belajar",
-    "date": "2026-11-18",
-    "questions": 6
+    "date": "2026-11-19",
+    "questions": 0
   }
 }
