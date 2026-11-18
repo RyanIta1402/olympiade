@@ -21,6 +21,19 @@ export function tanggalPanjang(iso: string): string {
   return `${Number(m[3])} ${bulan} ${m[1]}`;
 }
 
+/** "2026-11-14" -> "November 2026". Dipakai sebagai label tab. */
+export function bulanTahun(iso: string): string {
+  const m = iso.slice(0, 7).match(/^(\d{4})-(\d{2})$/);
+  if (!m) return "Tanpa tanggal";
+  const bulan = BULAN[Number(m[2]) - 1] ?? "";
+  return `${bulan} ${m[1]}`;
+}
+
+/** Kunci pengelompokan tab: "2026-11". */
+export function kunciBulan(item: { date: string; updatedAt: string }): string {
+  return (item.date || item.updatedAt).slice(0, 7);
+}
+
 type Tone = {
   icon: string;
   tone: string;
