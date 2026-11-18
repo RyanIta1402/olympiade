@@ -1,0 +1,27 @@
+{
+  "_catatan": "Opsional. Pakai nama slug (nama file tanpa .html) untuk menimpa judul/deskripsi/kategori/tanggal hasil deteksi otomatis.",
+  "ksgi-matematika-01-11-2026": {
+    "title": "Pembahasan KSGI Matematika SD 2026",
+    "description": "Pembahasan lengkap 20 soal pilihan ganda KSGI tingkat provinsi, dibedah langkah demi langkah.",
+    "category": "Pembahasan Soal",
+    "questions": 20
+  },
+  "latihan-iob-kelas-5-14-11-2026": {
+    "title": "Latihan Olimpiade Matematika IOB Kelas 5",
+    "description": "Kuis interaktif pilihan ganda untuk mengasah kecepatan dan ketelitian sebelum ujian IOB.",
+    "category": "Latihan Soal",
+    "questions": 20
+  },
+  "simulasi-iob-kelas-5-14-11-2026": {
+    "title": "Simulasi Ujian IOB Challenge Math Kelas 5",
+    "description": "Simulasi ujian penuh lengkap dengan timer dan pembahasan, nyaman dipakai di HP maupun laptop.",
+    "category": "Simulasi Ujian"
+  },
+  "hari-3-teori-bilangan": {
+    "title": "Hari 3 — Teori Bilangan Langganan OSN",
+    "description": "Sesi 4 tahap: pemanasan, konsep inti teori bilangan, 6 soal mandiri, lalu koreksi dan error log.",
+    "category": "Materi Belajar",
+    "date": "2026-11-18",
+    "questions": 6
+  }
+}
