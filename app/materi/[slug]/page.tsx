@@ -31,8 +31,8 @@ export default async function MateriPage({ params }: Props) {
           className="viewer-mark"
           src="/mark-olimpiade.png"
           alt="Olimpiade Matematika"
-          width={128}
-          height={128}
+          width={400}
+          height={400}
           priority
         />
         <Link href="/" className="viewer-back">

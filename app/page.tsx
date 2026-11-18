@@ -15,23 +15,23 @@ export default function Home() {
     <main className="shell">
       <header className="hero">
         <div className="brand">
-          <span className="brand-eyebrow">Persiapan Olimpiade Matematika SD</span>
-          <h1 className="brand-title">
-            <Image
-              className="brand-logo"
-              src="/logo-olimpiade.png"
-              alt="Olimpiade Matematika"
-              width={1400}
-              height={781}
-              priority
-            />
-            <span className="sr-only">Ruang Belajar Olimpiade Matematika</span>
-          </h1>
-          <p className="brand-tag">
-            Semua materi, latihan soal, dan simulasi ujian dikumpulkan di satu tempat.
-            Pilih salah satu di bawah, lalu kerjakan langsung dari HP atau laptop.
-          </p>
+          <Image
+            className="brand-mark"
+            src="/mark-olimpiade.png"
+            alt=""
+            width={400}
+            height={400}
+            priority
+          />
+          <div>
+            <span className="brand-eyebrow">Ruang Belajar</span>
+            <h1 className="brand-title">Olimpiade Matematika</h1>
+          </div>
         </div>
+        <p className="hero-tag">
+          Semua materi, latihan soal, dan simulasi ujian dikumpulkan di satu tempat.
+          Pilih salah satu di bawah, lalu kerjakan langsung dari HP atau laptop.
+        </p>
         <div className="stats">
           <div className="stat">
             <b>{total}</b>

@@ -144,7 +144,7 @@ a {
   letter-spacing: 0.06em;
 }
 
-/* ---------- Brand banner ---------- */
+/* ---------- Brand ---------- */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -157,61 +157,55 @@ a {
 }
 
 .brand {
-  position: relative;
-  overflow: hidden;
-  padding: 22px 24px 26px;
-  text-align: center;
-  background:
-    radial-gradient(760px 300px at 50% -12%, #2a3f8f, transparent 72%),
-    radial-gradient(420px 220px at 88% 110%, #1d3a6e, transparent 70%),
-    #08143c;
-  border: 1px solid #17255c;
-  border-radius: 24px;
-  box-shadow: 0 26px 60px -32px rgba(6, 16, 50, 0.95);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-mark {
+  flex: none;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  box-shadow: 0 10px 26px -12px rgba(49, 46, 129, 0.55);
 }
 
 .brand-eyebrow {
-  display: inline-block;
-  padding: 5px 13px;
-  font-size: 0.72rem;
-  font-weight: 650;
-  letter-spacing: 0.1em;
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 680;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #8fe9d6;
-  background: rgba(45, 212, 191, 0.12);
-  border: 1px solid rgba(45, 212, 191, 0.3);
-  border-radius: 999px;
+  color: var(--muted);
 }
 
 .brand-title {
-  margin: 0;
-  font-size: 0;
-  line-height: 0;
+  margin: 3px 0 0;
+  font-size: clamp(1.55rem, 4.6vw, 2.3rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 780;
+  color: var(--text);
 }
 
-.brand-logo {
-  display: block;
-  width: min(100%, 520px);
-  height: auto;
-  margin: 4px auto 0;
-  mix-blend-mode: lighten;
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .brand-title {
+    background: linear-gradient(100deg, #22d3ee, #6366f1 52%, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
-.brand-tag {
-  margin: 2px auto 0;
-  max-width: 50ch;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #a7b5e4;
+.hero .hero-tag {
+  margin: 18px 0 0;
 }
 
 @media (max-width: 640px) {
-  .brand {
-    padding: 18px 16px 22px;
-    border-radius: 20px;
-  }
-  .brand-tag {
-    font-size: 0.88rem;
+  .brand-mark {
+    width: 58px;
+    height: 58px;
   }
 }
 
@@ -531,7 +525,7 @@ a {
   flex: none;
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 50%;
   border: 1px solid var(--border);
 }
 
