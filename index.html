@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembahasan Lengkap KSGI Matematika SD (01-11-2026)</title>
+<style>
+:root {
+  --bg: #0b1329;
+  --card: #16223f;
+  --acc: #38bdf8;
+  --acc-glow: rgba(56, 189, 248, 0.25);
+  --ok: #22c55e;
+  --ok-bg: #14532d;
+  --bad: #ef4444;
+  --bad-bg: #7f1d1d;
+  --tx: #f1f5f9;
+  --mut: #94a3b8;
+  --border: #334155;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+  line-height: 1.6;
+}
+header {
+  padding: 24px 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+header p {
+  margin: 6px 0 0;
+  color: #bae6fd;
+  font-size: 0.95rem;
+}
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+.score-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #1e293b;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--acc);
+  margin-bottom: 16px;
+}
+.bar {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+@media (max-width: 600px) {
+  .bar { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+}
+.bar button {
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #1e293b;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+.bar button:hover {
+  border-color: var(--acc);
+  background: #334155;
+}
+.bar button.cur {
+  border: 2px solid var(--acc);
+  box-shadow: 0 0 12px var(--acc-glow);
+  background: #0284c7;
+}
+.bar button.ok {
+  background: var(--ok);
+  border-color: var(--ok);
+}
+.bar button.bad {
+  background: var(--bad);
+  border-color: var(--bad);
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.no-tag {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--acc);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.q-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  color: #ffffff;
+}
+.opt-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.opt {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0f172a;
+  color: var(--tx);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+.opt:hover:not(:disabled) {
+  border-color: var(--acc);
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+.opt.ok {
+  background: var(--ok-bg) !important;
+  border-color: var(--ok) !important;
+  color: #ffffff;
+}
+.opt.bad {
+  background: var(--bad-bg) !important;
+  border-color: var(--bad) !important;
+  color: #ffffff;
+}
+.exp {
+  display: none;
+  margin-top: 24px;
+  padding: 20px;
+  background: #090e1a;
+  border: 1px solid #1e3a5f;
+  border-radius: 12px;
+}
+.exp.show { display: block; }
+.ans-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 16px;
+}
+.ans-badge {
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.ans-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+.sec-block {
+  margin-top: 16px;
+}
+.sec-block h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--acc);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sec-block p {
+  margin: 0;
+  color: #cbd5e1;
+}
+.steps-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #e2e8f0;
+}
+.steps-list li {
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+.tip-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 4px solid var(--acc);
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+}
+.note-box {
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 4px solid #f59e0b;
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+}
+.note-box h4 {
+  color: #fbbf24;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+.btn {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+.btn-primary {
+  background: var(--acc);
+  color: #082f49;
+}
+.btn-primary:hover {
+  background: #7dd3fc;
+}
+.btn-outline {
+  background: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid var(--border);
+}
+.btn-outline:hover {
+  background: #334155;
+}
+.footer-tools {
+  text-align: center;
+  margin-top: 30px;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Pembahasan Interaktif KSGI SD 2026 – Matematika</h1>
+  <p>Jenius Competition Tingkat Provinsi · 20 Soal Pilihan Ganda & Analisis Mendalam</p>
+</header>
+<div class="wrap">
+  <div style="text-align: center;">
+    <div class="score-badge" id="score">Benar: 0 / 20</div>
+  </div>
+  <div class="bar" id="bar"></div>
+  <div class="card" id="card"></div>
+  <div class="nav">
+    <button class="btn btn-outline" onclick="go(cur-1)">◀ Sebelumnya</button>
+    <button class="btn btn-outline" style="border-color: var(--acc); color: var(--acc);" onclick="toggleExp()">💡 Lihat Pembahasan Lengkap</button>
+    <button class="btn btn-primary" onclick="go(cur+1)">Selanjutnya ▶</button>
+  </div>
+  <div class="footer-tools">
+    <button class="btn btn-outline" style="font-size: 0.85rem;" onclick="resetAll()">🔄 Ulangi Latihan Kuis</button>
+  </div>
+</div>
+<script>
+const S = [{"q": "Berapa banyak tiga rangkap bilangan bulat positif a, b, dan c dengan a &lt; b &lt; c dan a + b + c = 401?", "o": ["13200", "13212", "13225", "13231", "13220"], "a": 0, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>A. 13200</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Kombinatorika: Metode <b>Bintang dan Garis (Stars and Bars)</b> serta prinsip simetri permutasi.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami yang diminta soal:</b> Kita mencari tiga bilangan bulat positif (mulai dari 1: 1, 2, 3, ...) bernama a, b, dan c yang jumlahnya 401 dan harus terurut menaik (a &lt; b &lt; c).</li><li><b>Tahap 1 – Hitung semua tripel positif terurut (a + b + c = 401):</b><br>Bayangkan 401 bintang berjajar: ★★★...★. Di antara bintang-bintang itu terdapat 400 celah kosong. Untuk membaginya menjadi 3 kelompok bilangan bulat positif (a, b, c ≥ 1), kita cukup memilih 2 celah untuk menaruh sekat pembatas.<br>Banyak cara = C(400, 2) = (400 × 399) ÷ 2 = 200 × 399 = <b>79.800 susunan</b>.</li><li><b>Tahap 2 – Hitung kasus yang memiliki bilangan kembar (sama):</b><br>• <i>Ketiga bilangan sama (a = b = c):</i> 3a = 401 → 401 tidak habis dibagi 3, jadi kasus ini <b>tidak ada (0)</b>.<br>• <i>Tepat dua bilangan sama:</i> Misal a = b, maka 2a + c = 401 → c = 401 − 2a. Agar c ≥ 1, nilai 2a maksimal 400, sehingga a bisa bernilai 1, 2, 3, ..., 200 (ada 200 nilai a). Karena pasangan kembar bisa pada posisi (a=b), (b=c), atau (a=c), totalnya ada 3 × 200 = <b>600 susunan</b>.</li><li><b>Tahap 3 – Dapatkan tripel yang ketiga bilangannya berbeda:</b><br>Kurangkan total seluruh susunan dengan susunan yang memiliki angka kembar:<br>79.800 − 600 = <b>79.200 susunan</b>.</li><li><b>Tahap 4 – Terapkan syarat keterurutan a &lt; b &lt; c:</b><br>Tiga bilangan berbeda (misalnya {1, 2, 398}) dapat dipermutasikan dalam 3! = 3 × 2 × 1 = 6 urutan berbeda. Namun, dari 6 urutan tersebut, <b>hanya tepat 1 urutan</b> yang memenuhi syarat urutan naik (a &lt; b &lt; c).<br>Maka kita bagi dengan 6:<br>79.200 ÷ 6 = <b>13.200</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Rumus cepat untuk banyak a &lt; b &lt; c dengan a + b + c = n (n ganjil dan bukan kelipatan 3) adalah [C(n−1, 2) − 3·((n−1)/2)] ÷ 6.</p></div>"}, {"q": "Sebuah segitiga siku-siku memiliki sisi miring dengan panjang p cm dan kaki dengan panjang q cm. Jika p dan q berbeda 1, hitung, dalam p, jumlah cm panjang kaki lainnya.", "o": ["2p+1", "(p+1)/2", "√(2p+1)", "(p−1)/2", "2√p + 1"], "a": 2, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>C. √(2p+1)</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Teorema <b>Pythagoras</b>: (kaki₁)² + (kaki₂)² = (sisi miring)², dan sifat aljabar selisih kuadrat a² − b² = (a − b)(a + b).</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami segitiga siku-siku:</b> Pada segitiga siku-siku, sisi miring adalah sisi terpanjang. Jika kaki lainnya dinamai x, maka menurut Pythagoras:<br>x² = (sisi terpanjang)² − (sisi tegak lainnya)².</li><li><b>Hubungan dua sisi yang berselisih 1:</b><br>Tripel Pythagoras dengan selisih dua sisi = 1 sangat sering muncul, contohnya:<br>• 3, 4, 5 → sisi 4 dan 5 (5² − 4² = 25 − 16 = 9 = 3²)<br>• 5, 12, 13 → sisi 12 dan 13 (13² − 12² = 169 − 144 = 25 = 5²)<br>• 7, 24, 25 → sisi 24 dan 25 (25² − 24² = 49 = 7²).</li><li><b>Perhitungan aljabar:</b><br>Jika sisi terpanjangnya adalah (p + 1) dan sisi lainnya p:<br>x² = (p + 1)² − p²<br>x² = (p² + 2p + 1) − p² = 2p + 1.<br>Maka x = <b>√(2p + 1)</b>.</li><li><b>Uji dengan angka konkret:</b><br>Ambil p = 4 (sisi 4 dan 5). Panjang kaki lain = √(2·4 + 1) = √9 = 3 cm. Cocok 100%!</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Hafalkan pola: jika selisih sisi miring dan satu kaki adalah 1, maka kuadrat kaki lainnya selalu sama dengan jumlah kedua sisi tersebut.</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Secara redaksi ketat: bila p adalah sisi miring dan kaki q = p − 1, maka kaki lain = √(p² − (p−1)²) = √(2p − 1). Karena opsi √(2p − 1) tidak tersedia di pilihan ganda dan yang ada adalah √(2p + 1), maka pembuat soal memodelkan sisi segitiga tersebut sebagai p dan p+1.</p></div>"}, {"q": "Berapa banyak kelipatan tiga digit dari 11 dalam bentuk abc, apakah kuadrat ax² + bx + c memiliki akar real?", "o": ["15", "45", "64", "38", "27"], "a": 1, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>B. 45</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Syarat persamaan kuadrat ax² + bx + c = 0 memiliki <b>akar real</b> adalah nilai <b>Diskriminan D = b² − 4ac ≥ 0</b>. Ciri kelipatan 11 pada tiga digit abc adalah (a + c) − b = 0 atau 11.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami bentuk bilangan:</b> Bilangan kelipatan 11 tiga digit adalah 110, 121, 132, ..., 990 (total ada 81 bilangan). Digit a = ratusan (1 s.d. 9), b = puluhan (0 s.d. 9), c = satuan (0 s.d. 9).</li><li><b>Ciri habis dibagi 11 pada 3 digit:</b> Selisih selang-seling (a + c) − b harus kelipatan 11. Karena a, b, c adalah digit, hanya ada 2 kasus:<br><b>Kasus 1:</b> (a + c) − b = 0 ⇔ <b>b = a + c</b>.<br><b>Kasus 2:</b> (a + c) − b = 11 ⇔ <b>a + c = b + 11</b>.</li><li><b>Analisis Kasus 1 (b = a + c):</b><br>Masukkan b = a + c ke rumus Diskriminan D:<br>D = b² − 4ac = (a + c)² − 4ac = a² + 2ac + c² − 4ac = a² − 2ac + c² = <b>(a − c)²</b>.<br>Karena kuadrat dari bilangan apa pun selalu non-negatif ((a − c)² ≥ 0), maka <b>SEMUA bilangan di Kasus 1 PASTI memiliki akar real!</b></li><li><b>Hitung banyak anggota Kasus 1:</b><br>Kita mencari pasangan (a, c) dengan a ≥ 1 dan a + c ≤ 9:<br>• Jika a = 1 → c bisa 0, 1, 2, ..., 8 (ada 9 bilangan: 110 s.d. 198)<br>• Jika a = 2 → c bisa 0, 1, 2, ..., 7 (ada 8 bilangan)<br>• Jika a = 3 → c bisa 0 s.d. 6 (ada 7 bilangan)<br>... berlanjut sampai a = 9 → c = 0 (ada 1 bilangan: 990).<br>Total Kasus 1 = 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = <b>45 bilangan</b>.</li><li><b>Analisis Kasus 2 (a + c = b + 11):</b><br>Di sini b = a + c − 11. Karena a, c ≤ 9, maka a + c ≤ 18 sehingga b ≤ 7.<br>Nilai 4ac di sini sangat besar karena a + c ≥ 11. Contoh nilai b² terbesar terjadi saat a = 9, c = 9 → b = 7 → b² = 49, sedangkan 4ac = 4·9·9 = 324 → D = 49 − 324 &lt; 0. Tidak ada satu pun bilangan dari Kasus 2 yang memenuhi D ≥ 0.</li><li>Jadi total bilangan yang memenuhi adalah <b>45 bilangan</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Trik cerdas: Begitu melihat b = a + c, perhatikan bahwa (a + c)² − 4ac langsung berubah menjadi kuadrat sempurna (a − c)² yang pasti ≥ 0 tanpa perlu menghitung diskriminan satu per satu!</p></div>"}, {"q": "Perbandingan besar sudut luar sebuah segitiga adalah 5:7:9. Hitung rasio ukuran sudut interior yang sesuai.", "o": ["10:07:02", "10:07:03", "11:07:02", "11:07:03", "11:05:03"], "a": 3, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>D. 11:07:03</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Sifat sudut: Jumlah sudut luar segitiga selalu = <b>360°</b>. Sudut dalam + sudut luar yang bersebelahan selalu lurus = <b>180°</b>.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Hitung nilai perbandingan sudut luar:</b><br>Rasio sudut luar = 5 : 7 : 9.<br>Total bagian rasio = 5 + 7 + 9 = 21 bagian.<br>Besar 1 bagian rasio = 360° ÷ 21 = 120°/7.</li><li><b>Hitung ketiga sudut luar:</b><br>• Sudut luar 1 = 5 × (120°/7) = 600°/7<br>• Sudut luar 2 = 7 × (120°/7) = 840°/7 = 120°<br>• Sudut luar 3 = 9 × (120°/7) = 1080°/7.</li><li><b>Hitung sudut dalam (180° − sudut luar):</b><br>Ubah 180° ke pecahan per-7: 180° = 1260°/7.<br>• Sudut dalam 1 = 1260°/7 − 600°/7 = 660°/7<br>• Sudut dalam 2 = 1260°/7 − 840°/7 = 420°/7<br>• Sudut dalam 3 = 1260°/7 − 1080°/7 = 180°/7.</li><li><b>Sederhanakan perbandingan sudut dalam:</b><br>660°/7 : 420°/7 : 180°/7<br>Kalikan dengan 7: 660 : 420 : 180<br>Bagi semua angka dengan 60:<br>660 ÷ 60 = 11<br>420 ÷ 60 = 7<br>180 ÷ 60 = 3.<br>Diperoleh rasio sudut dalam = <b>11 : 7 : 3</b> (di opsi ditulis 11:07:03).</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Cara super cepat: Karena 360° bernilai 21 bagian, maka 180° bernilai setengahnya yaitu 10,5 bagian. Kurangkan masing-masing rasio sudut luar dari 10,5:<br>(10,5 − 5) : (10,5 − 7) : (10,5 − 9) = 5,5 : 3,5 : 1,5. Kalikan 2 → 11 : 7 : 3!</p></div>"}, {"q": "Jika r + s + t = 3, r² + s² + t² = 1, dan r³ + s³ + t³ = 3, hitung rst!", "o": ["0", "1", "2", "3", "4"], "a": 4, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>E. 4</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Identitas aljabar tiga variabel: penjabaran kuadrat (r+s+t)² dan identitas jumlah kubik r³+s³+t³ − 3rst.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Langkah 1 – Cari nilai (rs + st + tr):</b><br>Gunakan rumus penjabaran kuadrat:<br>(r + s + t)² = r² + s² + t² + 2(rs + st + tr)<br>Masukkan nilai yang diketahui:<br>3² = 1 + 2(rs + st + tr)<br>9 = 1 + 2(rs + st + tr)<br>8 = 2(rs + st + tr)<br>rs + st + tr = 8 ÷ 2 = <b>4</b>.</li><li><b>Langkah 2 – Gunakan rumus jumlah pangkat tiga:</b><br>Rumus identitas kubik:<br>r³ + s³ + t³ − 3rst = (r + s + t) [ r² + s² + t² − (rs + st + tr) ]</li><li><b>Langkah 3 – Masukkan semua angka yang sudah diketahui:</b><br>3 − 3rst = 3 × [ 1 − 4 ]<br>3 − 3rst = 3 × (−3)<br>3 − 3rst = −9</li><li><b>Langkah 4 – Selesaikan untuk rst:</b><br>3 + 9 = 3rst<br>12 = 3rst<br>rst = 12 ÷ 3 = <b>4</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Meskipun r, s, t bukan bilangan real (karena r²+s²+t² bernilai 1 sedangkan (r+s+t)² bernilai 9), rumus identitas aljabar tetap berlaku mutlak untuk semua bilangan!</p></div>"}, {"q": "Jumlah dari empat bilangan bulat positif adalah 9. Hitunglah nilai maksimum hasil perkaliannya.", "o": ["24", "37", "6", "12", "21"], "a": 0, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>A. 24</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Prinsip <b>pemerataan nilai (AM-GM)</b>: Untuk jumlah yang bernilai tetap, hasil kali beberapa bilangan akan bernilai maksimal jika bilangan-bilangan tersebut nilainya saling berdekatan (serata mungkin).</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami kondisi soal:</b> Ada 4 bilangan bulat positif: a, b, c, d ≥ 1 dan a + b + c + d = 9. Kita ingin memaksimumkan a × b × c × d.</li><li><b>Bagi rata jumlah tersebut:</b><br>Rata-rata = 9 ÷ 4 = 2,25.<br>Karena bilangannya harus bulat, maka bilangan-bilangan tersebut harus tersebar di sekitar 2,25, yaitu kombinasi angka <b>2</b> dan <b>3</b>.</li><li><b>Bentuk kombinasi terdekat:</b><br>9 = 2 + 2 + 2 + 3 (tiga angka 2 dan satu angka 3).<br>Hasil kali = 2 × 2 × 2 × 3 = 4 × 6 = <b>24</b>.</li><li><b>Bandingkan dengan kombinasi lain untuk meyakinkan:</b><br>• 1 + 2 + 3 + 3 = 9 → hasil kali = 1 × 2 × 3 × 3 = 18<br>• 1 + 1 + 3 + 4 = 9 → hasil kali = 1 × 1 × 3 × 4 = 12<br>• 1 + 2 + 2 + 4 = 9 → hasil kali = 1 × 2 × 2 × 4 = 16<br>• 1 + 1 + 1 + 6 = 9 → hasil kali = 1 × 1 × 1 × 6 = 6.<br>Terbukti 24 adalah nilai terbesar yang dapat dicapai.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Analogi mudah: Persegi panjang dengan keliling tetap selalu memiliki luas paling besar jika bentuknya mendekati bujur sangkar (sisinya sama panjang).</p></div>"}, {"q": "Pada segiempat ABCD, AB = 3, BC = 4, CD = 6 dan ∠ABD = ∠ACB, ∠ADB = ∠ACD. Tentukanlah luas segiempat ABCD.", "o": ["(gambar)", "(gambar)", "(gambar)", "10", "(gambar)"], "a": -1, "ans": "10√2", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>10√2 (opsi bergambar)</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Geometri: <b>Segiempat Tali Busur (Cyclic Quadrilateral)</b> dan <b>Rumus Brahmagupta</b> untuk menghitung luas segiempat tali busur.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Analisis sudut yang diketahui:</b><br>Misalkan ∠ABD = ∠ACB = α dan ∠ADB = ∠ACD = β.</li><li><b>Lihat jumlah sudut pada segitiga ABD:</b><br>∠BAD = 180° − (∠ABD + ∠ADB) = 180° − (α + β).</li><li><b>Lihat sudut total di titik C (∠BCD):</b><br>∠BCD = ∠ACB + ∠ACD = α + β.</li><li><b>Buktikan ABCD adalah segiempat tali busur:</b><br>Jumlah sudut berhadapan: ∠BAD + ∠BCD = [180° − (α + β)] + (α + β) = <b>180°</b>.<br>Karena sepasang sudut berhadapan berjumlah 180°, maka titik A, B, C, D terletak pada satu lingkaran (segiempat tali busur).</li><li><b>Tentukan panjang sisi AD:</b><br>Pada segiempat tali busur, sudut keliling yang menghadap busur yang sama besarnya sama. ∠ACB dan ∠ADB sama-sama menghadap busur AB, sehingga α = β.<br>Karena α = β, maka pada segitiga ABD: ∠ABD = ∠ADB = α. Segitiga ABD adalah segitiga sama kaki, sehingga <b>AD = AB = 3</b>.</li><li><b>Hitung luas dengan Rumus Brahmagupta:</b><br>Panjang sisi-sisi segiempat: a = 3, b = 4, c = 6, d = 3.<br>Setengah keliling (semi-perimeter): s = (3 + 4 + 6 + 3) ÷ 2 = 16 ÷ 2 = 8.<br>Luas = √[(s − a)(s − b)(s − c)(s − d)]<br>Luas = √[(8 − 3)(8 − 4)(8 − 6)(8 − 3)]<br>Luas = √[5 × 4 × 2 × 5] = √[25 × 8] = √200 = <b>10√2</b> (≈ 14,14).</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Rumus Brahmagupta adalah perluasan dari rumus Heron pada segitiga dan khusus berlaku untuk segiempat tali busur.</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Pilihan jawaban di video berupa gambar (kecuali opsi D = 10). Jawaban yang benar adalah opsi bergambar bernilai 10√2 (bukan D).</p></div>"}, {"q": "Hitunglah jumlah kebalikan dari akar-akar dari x² − 5x + 8 = 0.", "o": ["(gambar)", "(gambar)", "(gambar)", "(gambar)", "(gambar)"], "a": -1, "ans": "5/8", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>5/8 (opsi bergambar)</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aljabar: <b>Teorema Vieta</b> untuk persamaan kuadrat ax² + bx + c = 0.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami yang ditanyakan:</b> Jika akar-akar persamaan kuadrat adalah x₁ dan x₂, maka 'jumlah kebalikan' artinya adalah:<br>1/x₁ + 1/x₂.</li><li><b>Samakan penyebut pecahan:</b><br>1/x₁ + 1/x₂ = (x₂ + x₁) / (x₁ · x₂) = (x₁ + x₂) / (x₁ · x₂).</li><li><b>Gunakan Teorema Vieta:</b><br>Dari persamaan x² − 5x + 8 = 0, diperoleh a = 1, b = −5, c = 8.<br>• Jumlah akar: x₁ + x₂ = −b/a = −(−5)/1 = <b>5</b>.<br>• Hasil kali akar: x₁ · x₂ = c/a = 8/1 = <b>8</b>.</li><li><b>Hitung hasil akhirnya:</b><br>(x₁ + x₂) / (x₁ · x₂) = <b>5/8</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Jangan buang waktu mencari nilai x dengan rumus kuadrat/ABC, karena diskriminannya negatif (akarnya imajiner). Teorema Vieta bekerja langsung dan akurat!</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Pilihan jawaban di video berupa gambar pecahan. Pilihlah opsi bergambar yang menampilkan pecahan 5/8.</p></div>"}, {"q": "Jumlah tiga bilangan bulat berurutan adalah 15. Tentukan perkaliannya!", "o": ["120", "20", "40", "100", "60"], "a": 0, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>A. 120</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aritmetika dasar: Representasi bilangan berurutan dengan variabel tengah.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami bilangan berurutan:</b> Tiga bilangan berurutan berselisih 1 satu sama lain.</li><li><b>Tuliskan dalam variabel yang efisien:</b><br>Misalkan bilangan di tengah adalah n.<br>Maka ketiga bilangan tersebut adalah (n − 1), n, dan (n + 1).</li><li><b>Jumlahkan ketiga bilangan:</b><br>(n − 1) + n + (n + 1) = 15<br>3n = 15<br>n = 15 ÷ 3 = <b>5</b>.</li><li><b>Tentukan ketiga bilangan:</b><br>• Bilangan pertama = 5 − 1 = 4<br>• Bilangan kedua = 5<br>• Bilangan ketiga = 5 + 1 = 6.<br>(Cek jumlah: 4 + 5 + 6 = 15 ✓).</li><li><b>Hitung perkaliannya:</b><br>4 × 5 × 6 = 20 × 6 = <b>120</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Trik mental math: Rata-rata dari 3 bilangan berurutan selalu sama dengan bilangan yang berada tepat di tengah (15 ÷ 3 = 5). Bilangannya langsung ketemu: 4, 5, 6!</p></div>"}, {"q": "Panjang sisi trapesium sama kaki adalah 10, 10, 13, dan 19. Hitung panjang salah satu diagonal trapesium sama kaki.", "o": ["(1+√242)/2", "(gambar)", "(gambar)", "(gambar)", "(gambar)"], "a": -1, "ans": "√347", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>√347 (opsi bergambar)</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Geometri: Teorema Pythagoras pada trapesium sama kaki dan Teorema Ptolemy.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami trapesium sama kaki:</b> Sisi miring (kaki) sama panjang, yaitu 10 dan 10. Dua sisi sejajar adalah alas atas (13) dan alas bawah (19).</li><li><b>Langkah 1 – Hitung proyeksi sayap alas:</b><br>Tarik dua garis tinggi tegak lurus dari ujung-ujung alas atas ke alas bawah. Alas bawah (19) terbagi menjadi bagian tengah (13) dan dua sayap sama panjang di kiri dan kanan.<br>Panjang tiap sayap = (19 − 13) ÷ 2 = 6 ÷ 2 = <b>3 cm</b>.</li><li><b>Langkah 2 – Hitung tinggi trapesium (t):</b><br>Perhatikan segitiga siku-siku di sayap trapesium: hipotenusa = 10, alas = 3.<br>t² = 10² − 3² = 100 − 9 = 91 → t = √91.</li><li><b>Langkah 3 – Hitung panjang diagonal (d):</b><br>Tarik garis diagonal. Terbentuk segitiga siku-siku besar dengan:<br>• Sisi alas = alas bawah dikurangi satu sayap = 19 − 3 = 16.<br>• Sisi tegak = tinggi trapesium = √91.<br>• Sisi miring = diagonal trapesium (d).<br>Gunakan Pythagoras:<br>d² = 16² + (√91)² = 256 + 91 = 347.<br>Maka diagonal d = <b>√347</b> (≈ 18,63 cm).</li><li><b>Verifikasi dengan Teorema Ptolemy:</b><br>Trapesium sama kaki selalu dapat dibuatkan lingkaran luar (siklik). Menurut teorema Ptolemy:<br>d₁ · d₂ = (kaki₁ · kaki₂) + (alas₁ · alas₂)<br>d² = (10 × 10) + (13 × 19) = 100 + 247 = 347 → d = √347 ✓.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Kedua cara (Pythagoras maupun Teorema Ptolemy) menghasilkan jawaban yang persis sama: √347.</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Pilihan jawaban di video berupa gambar (kecuali opsi A). Pilihlah opsi bergambar yang bernilai √347.</p></div>"}, {"q": "Misalkan X adalah bilangan positif tiga digit terkecil dengan tepat 8 pembagi genap positif. Berapakah jumlah digit X?", "o": ["4", "9", "12", "13", "21"], "a": 1, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>B. 9</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Teori Bilangan: Rumus banyak faktor pembagi genap dari bentuk faktorisasi prima X = 2ᵏ · p₁ᵉ¹ · p₂ᵉ²...</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami rumus banyak pembagi genap:</b><br>Sebuah bilangan bulat positif dapat dinyatakan dalam faktorisasi prima: X = 2ᵏ · m, di mana m adalah bagian ganjil.<br>Pembagi genap harus memuat minimal faktor 2¹ (ada k pilihan pangkat: 2¹, 2², ..., 2ᵏ). Sedangkan faktor prima ganjil bebas memilih pangkat dari 0 sampai pangkat tertingginya.<br>Banyak pembagi genap = <b>k × d(m)</b>, di mana d(m) adalah banyak faktor dari bilangan ganjil m.</li><li><b>Target:</b> Kita mencari bilangan tiga digit terkecil X ≥ 100 dengan k × d(m) = 8.</li><li><b>Uji sistematis bilangan genap mulai dari 100:</b><br>• 100 = 2² × 5² → k = 2, d(5²) = 3 → banyak pembagi genap = 2 × 3 = 6 ✗<br>• 102 = 2¹ × (3 × 17) → k = 1, d(51) = 4 → banyak pembagi genap = 1 × 4 = 4 ✗<br>• 104 = 2³ × 13¹ → k = 3, d(13) = 2 → banyak pembagi genap = 3 × 2 = 6 ✗<br>• 106 = 2¹ × 53¹ → k = 1, d(53) = 2 → banyak pembagi genap = 1 × 2 = 2 ✗<br>• <b>108 = 2² × 3³</b> → k = 2, d(3³) = 3 + 1 = 4 → banyak pembagi genap = 2 × 4 = <b>8 ✓ (COCOK!)</b>.</li><li><b>Bukti pembagi genap dari 108:</b><br>Pembagi genapnya adalah {2, 4, 6, 12, 18, 36, 54, 108} → tepat berjumlah 8 buah bilangan.</li><li><b>Hitung jumlah digit X:</b><br>X = 108 → Jumlah digit = 1 + 0 + 8 = <b>9</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Bilangan ganjil (101, 103, 105, ...) tidak memiliki pembagi genap sama sekali (0 pembagi genap), sehingga cukup uji bilangan genap saja.</p></div>"}, {"q": "Temukan luas segitiga yang memiliki titik sudut A(10, −9), B(19, 3), dan C(25, −21).", "o": ["121", "124", "141", "144", "147"], "a": 3, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>D. 144</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Geometri Analitik: <b>Rumus Tali Sepatu (Shoelace Formula)</b> dan <b>Metode Kotak (Bounding Box)</b>.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Metode 1 – Rumus Tali Sepatu (Shoelace):</b><br>Koordinat: A(10, −9), B(19, 3), C(25, −21).<br>Luas = ½ · |(x₁y₂ + x₂y₃ + x₃y₁) − (y₁x₂ + y₂x₃ + y₃x₁)|</li><li><b>Hitung perkalian silang ke bawah:</b><br>• 10 × 3 = 30<br>• 19 × (−21) = −399<br>• 25 × (−9) = −225<br>Jumlah = 30 − 399 − 225 = <b>−594</b>.</li><li><b>Hitung perkalian silang ke atas:</b><br>• (−9) × 19 = −171<br>• 3 × 25 = 75<br>• (−21) × 10 = −210<br>Jumlah = −171 + 75 − 210 = <b>−306</b>.</li><li><b>Hitung selisih dan luas:</b><br>Selisih = −594 − (−306) = −594 + 306 = −288.<br>Luas = ½ · |−288| = ½ · 288 = <b>144</b>.</li><li><b>Metode 2 – Metode Kotak (Sangat mudah dipahami anak SD):</b><br>Buat persegi panjang yang membungkus segitiga tersebut:<br>• Rentang sumbu X: dari 10 sampai 25 → panjang = 25 − 10 = 15.<br>• Rentang sumbu Y: dari −21 sampai 3 → lebar = 3 − (−21) = 24.<br>Luas kotak persegi panjang = 15 × 24 = <b>360</b>.<br>Kurangkan dengan 3 segitiga siku-siku di luar segitiga ABC:<br>1. Siku-siku 1: ½ × (19−10) × (3−(−9)) = ½ × 9 × 12 = 54<br>2. Siku-siku 2: ½ × (25−19) × (3−(−21)) = ½ × 6 × 24 = 72<br>3. Siku-siku 3: ½ × (25−10) × (−9−(−21)) = ½ × 15 × 12 = 90<br>Luas segitiga ABC = 360 − (54 + 72 + 90) = 360 − 216 = <b>144</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Bagi anak SD yang belum terbiasa dengan rumus tali sepatu dan koordinat negatif, Metode Kotak Pembungkus jauh lebih visual dan aman dari kesalahan tanda minus!</p></div>"}, {"q": "Tentukanlah bilangan real x sehingga (x − 10)⁴ = (x + 6)⁴.", "o": ["2", "4", "7", "8", "1"], "a": 0, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>A. 2</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aljabar: Sifat persamaan berpangkat genap A⁴ = B⁴ pada himpunan bilangan real.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami sifat pangkat genap:</b><br>Jika A⁴ = B⁴ untuk bilangan real, maka kemungkinannya hanya ada dua: A = B atau A = −B (karena (−B)⁴ = B⁴).</li><li><b>Uji Kasus 1 (A = B):</b><br>x − 10 = x + 6<br>Kurangkan x pada kedua ruas:<br>−10 = 6 → <b>Salah / Mustahil</b>. Tidak ada solusi dari kasus ini.</li><li><b>Uji Kasus 2 (A = −B):</b><br>x − 10 = −(x + 6)<br>x − 10 = −x − 6<br>Pindahkan variabel x ke ruas kiri dan angka ke ruas kanan:<br>x + x = 10 − 6<br>2x = 4<br>x = 4 ÷ 2 = <b>2</b>.</li><li><b>Uji kebenaran (Substitusi):</b><br>• Ruas kiri: (2 − 10)⁴ = (−8)⁴ = 4096.<br>• Ruas kanan: (2 + 6)⁴ = 8⁴ = 4096.<br>Kedua ruas sama persis (4096 = 4096) ✓.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Konsep garis bilangan: Persamaan ini berarti jarak x ke angka 10 sama dengan jarak x ke angka −6. Titik tengah antara 10 dan −6 adalah (10 + (−6)) ÷ 2 = 4 ÷ 2 = 2!</p></div>"}, {"q": "Berapa banyak cara yang dapat ditempuh seseorang dari (0, 0) ke (7, 1) dalam langkah (+1, +1) dan (+1, −1)?", "o": ["35", "42", "28", "10", "5"], "a": 0, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>A. 35</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Kombinatorika: Perhitungan banyak lintasan kisi (grid walk) menggunakan rumus kombinasi C(n, r).</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami jenis langkah:</b><br>• Titik awal: (0, 0). Titik tujuan: (7, 1).<br>• Langkah NAIK (N): (+1, +1) → x bertambah 1, y bertambah 1.<br>• Langkah TURUN (T): (+1, −1) → x bertambah 1, y berkurang 1.</li><li><b>Tentukan total banyak langkah:</b><br>Karena setiap langkah selalu menambah nilai x sebesar 1, maka dari x = 0 ke x = 7 dibutuhkan tepat <b>7 langkah total</b>:<br>N + T = 7.</li><li><b>Tentukan posisi akhir y:</b><br>Setiap langkah Naik menambah 1 pada y, dan setiap langkah Turun mengurangi 1 pada y. Posisi akhir y harus bernilai 1:<br>N − T = 1.</li><li><b>Hitung banyak langkah N dan T:</b><br>Jumlahkan kedua persamaan:<br>(N + T) + (N − T) = 7 + 1<br>2N = 8 → N = 4 langkah Naik.<br>Maka T = 7 − 4 = 3 langkah Turun.</li><li><b>Hitung banyak kombinasi urutan:</b><br>Dari 7 langkah yang ada, kita tinggal memilih 4 langkah di antaranya untuk dijadikan langkah Naik (sisanya otomatis menjadi langkah Turun):<br>C(7, 4) = 7! ÷ (4! × 3!) = (7 × 6 × 5) ÷ (3 × 2 × 1) = 210 ÷ 6 = <b>35 cara</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Ingat bahwa C(7, 4) nilainya sama dengan C(7, 3) = (7 × 6 × 5) / (3 × 2 × 1) = 35.</p></div>"}, {"q": "Hitung semua solusi bernilai real untuk persamaan √(5x − 4) − √(x + 8) = 2.", "o": ["4", "5", "7", "8", "9"], "a": 3, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>D. 8</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aljabar: Menyelesaikan persamaan irasional (bentuk akar) dan pentingnya menguji solusi palsu (ekstraneous).</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Langkah 1 – Pisahkan suku akar:</b><br>Pindahkan −√(x + 8) ke ruas kanan agar kedua ruas bernilai positif:<br>√(5x − 4) = 2 + √(x + 8).</li><li><b>Langkah 2 – Kuadratkan kedua ruas:</b><br>[√(5x − 4)]² = [2 + √(x + 8)]²<br>5x − 4 = 2² + 2·2·√(x + 8) + [√(x + 8)]²<br>5x − 4 = 4 + 4√(x + 8) + x + 8<br>5x − 4 = x + 12 + 4√(x + 8).</li><li><b>Langkah 3 – Kumpulkan suku tanpa akar ke ruas kiri:</b><br>(5x − x) − (4 + 12) = 4√(x + 8)<br>4x − 16 = 4√(x + 8)<br>Bagi kedua ruas dengan 4:<br>x − 4 = √(x + 8).</li><li><b>Langkah 4 – Kuadratkan sekali lagi:</b><br>(x − 4)² = [√(x + 8)]²<br>x² − 8x + 16 = x + 8<br>x² − 9x + 8 = 0<br>(x − 1)(x − 8) = 0<br>Diperoleh dua calon nilai: x = 1 atau x = 8.</li><li><b>Langkah 5 – Uji ke persamaan awal (Wajib):</b><br>• <i>Uji x = 1:</i><br>√(5·1 − 4) − √(1 + 8) = √1 − √9 = 1 − 3 = −2. Hasilnya −2, bukan +2. Maka x = 1 <b>TIDAK MEMENUHI (Solusi palsu)</b>.<br>• <i>Uji x = 8:</i><br>√(5·8 − 4) − √(8 + 8) = √36 − √16 = 6 − 4 = <b>2</b>. Cocok dengan soal!<br>Maka solusi satu-satunya yang memenuhi adalah <b>x = 8</b>.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Trik cepat kompetisi: Coba langsung pilihan jawaban yang membuat bilangan di dalam akar menjadi kuadrat sempurna. Cek x = 8: 5(8)−4 = 36 (kuadrat dari 6) dan 8+8 = 16 (kuadrat dari 4). 6 − 4 = 2 langsung terbukti dalam 5 detik!</p></div>"}, {"q": "Hitunglah nilai real x sehingga |x − 2,5| = |x − 3,5|.", "o": ["0", "1", "3", "4", "6"], "a": 2, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>C. 3</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aljabar: Definisi geometris dari <b>nilai mutlak sebagai jarak</b> pada garis bilangan.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami arti geometris nilai mutlak:</b><br>|a − b| menyatakan jarak antara bilangan a dan bilangan b pada garis bilangan real.<br>Persamaan |x − 2,5| = |x − 3,5| berarti: <i>'Jarak titik x ke 2,5 sama persis dengan jarak titik x ke 3,5'</i>.</li><li><b>Tentukan posisi titik x:</b><br>Titik yang berjarak sama ke dua titik adalah <b>titik tengah</b> dari kedua titik tersebut:<br>x = (2,5 + 3,5) ÷ 2 = 6,0 ÷ 2 = <b>3</b>.</li><li><b>Pembuktian aljabar:</b><br>|x − 2,5| = |x − 3,5|<br>Karena x − 2,5 ≠ x − 3,5 (mustahil −2,5 = −3,5), maka tanda di dalam kurung harus berlawanan:<br>x − 2,5 = −(x − 3,5)<br>x − 2,5 = −x + 3,5<br>2x = 3,5 + 2,5<br>2x = 6 → x = <b>3</b>.</li><li><b>Cek hasil:</b> |3 − 2,5| = 0,5 dan |3 − 3,5| = |−0,5| = 0,5. Keduanya bernilai 0,5 ✓.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Setiap kali melihat bentuk |x − a| = |x − b|, jawabannya selalu titik tengah: (a + b) / 2.</p></div>"}, {"q": "Untuk sembarang bilangan bulat n, tentukanlah nilai yang tidak mungkin memenuhi persamaan n² + 3n + 2 !", "o": ["0", "2", "110", "375", "442"], "a": 3, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>D. 375</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Teori Bilangan: Pemfaktoran aljabar dan sifat <b>paritas (ganjil-genap)</b> dari perkalian dua bilangan bulat berurutan.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Langkah 1 – Faktorkan bentuk kuadrat n² + 3n + 2:</b><br>Cari dua bilangan yang jumlahnya 3 dan hasil kalinya 2: yaitu 1 dan 2.<br>n² + 3n + 2 = <b>(n + 1)(n + 2)</b>.</li><li><b>Langkah 2 – Analisis sifat perkalian tersebut:</b><br>(n + 1) dan (n + 2) adalah <b>dua bilangan bulat yang berurutan</b> (selisih 1).<br>Dari dua bilangan bulat berurutan, salah satu bilangannya pasti genap dan yang satunya ganjil.<br>Perkalian bilangan ganjil dengan bilangan genap <b>SELALU MENGHASILKAN BILANGAN GENAP</b>.<br>Kesimpulan: n² + 3n + 2 selalu bernilai GENAP untuk semua bilangan bulat n!</li><li><b>Langkah 3 – Cek pilihan jawaban:</b><br>• A. 0 = 0 × 1 (untuk n = −1) → Mungkin (Genap)<br>• B. 2 = 1 × 2 (untuk n = 0) → Mungkin (Genap)<br>• C. 110 = 10 × 11 (untuk n = 9) → Mungkin (Genap)<br>• D. <b>375 adalah bilangan GANJIL</b> → <b>MUTLAK TIDAK MUNGKIN</b> karena n² + 3n + 2 selalu genap!<br>• E. 442 adalah bilangan genap.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Hasil kali dua bilangan bulat berurutan selalu berujung pada digit 0, 2, atau 6; tidak pernah berujung pada angka ganjil 1, 3, 5, 7, 9.</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Catatan tambahan: 442 sebenarnya juga bukan hasil kali dua bilangan bulat berurutan (karena 20 × 21 = 420 dan 21 × 22 = 462). Namun di antara opsi yang ada, 375 langsung gugur secara konsep dasar paritas (ganjil-genap) yang merupakan jebakan utama pada soal olimpiade ini.</p></div>"}, {"q": "Diketahui bahwa 4x + 3y = 6x + y ≠ 0. Hitunglah (6x − 2y)/(x + y)!", "o": ["0", "1", "2", "5", "4"], "a": 2, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>C. 2</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Aljabar: Manipulasi persamaan linear dua variabel homogen dan teknik substitusi rasio.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Langkah 1 – Sederhanakan persamaan yang diketahui:</b><br>4x + 3y = 6x + y<br>Pindahkan suku dengan variabel y ke ruas kiri dan suku dengan variabel x ke ruas kanan:<br>3y − y = 6x − 4x<br>2y = 2x<br>Bagi kedua ruas dengan 2:<br><b>y = x</b>.<br>Artinya nilai y sama persis dengan nilai x!</li><li><b>Langkah 2 – Substitusi y = x ke dalam bentuk yang ditanyakan:</b><br>(6x − 2y) / (x + y)<br>Ganti setiap huruf y dengan x:<br>= (6x − 2x) / (x + x)<br>= 4x / 2x<br>Karena 4x + 3y ≠ 0, maka x ≠ 0 sehingga variabel x dapat dicoret:<br>= 4 / 2 = <b>2</b>.</li><li><b>Uji dengan contoh angka sederhana:</b><br>Ambil x = 1 dan y = 1 (memenuhi y = x):<br>(6·1 − 2·1) / (1 + 1) = (6 − 2) / 2 = 4 / 2 = 2. Hasilnya selalu tetap 2!</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Pada bentuk pecahan aljabar yang homogen derajat 1 (semua variabel berpangkat 1), jika hubungan rasio antar variabel sudah diketahui, kita boleh langsung memisalkan angka sederhana (misal x = 1, y = 1).</p></div>"}, {"q": "Hitung banyak tripel bilangan bulat positif (x, y, z) sehingga x + y + z = 80.", "o": ["2024", "2124", "2790", "3081", "3254"], "a": 3, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>D. 3081</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Kombinatorika: Metode <b>Bintang dan Garis (Stars and Bars)</b> untuk partisi bilangan bulat positif.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami maksud soal:</b> Soal meminta banyak pasangan terurut bilangan bulat positif (x, y, z) dengan x ≥ 1, y ≥ 1, z ≥ 1 yang memenuhi x + y + z = 80.</li><li><b>Gunakan rumus bintang dan garis:</b><br>Banyak cara menuliskan bilangan n sebagai penjumlahan k bilangan bulat positif (urutan diperhatikan) adalah:<br><b>C(n − 1, k − 1)</b>.</li><li><b>Hitung dengan nilai n = 80 dan k = 3:</b><br>C(80 − 1, 3 − 1) = C(79, 2)<br>C(79, 2) = (79 × 78) ÷ 2<br>C(79, 2) = 79 × 39 = <b>3081</b>.</li><li><b>Penjelasan logis tanpa rumus hafalan:</b><br>Bayangkan 80 buah apel dijajarkan. Terdapat 79 celah di antara apel-apel tersebut. Untuk membaginya menjadi 3 tumpukan di mana tiap tumpukan minimal mendapat 1 apel, kita cukup menaruh 2 papan sekat di antara 79 celah tersebut. Banyak cara memilih 2 celah dari 79 adalah 79 × 78 ÷ 2 = 3081 cara.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Hafalkan rumus kombinasi memilih 2 dari N objek: C(N, 2) = N × (N − 1) / 2.</p></div><div class='sec-block note-box'><h4>⚠ Catatan Penting Soal / Redaksi</h4><p>Catatan bahasa: Teks pada sistem menggunakan kalimat '3 bilangan berurut berbeda (x, y, z)', yang merupakan hasil terjemahan mesin dari istilah bahasa Inggris 'ordered triples of positive integers (x, y, z)'. Pilihan 3081 persis sesuai dengan perhitungan tripel terurut C(79, 2).</p></div>"}, {"q": "Untuk beberapa bilangan bulat positif a dan b, 2ᵃ dan 5ᵇ memiliki himpunan digit yang sama. Hitunglah nilai terkecil yang mungkin dari a!", "o": ["0", "4", "6", "3", "8"], "a": 4, "ans": "", "e": "<div class='ans-box'><span class='ans-badge'>Kunci Jawaban</span> <span class='ans-text'>E. 8</span></div><div class='sec-block'><h4>📘 Konsep Dasar & Teori</h4><p>Teori Bilangan dan Eksplorasi Pola Himpunan Digit.</p></div><div class='sec-block'><h4>🪜 Langkah Demi Langkah yang Mudah Dipahami</h4><ol class='steps-list'><li><b>Pahami yang dimaksud himpunan digit:</b><br>Himpunan digit adalah kumpulan angka-angka penyusun suatu bilangan tanpa memedulikan urutan atau pengulangan.<br>Contoh: bilangan 256 tersusun dari digit {2, 5, 6}. Bilangan 625 juga tersusun dari digit {2, 5, 6}. Keduanya memiliki himpunan digit yang SAMA PERSIS!</li><li><b>Daftar nilai 2ᵃ dan himpunan digitnya (a = 1, 2, 3, ...):</b><br>• 2¹ = 2 → {2}<br>• 2² = 4 → {4}<br>• 2³ = 8 → {8}<br>• 2⁴ = 16 → {1, 6}<br>• 2⁵ = 32 → {2, 3}<br>• 2⁶ = 64 → {4, 6}<br>• 2⁷ = 128 → {1, 2, 8}<br>• <b>2⁸ = 256 → {2, 5, 6}</b><br>• 2⁹ = 512 → {1, 2, 5}.</li><li><b>Daftar nilai 5ᵇ dan himpunan digitnya (b = 1, 2, 3, ...):</b><br>• 5¹ = 5 → {5}<br>• 5² = 25 → {2, 5}<br>• 5³ = 125 → {1, 2, 5}<br>• <b>5⁴ = 625 → {2, 5, 6}</b><br>• 5⁵ = 3125 → {1, 2, 3, 5}.</li><li><b>Cari pasangan yang himpunan digitnya sama persis:</b><br>Perhatikan pasangan pertama:<br>2⁸ = 256 memiliki himpunan digit {2, 5, 6}.<br>5⁴ = 625 memiliki himpunan digit {2, 5, 6}.<br>Keduanya cocok sempurna!<br>Maka nilai a terkecil yang mungkin adalah <b>a = 8</b>.</li><li><b>Pasangan berikutnya (informasi tambahan):</b><br>Untuk a = 9 (2⁹ = 512) dan b = 3 (5³ = 125), keduanya sama-sama memiliki digit {1, 2, 5}.</li></ol></div><div class='sec-block tip-box'><h4>💡 Tips & Trik Cepat</h4><p>Karena digit satuan dari 5ᵇ (untuk b ≥ 1) selalu 5, maka 2ᵃ wajib memuat digit 5 di dalamnya. Bilangan 2ᵃ pertama yang memuat angka 5 adalah 2⁵ = 32 (tidak ada 5), 2⁶ = 64, 2⁷ = 128, dan baru muncul angka 5 di 2⁸ = 256!</p></div>"}];
+const L = "ABCDE";
+let cur = 0;
+let st = JSON.parse(localStorage.getItem("ksgi_v2") || "{}");
+
+function save() {
+  localStorage.setItem("ksgi_v2", JSON.stringify(st));
+}
+
+function bar() {
+  const b = document.getElementById("bar");
+  b.innerHTML = "";
+  S.forEach((s, i) => {
+    const x = document.createElement("button");
+    x.textContent = String(i + 1).padStart(2, "0");
+    if (i === cur) x.className = "cur";
+    if (st[i] != null) {
+      x.classList.add(st[i].ok ? "ok" : "bad");
+    }
+    x.onclick = () => go(i);
+    b.appendChild(x);
+  });
+  let k = Object.values(st).filter(v => v.ok).length;
+  document.getElementById("score").textContent = `Benar: ${k} / ${S.length}  ·  Dijawab: ${Object.keys(st).length}`;
+}
+
+function render() {
+  const s = S[cur];
+  let h = `<div class="no-tag">Soal No. ${cur + 1}</div><div class="q-title">${s.q}</div><div class="opt-container">`;
+  s.o.forEach((o, j) => {
+    h += `<button class="opt" id="o${j}" onclick="pick(${j})"><strong>${L[j]}.</strong>&nbsp;&nbsp;${o}</button>`;
+  });
+  if (s.a < 0) {
+    h += `<button class="opt" id="oX" onclick="pick(-1)">✔ <strong>Pilihan Gambar Benar:</strong>&nbsp;&nbsp;${s.ans}</button>`;
+  }
+  h += `</div><div class="exp" id="exp">${s.e}</div>`;
+  document.getElementById("card").innerHTML = h;
+  if (st[cur] != null) {
+    mark(st[cur].p);
+  }
+  bar();
+}
+
+function mark(p) {
+  const s = S[cur];
+  document.querySelectorAll(".opt").forEach(e => e.disabled = true);
+  const right = s.a >= 0 ? document.getElementById("o" + s.a) : document.getElementById("oX");
+  if (right) right.classList.add("ok");
+  if (p !== (s.a >= 0 ? s.a : -1)) {
+    const w = document.getElementById(p < 0 ? "oX" : "o" + p);
+    if (w) w.classList.add("bad");
+  }
+  showExp();
+}
+
+function pick(j) {
+  if (st[cur] != null) return;
+  const s = S[cur];
+  const isRight = (j === (s.a >= 0 ? s.a : -1));
+  st[cur] = { p: j, ok: isRight };
+  save();
+  mark(j);
+  bar();
+}
+
+function showExp() {
+  const exp = document.getElementById("exp");
+  if (exp) exp.classList.add("show");
+}
+
+function toggleExp() {
+  const exp = document.getElementById("exp");
+  if (exp) exp.classList.toggle("show");
+}
+
+function go(i) {
+  if (i < 0 || i >= S.length) return;
+  cur = i;
+  render();
+}
+
+function resetAll() {
+  if (confirm("Reset seluruh jawaban kuis?")) {
+    st = {};
+    save();
+    render();
+  }
+}
+
+render();
+</script>
+</body>
+</html>

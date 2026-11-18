@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hari 3 OSN SD — Teori Bilangan (Interaktif)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --sub: #f1f5f9;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --primary-text: #ffffff;
+      --success: #16a34a;
+      --warning: #d97706;
+      --error: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+    .badge {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--primary-text);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    h1 { margin: 4px 0; font-size: 20px; }
+    h2 { margin: 0 0 8px 0; font-size: 16px; }
+    p { margin: 0; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .between { justify-content: space-between; }
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--sub);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }
+    .btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tab-btn { flex: 1 1 auto; text-align: center; }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .hidden { display: none !important; }
+    .timer-box {
+      background: var(--sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .timer-digits { font-family: ui-monospace, monospace; font-size: 26px; font-weight: 800; }
+    .subcard {
+      background: var(--sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="number"], select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+    }
+    .problem-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--card);
+      margin-top: 10px;
+    }
+    .problem-q {
+      background: var(--sub);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 8px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .feedback { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .ok { color: var(--success); }
+    .no { color: var(--error); }
+    .hint-box {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .sol-box {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #14532d;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--sub);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header + Timer -->
+    <div class="card">
+      <div class="badge">HARI 3 • OSN SD KELAS 5 &amp; 6 • TOTAL 75 MENIT</div>
+      <h1>Teori Bilangan Langganan OSN</h1>
+      <p class="muted">Siap dipakai di Laptop Tentor &amp; HP Siswa (1 jaringan Wi-Fi). Ikuti 4 tahap dari kiri ke kanan.</p>
+
+      <div class="timer-box" style="margin-top: 12px;">
+        <div>
+          <div class="muted">Timer Pembelajaran</div>
+          <div id="timerDisplay" class="timer-digits">75:00</div>
+          <div id="timerStatus" class="muted">Siap dimulai</div>
+        </div>
+        <div class="row">
+          <button class="btn preset-btn" data-m="10">10m</button>
+          <button class="btn preset-btn" data-m="20">20m</button>
+          <button class="btn preset-btn" data-m="30">30m</button>
+          <button class="btn preset-btn" data-m="75">75m</button>
+          <button id="toggleTimerBtn" class="btn btn-primary">Mulai</button>
+          <button id="resetTimerBtn" class="btn">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs" id="stageTabs">
+      <button class="btn tab-btn active" data-tab="t1">1. Pemanasan (10m)</button>
+      <button class="btn tab-btn" data-tab="t2">2. Konsep Inti (20m)</button>
+      <button class="btn tab-btn" data-tab="t3">3. Latihan 6 Soal (30m)</button>
+      <button class="btn tab-btn" data-tab="t4">4. Koreksi &amp; Skor (15m)</button>
+    </div>
+
+    <!-- TAHAP 1 -->
+    <div id="panel-t1" class="card tab-panel">
+      <h2>Tahap 1: Pemanasan &amp; Review Hari 2 (10 Menit)</h2>
+      <p class="muted">Sebelum masuk materi baru, cek 2 soal cepat agar anak ingat cara menulis tabel di kertas buram.</p>
+
+      <div class="subcard">
+        <strong>Review Cepat 1 (Mesin Fungsi):</strong>
+        <p style="margin:6px 0;">Aturan mesin: <em>kali 3, lalu tambah 1</em>. Dimulai dari angka <strong>2</strong>, mesin dijalankan <strong>3 kali</strong>. Berapa hasilnya?</p>
+        <div class="row">
+          <input id="warm1" type="number" placeholder="Jawaban..." style="width:120px;" />
+          <button id="checkWarm1" class="btn btn-primary">Cek</button>
+        </div>
+        <div id="warm1Res" class="feedback"></div>
+      </div>
+
+      <div class="subcard">
+        <strong>Review Cepat 2 (Kerja Mundur):</strong>
+        <p style="margin:6px 0;">Suatu bilangan dikurangi 5, lalu dikali 2 menghasilkan <strong>24</strong>. Berapa bilangan awalnya?</p>
+        <div class="row">
+          <input id="warm2" type="number" placeholder="Jawaban..." style="width:120px;" />
+          <button id="checkWarm2" class="btn btn-primary">Cek</button>
+        </div>
+        <div id="warm2Res" class="feedback"></div>
+      </div>
+    </div>
+
+    <!-- TAHAP 2 -->
+    <div id="panel-t2" class="card tab-panel hidden">
+      <h2>Tahap 2: Konsep Inti Teori Bilangan (20 Menit)</h2>
+      <p class="muted">Gunakan alat uji interaktif di bawah ini sambil menjelaskan ke anak.</p>
+
+      <!-- Alat Uji Keterbagian -->
+      <div class="subcard">
+        <strong>1. Alat Uji Aturan Keterbagian (7 Menit)</strong>
+        <p class="muted" style="margin:4px 0 8px;">Masukkan sembarang bilangan bulat positif untuk melihat cara ceknya:</p>
+        <div class="row">
+          <input id="divInput" type="number" value="4653" style="width:160px;" />
+          <button id="testDivBtn" class="btn btn-primary">Uji Bilangan</button>
+        </div>
+        <div id="divResult" style="margin-top:10px; font-size:13px;"></div>
+      </div>
+
+      <!-- Konsep KPK -->
+      <div class="subcard">
+        <strong>2. KPK &amp; Gerak Melingkar / Sisa Pembagian (6 Menit)</strong>
+        <ul style="margin:6px 0 0 18px; font-size:13px; padding:0;">
+          <li><strong>Ciri Soal KPK:</strong> Ada kata <em>"bersamaan lagi"</em>, <em>"bertemu kembali di titik start"</em>, atau <em>"berulang setiap..."</em>.</li>
+          <li><strong>Gerak Melingkar:</strong> Cari dulu waktu <strong>1 putaran penuh</strong> masing-masing anak (<code>Keliling ÷ Kecepatan</code>), baru cari <strong>KPK</strong> waktunya.</li>
+          <li><strong>Sisa Sama:</strong> Jika dibagi A, B, C selalu bersisa <code>S</code>, maka jawabannya adalah <code>(Kelipatan KPK) + S</code>.</li>
+        </ul>
+      </div>
+
+      <!-- Simulator Pola Digit Satuan -->
+      <div class="subcard">
+        <strong>3. Simulator Pola Digit Satuan Eksponen (7 Menit)</strong>
+        <p class="muted" style="margin:4px 0 8px;">Pilih angka dasar dan pangkatnya untuk melihat pola siklus 4-nya:</p>
+        <div class="row">
+          <label class="muted">Basis:
+            <select id="powBase">
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </label>
+          <label class="muted">Pangkat:
+            <input id="powExp" type="number" value="2025" min="1" style="width:110px;" />
+          </label>
+          <button id="calcPowBtn" class="btn btn-primary">Lihat Pola</button>
+        </div>
+        <div id="powResult" style="margin-top:10px; font-size:13px;"></div>
+      </div>
+    </div>
+
+    <!-- TAHAP 3 -->
+    <div id="panel-t3" class="card tab-panel hidden">
+      <div class="row between">
+        <div>
+          <h2>Tahap 3: Latihan Mandiri 6 Soal (30 Menit)</h2>
+          <p class="muted">Kerjakan di kertas buram, lalu ketik jawaban akhir untuk mengecek.</p>
+        </div>
+        <div id="scoreBadge" class="pill">Skor: 0 / 6</div>
+      </div>
+      <div id="problemsList"></div>
+    </div>
+
+    <!-- TAHAP 4 -->
+    <div id="panel-t4" class="card tab-panel hidden">
+      <h2>Tahap 4: Koreksi, Ringkasan Skor &amp; Error Log (15 Menit)</h2>
+      <p class="muted">Cek soal mana yang masih salah, lalu tanyakan ke anak penyebabnya (salah hitung, salah baca, atau lupa konsep).</p>
+      <div id="summaryBox" class="subcard"></div>
+      <div class="subcard">
+        <strong>Checklist Penutup Tentor:</strong>
+        <ul style="margin:6px 0 0 18px; font-size:13px; padding:0;">
+          <li>Pastikan anak paham kenapa <strong>4653</strong> habis dibagi 11 (selisih digit selang-seling = 0).</li>
+          <li>Pastikan anak ingat: jika pangkat habis dibagi 4 (sisa 0), ambil urutan <strong>ke-4</strong> pada pola digit.</li>
+          <li>Catat kesalahan hari ini ke <em>Error Log</em> untuk direview pada Hari 6.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- TIMER ---
+    let timerSec = 75 * 60;
+    let timerId = null;
+
+    function renderTimer() {
+      const m = String(Math.floor(timerSec / 60)).padStart(2, "0");
+      const s = String(timerSec % 60).padStart(2, "0");
+      document.getElementById("timerDisplay").textContent = `${m}:${s}`;
+    }
+
+    function setTimerMins(mins) {
+      clearInterval(timerId);
+      timerId = null;
+      timerSec = mins * 60;
+      document.getElementById("toggleTimerBtn").textContent = "Mulai";
+      document.getElementById("timerStatus").textContent = `Target ${mins} menit siap`;
+      renderTimer();
+    }
+
+    document.querySelectorAll(".preset-btn").forEach(btn => {
+      btn.addEventListener("click", () => setTimerMins(Number(btn.dataset.m)));
+    });
+
+    document.getElementById("toggleTimerBtn").addEventListener("click", () => {
+      const btn = document.getElementById("toggleTimerBtn");
+      const st = document.getElementById("timerStatus");
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        btn.textContent = "Lanjut";
+        st.textContent = "Dijeda";
+      } else {
+        if (timerSec <= 0) timerSec = 75 * 60;
+        btn.textContent = "Jeda";
+        st.textContent = "Sedang berjalan...";
+        timerId = setInterval(() => {
+          timerSec--;
+          renderTimer();
+          if (timerSec <= 0) {
+            clearInterval(timerId);
+            timerId = null;
+            btn.textContent = "Mulai";
+            st.textContent = "Waktu habis!";
+          }
+        }, 1000);
+      }
+    });
+
+    document.getElementById("resetTimerBtn").addEventListener("click", () => setTimerMins(75));
+
+    // --- TABS ---
+    document.getElementById("stageTabs").addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab-btn");
+      if (!btn) return;
+      const t = btn.dataset.tab;
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("hidden", p.id !== `panel-${t}`));
+      if (t === "t4") renderSummary();
+    });
+
+    // --- WARMUP ---
+    document.getElementById("checkWarm1").addEventListener("click", () => {
+      const val = document.getElementById("warm1").value.trim();
+      const el = document.getElementById("warm1Res");
+      if (val === "67") {
+        el.className = "feedback ok";
+        el.textContent = "✅ Benar! (2 → 7 → 22 → 67)";
+      } else {
+        el.className = "feedback no";
+        el.textContent = "❌ Belum tepat. Langkahnya: 2→7→22→67.";
+      }
+    });
+
+    document.getElementById("checkWarm2").addEventListener("click", () => {
+      const val = document.getElementById("warm2").value.trim();
+      const el = document.getElementById("warm2Res");
+      if (val === "17") {
+        el.className = "feedback ok";
+        el.textContent = "✅ Benar! Kerja mundur: 24 ÷ 2 = 12, lalu 12 + 5 = 17.";
+      } else {
+        el.className = "feedback no";
+        el.textContent = "❌ Belum tepat. Balikkan dari belakang: 24 ÷ 2 = 12, lalu + 5 = 17.";
+      }
+    });
+
+    // --- DIVISIBILITY TESTER ---
+    function runDivTest() {
+      const raw = document.getElementById("divInput").value.trim();
+      const n = Math.abs(parseInt(raw, 10));
+      const box = document.getElementById("divResult");
+      if (isNaN(n)) {
+        box.textContent = "Masukkan angka yang valid.";
+        return;
+      }
+      const digits = String(n).split("").map(Number);
+      const sumDigits = digits.reduce((a, b) => a + b, 0);
+      const last2 = n % 100;
+      const last3 = n % 1000;
+      let oddPos = 0, evenPos = 0;
+      digits.forEach((d, i) => (i % 2 === 0 ? oddPos += d : evenPos += d));
+      const diff11 = Math.abs(oddPos - evenPos);
+
+      box.innerHTML = `
+        <div>• <strong>Habis dibagi 3?</strong> ${n % 3 === 0 ? "✅ YA" : "❌ TIDAK"} (Jumlah digit = ${sumDigits})</div>
+        <div>• <strong>Habis dibagi 4?</strong> ${n % 4 === 0 ? "✅ YA" : "❌ TIDAK"} (2 digit terakhir = ${String(last2).padStart(2, "0")})</div>
+        <div>• <strong>Habis dibagi 8?</strong> ${n % 8 === 0 ? "✅ YA" : "❌ TIDAK"} (3 digit terakhir = ${last3})</div>
+        <div>• <strong>Habis dibagi 9?</strong> ${n % 9 === 0 ? "✅ YA" : "❌ TIDAK"} (Jumlah digit = ${sumDigits})</div>
+        <div>• <strong>Habis dibagi 11?</strong> ${n % 11 === 0 ? "✅ YA" : "❌ TIDAK"} (Selisih selang-seling = |${oddPos} − ${evenPos}| = ${diff11})</div>
+      `;
+    }
+    document.getElementById("testDivBtn").addEventListener("click", runDivTest);
+    runDivTest();
+
+    // --- POWER CYCLE SIMULATOR ---
+    function runPowSim() {
+      const b = Number(document.getElementById("powBase").value);
+      const exp = Number(document.getElementById("powExp").value);
+      const box = document.getElementById("powResult");
+      if (!exp || exp < 1) {
+        box.textContent = "Masukkan pangkat minimal 1.";
+        return;
+      }
+      const cycles = {
+        2: [2, 4, 8, 6],
+        3: [3, 9, 7, 1],
+        7: [7, 9, 3, 1],
+        8: [8, 4, 2, 6]
+      };
+      const cyc = cycles[b];
+      const rem = exp % 4;
+      const idx = rem === 0 ? 3 : rem - 1;
+      const ans = cyc[idx];
+      box.innerHTML = `
+        <div>• Siklus satuan <strong>${b}<sup>n</sup></strong>: <code>{${cyc.join(", ")}}</code> (berulang tiap 4)</div>
+        <div>• Bagi pangkat dengan 4: <code>${exp} ÷ 4 = ${Math.floor(exp/4)}</code> sisa <strong>${rem}</strong> ${rem === 0 ? "(ambil urutan ke-4)" : `(ambil urutan ke-${rem})`}</div>
+        <div>• Angka satuan <strong>${b}<sup>${exp}</sup></strong> adalah <strong style="color:var(--primary); font-size:15px;">${ans}</strong></div>
+      `;
+    }
+    document.getElementById("calcPowBtn").addEventListener("click", runPowSim);
+    runPowSim();
+
+    // --- 6 PROBLEMS ---
+    const problems = [
+      {
+        id: 1,
+        tag: "Keterbagian 4 & 9 • Mudah",
+        q: "Sebuah bilangan 5 angka berbentuk 24A8B habis dibagi 36. Jika A dan B adalah angka yang berbeda, tentukan nilai terbesar yang mungkin dari A + B.",
+        ans: "13",
+        hint: "Supaya habis dibagi 36, bilangan harus habis dibagi 4 (cek 8B) dan habis dibagi 9 (jumlah semua digit kelipatan 9).",
+        sol: "1) Habis dibagi 4 → B bisa 0, 4, atau 8. 2) Habis dibagi 9 → 2+4+A+8+B = 14+A+B kelipatan 9. Ambil 27 sehingga A+B = 13 (valid saat B=8, A=5 atau B=4, A=9). Jawab: 13."
+      },
+      {
+        id: 2,
+        tag: "Keterbagian 11 • Sedang",
+        q: "Diketahui bilangan 4 angka 4X5Y habis dibagi 11. Jika X = 2Y dan Y bukan nol, berapakah bilangan 4X5Y tersebut?",
+        ans: "4653",
+        hint: "Gunakan ciri habis dibagi 11: selisih (4 + 5) dan (X + Y) harus 0 atau kelipatan 11.",
+        sol: "(4 + 5) − (X + Y) = 9 − 3Y = 0 → 3Y = 9 → Y = 3, sehingga X = 6. Bilangannya adalah 4653."
+      },
+      {
+        id: 3,
+        tag: "KPK & Sisa • Mudah-Sedang",
+        q: "Andi memiliki sejumlah kelereng (kurang dari 150 butir). Jika dibagi rata kepada 4, 5, atau 6 temannya, selalu bersisa 3 butir. Berapa banyak kelereng terbanyak yang mungkin dimiliki Andi?",
+        ans: "123",
+        hint: "Sisihkan dulu 3 kelerengnya. Sisa kelereng habis dibagi 4, 5, dan 6 (cari KPK-nya dulu).",
+        sol: "KPK(4, 5, 6) = 60. Kelipatan 60 + 3 yang kurang dari 150 adalah 63 dan 123. Terbanyak = 123."
+      },
+      {
+        id: 4,
+        tag: "KPK Gerak Melingkar • Sedang",
+        q: "Rafi dan Bima berlari di lintasan melingkar sepanjang 400 meter dari titik start yang sama dan arah yang sama. Rafi berlari 5 m/detik, Bima 4 m/detik. Setelah berapa detik mereka pertama kali bertemu kembali di titik start?",
+        ans: "400",
+        hint: "Hitung dulu berapa detik waktu yang dibutuhkan masing-masing anak untuk menyelesaikan 1 putaran penuh.",
+        sol: "1 putaran Rafi = 400 ÷ 5 = 80 detik. 1 putaran Bima = 400 ÷ 4 = 100 detik. KPK(80, 100) = 400 detik."
+      },
+      {
+        id: 5,
+        tag: "Pola Digit Satuan • Sedang",
+        q: "Tentukan angka satuan (digit terakhir) dari hasil penjumlahan 3^2025 + 7^2026.",
+        ans: "2",
+        hint: "Cari pola 4 pangkat pertama dari 3 dan 7, lalu bagi masing-masing pangkatnya dengan 4.",
+        sol: "3^2025 (2025 ÷ 4 sisa 1) → satuan 3. 7^2026 (2026 ÷ 4 sisa 2) → satuan 9. Jumlah satuan: 3 + 9 = 12 → satuannya 2."
+      },
+      {
+        id: 6,
+        tag: "Sisa Pembagian & Kalender • Sedang-Sulit",
+        q: "Hari ini adalah hari Rabu. Jatuh pada hari apakah 2^100 hari lagi? (Tulis nama harinya, misal: Senin)",
+        ans: "jumat",
+        hint: "Hari berulang setiap 7 hari. Cari pola sisa pembagian 2^1, 2^2, 2^3, 2^4 saat dibagi 7!",
+        sol: "Sisa 2^n dibagi 7 berulang tiap 3: {2, 4, 1}. 100 ÷ 3 = 33 sisa 1 → sisa 2. Rabu + 2 hari = Jumat."
+      }
+    ];
+
+    const userStatus = {};
+
+    function renderProblems() {
+      const container = document.getElementById("problemsList");
+      container.innerHTML = problems.map(p => `
+        <div class="problem-card">
+          <div class="row between">
+            <span class="pill">Soal ${p.id} • ${p.tag}</span>
+            <span id="status-${p.id}" class="muted">Belum dijawab</span>
+          </div>
+          <div class="problem-q">${p.q}</div>
+          <div class="row">
+            <input id="ans-${p.id}" type="text" placeholder="Ketik jawaban..." style="width:150px;" />
+            <button class="btn btn-primary check-prob" data-id="${p.id}">Cek Jawaban</button>
+            <button class="btn toggle-hint" data-id="${p.id}">Hint Tentor</button>
+            <button class="btn toggle-sol" data-id="${p.id}">Pembahasan</button>
+          </div>
+          <div id="fb-${p.id}" class="feedback"></div>
+          <div id="hint-${p.id}" class="hint-box hidden"><strong>Hint Tentor:</strong> ${p.hint}</div>
+          <div id="sol-${p.id}" class="sol-box hidden"><strong>Pembahasan:</strong> ${p.sol}</div>
+        </div>
+      `).join("");
+    }
+
+    document.getElementById("problemsList").addEventListener("click", (e) => {
+      const id = Number(e.target.dataset.id);
+      if (!id) return;
+      const p = problems.find(x => x.id === id);
+
+      if (e.target.classList.contains("check-prob")) {
+        const val = document.getElementById(`ans-${id}`).value.trim().toLowerCase();
+        const fb = document.getElementById(`fb-${id}`);
+        const st = document.getElementById(`status-${id}`);
+        if (!val) return;
+        if (val === p.ans) {
+          userStatus[id] = true;
+          fb.className = "feedback ok";
+          fb.textContent = "✅ Benar!";
+          st.textContent = "✅ Benar";
+        } else {
+          userStatus[id] = false;
+          fb.className = "feedback no";
+          fb.textContent = "❌ Belum tepat, coba cek ulang atau minta Hint Tentor.";
+          st.textContent = "❌ Perlu dicek";
+        }
+        const totalOk = Object.values(userStatus).filter(Boolean).length;
+        document.getElementById("scoreBadge").textContent = `Skor: ${totalOk} / 6`;
+      }
+
+      if (e.target.classList.contains("toggle-hint")) {
+        document.getElementById(`hint-${id}`).classList.toggle("hidden");
+      }
+      if (e.target.classList.contains("toggle-sol")) {
+        document.getElementById(`sol-${id}`).classList.toggle("hidden");
+      }
+    });
+
+    function renderSummary() {
+      const totalOk = Object.values(userStatus).filter(Boolean).length;
+      const box = document.getElementById("summaryBox");
+      box.innerHTML = `
+        <strong>Hasil Latihan Hari 3: ${totalOk} dari 6 Soal Benar</strong>
+        <div style="margin-top:8px; font-size:13px;">
+          ${problems.map(p => {
+            const st = userStatus[p.id] === true ? "✅ Benar" : userStatus[p.id] === false ? "❌ Masih Salah" : "⚪ Belum Dikerjakan";
+            return `<div>Soal ${p.id} (${p.tag}): <strong>${st}</strong></div>`;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    renderProblems();
+    renderSummary();
+  </script>
+</body>
+</html>

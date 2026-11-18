@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#4f46e5">
+<title>Latihan Olimpiade Matematika IOB Kelas 5</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--p:#4f46e5;--ok:#16a34a;--no:#dc2626;--bg:#f1f5f9;--card:#fff;--tx:#1e293b;--mu:#64748b}
+body.dark{--bg:#0f172a;--card:#1e293b;--tx:#e2e8f0;--mu:#94a3b8}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55;padding-bottom:90px}
+header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0003}
+header h1{font-size:1.05rem}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:.85rem;gap:8px}
+.bar button{background:#fff3;border:0;color:#fff;padding:6px 10px;border-radius:8px;font-size:.85rem}
+.prog{height:6px;background:#fff4;border-radius:3px;margin-top:8px;overflow:hidden}.prog i{display:block;height:100%;background:#facc15;width:0;transition:.3s}
+main{max-width:720px;margin:auto;padding:14px}
+.card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 2px 10px #0001;margin-bottom:14px}
+.tag{display:inline-block;font-size:.75rem;background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:20px;margin-right:4px}
+.qt{font-size:1.05rem;margin:10px 0 14px}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin:8px 0;border:2px solid #cbd5e1;border-radius:10px;background:var(--card);color:var(--tx);font-size:1rem}
+.opt.sel{border-color:var(--p);background:#eef2ff;color:#1e293b}
+.opt.ok{border-color:var(--ok);background:#dcfce7;color:#14532d}
+.opt.no{border-color:var(--no);background:#fee2e2;color:#7f1d1d}
+input.isi{width:100%;padding:13px;font-size:1.1rem;border:2px solid #cbd5e1;border-radius:10px;background:var(--card);color:var(--tx)}
+.btn{padding:12px 16px;border:0;border-radius:10px;font-size:1rem;font-weight:600;background:var(--p);color:#fff}
+.btn.sec{background:#e2e8f0;color:#1e293b}
+.res{margin-top:12px;padding:10px;border-radius:10px;font-weight:600}
+.res.ok{background:#dcfce7;color:#14532d}.res.no{background:#fee2e2;color:#7f1d1d}
+.pemb{margin-top:12px;border-left:4px solid var(--p);padding:12px 14px;background:#f8fafc;border-radius:8px;color:#1e293b;font-size:.95rem;line-height:1.6}
+body.dark .pemb{background:#0f172a;color:#e2e8f0}
+.pemb .m{font-family:"Cambria Math",Georgia,serif;background:#eef2ff;color:#1e1b4b;padding:7px 10px;border-radius:6px;margin:6px 0;display:block;overflow-x:auto;font-weight:600}
+body.dark .pemb .m{background:#312e81;color:#e0e7ff}
+.pemb .step{margin:8px 0;padding-left:2px}
+.pemb .tip{margin-top:10px;padding:8px 10px;background:#fef9c3;color:#713f12;border-radius:6px;font-size:.88rem;border-left:3px solid #eab308}
+body.dark .pemb .tip{background:#422006;color:#fef08a}
+.vid{font-size:.8rem;color:var(--mu);margin-top:8px}
+nav.foot{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;gap:8px;padding:10px;box-shadow:0 -2px 10px #0002}
+nav.foot .btn{flex:1}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.grid button{padding:12px 0;border-radius:10px;border:2px solid #cbd5e1;background:var(--card);color:var(--tx);font-weight:700;font-size:1rem}
+.grid .a{border-color:var(--p)}.grid .g{background:#dcfce7;border-color:var(--ok);color:#14532d}.grid .r{background:#fee2e2;border-color:var(--no);color:#7f1d1d}
+.big{font-size:2.6rem;font-weight:800;text-align:center;color:var(--p)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}td,th{padding:6px;border-bottom:1px solid #e2e8f0;text-align:center}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏆 Olimpiade Matematika IOB Kelas 5</h1>
+  <div style="display:flex;gap:6px;margin-top:6px;overflow-x:auto">
+    <a href="index.html" style="background:#fff;color:#4f46e5;padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:700;text-decoration:none">Paket Asli (20 Soal)</a>
+    <a href="paket_latihan_serupa.html" style="background:#fff3;color:#fff;padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:700;text-decoration:none">✨ Paket Baru Serupa (20 Soal)</a>
+  </div>
+  <div class="bar">
+    <span id="info">Soal 1/20</span><span id="timer">⏱ 00:00</span>
+    <span><button onclick="show('peta')">☰</button> <button onclick="document.body.classList.toggle('dark')">🌓</button></span>
+  </div>
+  <div class="prog"><i id="pg"></i></div>
+</header>
+<main>
+  <section id="soal"></section>
+  <section id="peta" class="hide"></section>
+</main>
+<nav class="foot" id="foot">
+  <button class="btn sec" onclick="go(-1)">◀ Sebelum</button>
+  <button class="btn" onclick="go(1)">Berikut ▶</button>
+</nav>
+<script>
+const Q=[
+{t:"Teori Bilangan & Deret",q:"Berapakah sisa pembagian dari 1 + 2 + 3 + … + 999 jika dibagi dengan 9?",o:["0","1","2","3"],k:0,v:"00:14 — dijawab B (1)",p:`
+<div class="step"><b>1. Hitung jumlah deretnya dulu</b><br>Gunakan rumus jumlah <i>n</i> bilangan asli pertama (atau metode berpasangan: 1+999, 2+998, dst):<span class="m">Sₙ = n × (n + 1) ÷ 2</span>Untuk <i>n</i> = 999:<span class="m">S = 999 × 1000 ÷ 2 = 999 × 500</span></div>
+<div class="step"><b>2. Cek sisa pembagian oleh 9 (tanpa perlu mengalikan!)</b><br>Perhatikan angka <b>999</b>:<span class="m">999 = 9 × 111</span>Karena 999 adalah kelipatan 9, maka hasil kali <code>999 × 500</code> juga pasti kelipatan 9.</div>
+<div class="step"><b>3. Kesimpulan</b><br>Bilangan kelipatan 9 selalu habis dibagi 9, jadi sisanya = <b>0</b>.</div>
+<div class="tip">💡 <b>Tips Cepat:</b> Di olimpiade, jangan langsung kalikan angka besar (999 × 500 = 499.500). Cek saja faktornya!</div>`},
+
+{t:"KPK & Waktu",q:"Empat lonceng berbunyi setiap 4, 5, 7, dan 10 menit. Pertama kali berbunyi bersama pukul 08:00. Pukul berapa mereka berbunyi bersama untuk <b>ketiga kalinya</b>?",o:["10:20","12:40","15:00","17:20"],k:1,v:"01:37 — dijawab A (10:20)",p:`
+<div class="step"><b>1. Cari KPK dari 4, 5, 7, dan 10</b><br>Kata kunci "berbunyi bersama lagi" artinya kita mencari <b>KPK</b> (Kelipatan Persekutuan Terkecil):<br>• 4 = 2²<br>• 5 = 5<br>• 7 = 7<br>• 10 = 2 × 5<br>Ambil semua faktor prima dengan pangkat terbesar:<span class="m">KPK = 2² × 5 × 7 = 4 × 5 × 7 = 140 menit</span></div>
+<div class="step"><b>2. Ubah menit ke jam</b><span class="m">140 menit = 120 menit + 20 menit = 2 jam 20 menit</span>Artinya, keempat lonceng berbunyi bersama setiap <b>2 jam 20 menit</b> sekali.</div>
+<div class="step"><b>3. Urutkan jadwal berbunyi bersama</b><br>• <b>Ke-1:</b> pukul 08:00<br>• <b>Ke-2:</b> 08:00 + 2 jam 20 menit = 10:20<br>• <b>Ke-3:</b> 10:20 + 2 jam 20 menit = <b>12:40</b></div>
+<div class="tip">⚠️ <b>Awas Jebakan!</b> Pilihan A (10:20) adalah bunyi bersama yang <b>kedua</b> kali, bukan ketiga kali.</div>`},
+
+{t:"Pola Bilangan Ganjil",q:"Sebuah pola dimulai dari 500 dan terus dikurangi bilangan ganjil berurutan (1, 3, 5, 7, …). Berapa hasilnya setelah dikurangi 20 bilangan ganjil pertama?",o:["100","110","120","125"],k:0,v:"06:21 — dijawab C (120)",p:`
+<div class="step"><b>1. Pahami maksud soal</b><br>Nilai awal 500 dikurangi 1, lalu dikurangi 3, lalu 5, dan seterusnya hingga 20 bilangan ganjil pertama:<span class="m">500 − (1 + 3 + 5 + … + bilangan ganjil ke-20)</span></div>
+<div class="step"><b>2. Gunakan pola jumlah bilangan ganjil</b><br>Perhatikan polanya:<br>• 1 bilangan ganjil: 1 = <b>1²</b><br>• 2 bilangan ganjil: 1 + 3 = 4 = <b>2²</b><br>• 3 bilangan ganjil: 1 + 3 + 5 = 9 = <b>3²</b><br>Jadi, jumlah <i>n</i> bilangan ganjil pertama selalu sama dengan <b>n²</b>.<span class="m">Jumlah 20 bilangan ganjil pertama = 20² = 20 × 20 = 400</span></div>
+<div class="step"><b>3. Hitung hasil akhir</b><span class="m">500 − 400 = 100</span></div>`},
+
+{t:"Geometri & Faktor",q:"Persegi panjang luasnya 96 cm², panjang & lebar bilangan bulat positif dengan panjang > lebar. Berapa selisih keliling terbesar dan terkecil?",o:["194 cm","150 cm","154 cm","120 cm"],k:2,v:"06:24 — dijawab C ✅",p:`
+<div class="step"><b>1. Daftar semua pasangan panjang (p) & lebar (l)</b><br>Karena <code>p × l = 96</code> dan <code>p &gt; l</code>, cari semua faktor dari 96:<br>• p = 96, l = 1 → K = 2 × (96 + 1) = <b>194 cm</b> <i>(Terbesar)</i><br>• p = 48, l = 2 → K = 2 × (48 + 2) = 100 cm<br>• p = 32, l = 3 → K = 2 × (32 + 3) = 70 cm<br>• p = 24, l = 4 → K = 2 × (24 + 4) = 56 cm<br>• p = 16, l = 6 → K = 2 × (16 + 6) = 44 cm<br>• p = 12, l = 8 → K = 2 × (12 + 8) = <b>40 cm</b> <i>(Terkecil)</i></div>
+<div class="step"><b>2. Hitung selisihnya</b><span class="m">K_terbesar − K_terkecil = 194 − 40 = 154 cm</span></div>
+<div class="tip">💡 <b>Tips Cepat:</b> Untuk luas tetap, keliling <b>terbesar</b> terjadi saat bentuknya paling memanjang (96×1), sedangkan keliling <b>terkecil</b> saat p dan l paling berdekatan (12×8).</div>`},
+
+{t:"Perbandingan Persegi",q:"Dua persegi memiliki perbandingan luas 1 : 4. Berapakah perbandingan kelilingnya?",o:["1:2","1:3","1:4","2:3"],k:0,v:"08:54 — dijawab D (2:3)",p:`
+<div class="step"><b>1. Cari perbandingan sisi dari perbandingan luas</b><br>Luas persegi adalah <code>sisi × sisi = s²</code>. Jika perbandingan luasnya <code>1 : 4</code>:<span class="m">(s₁ / s₂)² = 1 / 4  ⇒  s₁ / s₂ = √(1/4) = 1 / 2</span></div>
+<div class="step"><b>2. Gunakan angka contoh agar lebih jelas</b><br>Misal persegi ke-1 luasnya <b>1 cm²</b> (sisinya 1 cm) dan persegi ke-2 luasnya <b>4 cm²</b> (sisinya 2 cm).<br>• Keliling persegi ke-1 = 4 × 1 = 4 cm<br>• Keliling persegi ke-2 = 4 × 2 = 8 cm<span class="m">Perbandingan keliling = 4 : 8 = 1 : 2</span></div>
+<div class="tip">💡 <b>Ingat Konsep:</b> Perbandingan keliling dua bangun sebangun selalu <b>sama</b> dengan perbandingan sisinya (1 : 2), sedangkan luasnya adalah <b>kuadratnya</b> (1² : 2² = 1 : 4).</div>`},
+
+{t:"Rasio & Selisih",q:"Selisih dua bilangan adalah 48. Perbandingannya 5 : 3. Berapakah bilangan yang lebih besar?",o:["90","100","110","120"],k:3,v:"10:06 — dijawab C (110)",p:`
+<div class="step"><b>1. Misalkan memakai konsep "bagian" (k)</b><br>Perbandingan <code>5 : 3</code> berarti:<br>• Bilangan besar = <b>5 bagian</b> (5k)<br>• Bilangan kecil = <b>3 bagian</b> (3k)</div>
+<div class="step"><b>2. Cari nilai 1 bagian dari selisihnya</b><br>Selisih bagiannya = <code>5 − 3 = 2 bagian</code>. Diketahui selisihnya 48:<span class="m">2k = 48  ⇒  k = 48 ÷ 2 = 24</span></div>
+<div class="step"><b>3. Hitung bilangan yang lebih besar</b><span class="m">Bilangan besar = 5k = 5 × 24 = 120</span><i>(Cek: bilangan kecil = 3 × 24 = 72, dan 120 − 72 = 48 ✓)</i></div>`},
+
+{t:"Perbandingan & Persamaan",q:"Perbandingan siswa laki-laki : perempuan = 7 : 5. Sebanyak 12 siswa keluar; jumlah laki-laki dan perempuan yang keluar masing-masing kelipatan 3. Setelah itu jumlah laki-laki = perempuan. Berapa jumlah siswa awalnya?",o:["60","48","36","24"],k:2,v:"11:30 — dijawab C ✅",p:`
+<div class="step"><b>1. Misalkan jumlah awal</b><br>• Laki-laki awal = <code>7k</code><br>• Perempuan awal = <code>5k</code><br>• Total siswa awal = <code>7k + 5k = 12k</code></div>
+<div class="step"><b>2. Tentukan siapa saja yang keluar</b><br>Total yang keluar 12 siswa, dan masing-masing kelipatan 3. Pasangan kelipatan 3 yang berjumlah 12 hanyalah <code>(9, 3)</code>, <code>(6, 6)</code>, atau <code>(3, 9)</code>.<br>Karena awalnya laki-laki <b>lebih banyak</b> dan setelah keluar jumlahnya menjadi <b>sama</b>, maka laki-laki yang keluar harus lebih banyak daripada perempuan:<span class="m">Keluar: 9 laki-laki dan 3 perempuan</span></div>
+<div class="step"><b>3. Hitung nilai k dan total siswa</b><br>Setelah keluar, sisa laki-laki = sisa perempuan:<span class="m">7k − 9 = 5k − 3<br>7k − 5k = 9 − 3<br>2k = 6  ⇒  k = 3</span><span class="m">Total siswa awal = 12k = 12 × 3 = 36 siswa</span></div>`},
+
+{t:"Persentase & Aljabar",q:"Jumlah tiga bilangan adalah 180. Bilangan pertama 20% lebih besar dari bilangan kedua, dan bilangan ketiga 24 lebih kecil dari bilangan pertama. Berapakah bilangan terkecil?",o:["40","48","60","72"],k:1,v:"12:36 — dijawab A (40)",p:`
+<div class="step"><b>1. Jadikan bilangan kedua sebagai patokan (x)</b><br>• Bilangan ke-2 = <code>x</code><br>• Bilangan ke-1 = 20% lebih besar dari ke-2 = <code>x + 0,2x = 1,2x</code><br>• Bilangan ke-3 = 24 lebih kecil dari ke-1 = <code>1,2x − 24</code></div>
+<div class="step"><b>2. Jumlahkan ketiganya = 180</b><span class="m">1,2x + x + (1,2x − 24) = 180<br>3,4x − 24 = 180<br>3,4x = 204  ⇒  x = 204 ÷ 3,4 = 60</span></div>
+<div class="step"><b>3. Tentukan ketiga bilangan</b><br>• Bilangan ke-2 = <b>60</b><br>• Bilangan ke-1 = 1,2 × 60 = <b>72</b><br>• Bilangan ke-3 = 72 − 24 = <b>48</b> <i>(Paling kecil)</i></div>
+<div class="tip">✓ <b>Cek ulang:</b> 72 + 60 + 48 = 180. Cocok!</div>`},
+
+{t:"Rata-Rata Gabungan",q:"Kelas 41 siswa, 26 laki-laki. Rata-rata laki-laki 79, rata-rata kelas 75. Satu siswi baru masuk dengan nilai 83. Berapa poin kenaikan tiap siswi agar rata-rata perempuan = rata-rata laki-laki?",o:["7","8","9","10"],k:3,v:"13:09 — dijawab B (8)",p:`
+<div class="step"><b>1. Cari jumlah siswi perempuan awal</b><span class="m">Perempuan awal = 41 − 26 = 15 siswi</span></div>
+<div class="step"><b>2. Hitung total nilai perempuan awal</b><br>Ingat rumus: <code>Total Nilai = Jumlah Siswa × Rata-Rata</code><span class="m">Total kelas (41 siswa) = 41 × 75 = 3075<br>Total laki-laki (26 siswa) = 26 × 79 = 2054<br>Total 15 perempuan = 3075 − 2054 = 1021</span></div>
+<div class="step"><b>3. Hitung rata-rata setelah ada 1 siswi baru (nilai 83)</b><br>Sekarang jumlah perempuan menjadi <code>15 + 1 = 16 siswi</code>:<span class="m">Total 16 perempuan = 1021 + 83 = 1104<br>Rata-rata 16 perempuan = 1104 ÷ 16 = 69</span></div>
+<div class="step"><b>4. Hitung kenaikan tiap siswi</b><br>Rata-rata perempuan sekarang 69, targetnya sama dengan laki-laki (79). Jika tiap siswi naik poin yang sama, rata-ratanya juga naik sebesar poin tersebut:<span class="m">Kenaikan = 79 − 69 = 10 poin</span></div>`},
+
+{t:"Bilangan Segitiga",q:"Tangga: baris ke-1 berisi 1 anak tangga, baris ke-2 berisi 2, dst. Ali berhenti ketika jumlah anak tangga <b>melebihi 310</b>. Berapa baris paling sedikit?",o:["20","25","27","28"],k:1,v:"14:07 — dijawab C (27)",p:`
+<div class="step"><b>1. Buat rumus jumlah anak tangga untuk n baris</b><br>Total anak tangga = <code>1 + 2 + 3 + … + n</code>.<span class="m">Sₙ = n × (n + 1) ÷ 2 &gt; 310</span>Artinya kita mencari <code>n × (n + 1) &gt; 620</code>.</div>
+<div class="step"><b>2. Uji nilai n yang mendekati</b><br>Karena <code>25 × 25 = 625</code>, kita uji di sekitar 24 dan 25:<br>• Untuk <b>n = 24</b>: <code>24 × 25 ÷ 2 = 12 × 25 = 300</code> <i>(belum melebihi 310)</i><br>• Untuk <b>n = 25</b>: <code>25 × 26 ÷ 2 = 25 × 13 = 325</code> <i>(sudah melebihi 310!)</i></div>
+<div class="step"><b>3. Kesimpulan</b><br>Jumlah baris paling sedikit yang harus dibuat Ali adalah <b>25 baris</b>.</div>`},
+
+{t:"Geometri Ruang",q:"Kubus besar dicat merah di keenam sisinya, lalu dipotong menjadi 27 kubus kecil identik. Berapa kubus kecil yang <b>tepat dua sisi</b> merah?",o:["8 kubus","12 kubus","15 kubus","20 kubus"],k:1,v:"15:14 — dijawab B ✅",p:`
+<div class="step"><b>1. Tentukan ukuran potongan kubus</b><br>Karena <code>27 = 3 × 3 × 3</code>, setiap rusuk kubus besar dibagi menjadi <b>n = 3</b> bagian (seperti rubik 3×3×3).</div>
+<div class="step"><b>2. Kelompokkan kubus kecil berdasarkan posisinya</b><br>• <b>3 sisi merah (di pojok/sudut):</b> selalu ada <b>8</b> kubus.<br>• <b>2 sisi merah (di tengah rusuk):</b> kubus punya 12 rusuk. Di tiap rusuk ada 3 kubus (2 di pojok, <b>1 di tengah</b>):<span class="m">12 × (3 − 2) = 12 × 1 = 12 kubus</span>• <b>1 sisi merah (tengah sisi):</b> <code>6 × (3−2)² = 6</code> kubus.<br>• <b>0 sisi merah (inti dalam):</b> <code>(3−2)³ = 1</code> kubus.</div>
+<div class="tip">✓ <b>Cek total:</b> 8 + 12 + 6 + 1 = 27 kubus. Cocok!</div>`},
+
+{t:"Lipatan Kertas",q:"Kertas 10 cm × 8 cm dilipat menjadi dua, lalu dilipat dua lagi. Berapa keliling <b>terkecil</b> persegi panjang hasil lipatan terakhir?",o:["24 cm","21 cm","18 cm","16 cm"],k:2,v:"15:47 — dijawab B (21)",p:`
+<div class="step"><b>1. Pahami efek melipat menjadi dua</b><br>Setiap kali kertas dilipat dua, salah satu sisinya dibagi 2. Karena dilipat 2 kali, ada 3 kemungkinan ukuran akhir:</div>
+<div class="step"><b>2. Hitung keliling ketiga kemungkinan</b><br>• <b>Cara 1 (sisi 10 dilipat 2×):</b> 10 → 5 → 2,5. Ukuran <code>2,5 × 8</code><br>  Keliling = <code>2 × (2,5 + 8) = 21 cm</code><br>• <b>Cara 2 (sisi 8 dilipat 2×):</b> 8 → 4 → 2. Ukuran <code>10 × 2</code><br>  Keliling = <code>2 × (10 + 2) = 24 cm</code><br>• <b>Cara 3 (masing-masing dilipat 1×):</b> 10 → 5 dan 8 → 4. Ukuran <code>5 × 4</code><br>  Keliling = <code>2 × (5 + 4) = <b>18 cm</b></code></div>
+<div class="tip">⚠️ <b>Awas Jebakan!</b> Pilihan B (21 cm) bukan yang terkecil; melipat kedua sisi masing-masing satu kali menghasilkan bentuk paling mendekati persegi sehingga kelilingnya paling kecil (18 cm).</div>`},
+
+{t:"Kombinatorika",q:"Berapa banyak tahun 4 digit yang dapat dibentuk hanya dengan angka 0, 2, dan 4 (boleh berulang)?",o:["12","18","27","54"],k:3,v:"16:37 — dijawab B (18)",p:`
+<div class="step"><b>1. Gunakan aturan pengisian tempat (4 kotak digit)</b><br>Kita akan mengisi 4 posisi: <code>[Ribuan] [Ratusan] [Puluhan] [Satuan]</code> dari angka <code>{0, 2, 4}</code>.</div>
+<div class="step"><b>2. Hitung pilihan di setiap posisi</b><br>• <b>Ribuan (digit ke-1):</b> Bilangan 4 digit <b>tidak boleh diawali angka 0</b>! Jadi hanya boleh diisi <code>2</code> atau <code>4</code> → <b>2 pilihan</b>.<br>• <b>Ratusan (digit ke-2):</b> Boleh 0, 2, atau 4 → <b>3 pilihan</b>.<br>• <b>Puluhan (digit ke-3):</b> Boleh 0, 2, atau 4 → <b>3 pilihan</b>.<br>• <b>Satuan (digit ke-4):</b> Boleh 0, 2, atau 4 → <b>3 pilihan</b>.</div>
+<div class="step"><b>3. Kalikan semua kemungkinan</b><span class="m">Total = 2 × 3 × 3 × 3 = 54 tahun</span></div>`},
+
+{t:"Kerja Bersama",q:"Pekerja menggali parit dalam 4 jam, asistennya dalam 6 jam. Jika bekerja bersama, berapa lama waktunya?",o:["2 jam 15 menit","2 jam 24 menit","2 jam 30 menit","2 jam 44 menit"],k:1,v:"18:59 — dijawab A",p:`
+<div class="step"><b>1. Hitung kecepatan kerja dalam 1 jam</b><br>• Pekerja selesai dalam 4 jam → dalam 1 jam selesai <code>1/4</code> parit.<br>• Asisten selesai dalam 6 jam → dalam 1 jam selesai <code>1/6</code> parit.</div>
+<div class="step"><b>2. Gabungkan kecepatan kerja mereka</b><br>Dalam 1 jam bekerja bersama, bagian yang selesai:<span class="m">1/4 + 1/6 = 3/12 + 2/12 = 5/12 bagian per jam</span></div>
+<div class="step"><b>3. Hitung waktu untuk menyelesaikan 1 parit penuh</b><span class="m">Waktu (t) = 1 ÷ (5/12) = 12/5 jam = 2 2/5 jam</span>Ubah pecahan jam ke menit (1 jam = 60 menit):<span class="m">2/5 × 60 menit = 24 menit</span>Jadi total waktunya = <b>2 jam 24 menit</b>.</div>`},
+
+{t:"Transfer Nilai Uang",q:"Uang Amy : Ben = 3 : 5. Jika Ben memberi $10 ke Amy, uang mereka jadi 1 : 1. Berapa total uang awal mereka?",o:["$80","$85","$90","$100"],k:0,v:"20:47 — dijawab B ($85)",p:`
+<div class="step"><b>1. Misalkan uang awal mereka</b><br>• Uang Amy = <code>3k</code><br>• Uang Ben = <code>5k</code><br>• Total uang mereka = <code>3k + 5k = 8k</code></div>
+<div class="step"><b>2. Setelah Ben memberi $10 ke Amy</b><br>• Uang Amy bertambah $10 → <code>3k + 10</code><br>• Uang Ben berkurang $10 → <code>5k − 10</code></div>
+<div class="step"><b>3. Perbandingan jadi 1 : 1 (artinya sama banyak)</b><span class="m">3k + 10 = 5k − 10<br>10 + 10 = 5k − 3k<br>20 = 2k  ⇒  k = 10</span></div>
+<div class="step"><b>4. Hitung total uang awal</b><span class="m">Total = 8k = 8 × $10 = $80</span><i>(Cek: Amy $30, Ben $50. Ben beri $10, keduanya jadi $40 ✓)</i></div>`},
+
+{t:"Optimasi Luas",q:"Petani punya 24 m pagar untuk kandang persegi panjang yang menempel pada dinding lurus (sisi dinding tidak dipagar). Berapa luas maksimum kandang (m²)?",a:72,v:"22:36 — dijawab ✓",p:`
+<div class="step"><b>1. Pahami sisi yang dipagar</b><br>Karena satu sisi panjang menempel pada dinding, pagar 24 m hanya dipakai untuk <b>3 sisi</b>: dua sisi lebar (<code>x</code>) dan satu sisi panjang (<code>y</code>).<span class="m">2x + y = 24  ⇒  y = 24 − 2x</span></div>
+<div class="step"><b>2. Cari luas terbesar dengan mencoba nilai x</b><br>Luas = <code>x × y</code>:<br>• Jika x = 4 m → y = 16 m → Luas = 4 × 16 = 64 m²<br>• Jika x = 5 m → y = 14 m → Luas = 5 × 14 = 70 m²<br>• Jika <b>x = 6 m</b> → <b>y = 12 m</b> → Luas = 6 × 12 = <b>72 m²</b> <i>(Maksimum!)</i><br>• Jika x = 7 m → y = 10 m → Luas = 7 × 10 = 70 m²</div>
+<div class="tip">💡 <b>Rumus Cepat:</b> Untuk kandang 3 sisi, luas maksimum selalu terjadi saat pagar dibagi dua sama rata: <b>setengah</b> untuk sisi sejajar dinding (y = 12 m) dan <b>setengah</b> lagi untuk dua sisi tegak lurus (2x = 12 → x = 6 m).</div>`},
+
+{t:"Aljabar Umur",q:"Tujuh tahun lalu perbandingan umur ayah dan anak 5 : 2. Tujuh tahun lagi jumlah umur mereka 77 tahun. Berapa umur ayah saat ini?",a:42,v:"25:31 — kosong",p:`
+<div class="step"><b>1. Gunakan patokan 7 tahun yang lalu</b><br>• Umur ayah (7 tahun lalu) = <code>5k</code><br>• Umur anak (7 tahun lalu) = <code>2k</code></div>
+<div class="step"><b>2. Hitung selisih waktu ke "7 tahun yang akan datang"</b><br>Dari 7 tahun lalu ke sekarang (+7 tahun), lalu ke 7 tahun lagi (+7 tahun), total masing-masing bertambah <b>14 tahun</b>:<br>• Umur ayah nanti = <code>5k + 14</code><br>• Umur anak nanti = <code>2k + 14</code></div>
+<div class="step"><b>3. Buat persamaan jumlah umur = 77</b><span class="m">(5k + 14) + (2k + 14) = 77<br>7k + 28 = 77<br>7k = 77 − 28 = 49  ⇒  k = 7</span></div>
+<div class="step"><b>4. Cari umur ayah saat ini</b><br>Umur ayah 7 tahun lalu = <code>5 × 7 = 35 tahun</code>.<span class="m">Umur ayah saat ini = 35 + 7 = 42 tahun</span></div>`},
+
+{t:"Persentase Bertingkat",q:"Suatu bilangan positif ditambah 20%, lalu hasilnya dikurangi 20%. Nilai akhirnya 48 lebih kecil dari bilangan awal. Berapa bilangan awal?",a:1200,v:"26:29 — kosong",p:`
+<div class="step"><b>1. Misalkan bilangan awal = 100% (atau N)</b><br>Langkah 1: Ditambah 20% → menjadi <code>100% + 20% = <b>120%</b></code> (atau 1,2N).</div>
+<div class="step"><b>2. Hasil tersebut dikurangi 20%</b><br>Hati-hati! Pengurangan 20% dihitung dari <b>120%</b>, bukan dari 100%:<br><code>20% dari 120% = 0,2 × 120% = 24%</code><span class="m">Nilai akhir = 120% − 24% = 96% dari N (atau 0,96N)</span></div>
+<div class="step"><b>3. Hitung bilangan awal (N)</b><br>Nilai akhir lebih kecil 48 dari bilangan awal (100% − 96% = 4%):<span class="m">4% × N = 48<br>N = 48 ÷ (4/100) = 48 × 100 ÷ 4 = 1200</span></div>
+<div class="tip">✓ <b>Cek ulang:</b> 1200 + 20% = 1440. Lalu 1440 − 20% (288) = 1152. Selisih: 1200 − 1152 = 48. Cocok!</div>`},
+
+{t:"Keterbagian 72",q:"Bilangan 7 digit 52A6B8C habis dibagi 72. Jika A, B, C angka berbeda, berapa nilai maksimum A + B + C?",a:15,v:"26:45 — kosong",p:`
+<div class="step"><b>1. Pecah syarat habis dibagi 72</b><br>Karena <code>72 = 8 × 9</code>, bilangan <code>52A6B8C</code> harus habis dibagi <b>9</b> dan habis dibagi <b>8</b>.</div>
+<div class="step"><b>2. Syarat habis dibagi 9 (jumlah semua digit kelipatan 9)</b><span class="m">5 + 2 + A + 6 + B + 8 + C = 21 + (A + B + C)</span>Karena A, B, C tiga digit berbeda, jumlah paling besar adalah <code>9 + 8 + 7 = 24</code>. Agar <code>21 + (A+B+C)</code> kelipatan 9 (27, 36, atau 45), maka kemungkinan nilai <code>A + B + C</code> hanyalah <b>6, 15, atau 24</b>.</div>
+<div class="step"><b>3. Syarat habis dibagi 8 (3 digit terakhir B8C habis dibagi 8)</b><br><code>B8C = 100B + 80 + C</code>. Karena 80 sudah habis dibagi 8, perhatikan sisa 100B:<br>• Jika <b>B genap</b> (0,2,4,6,8), 100B habis dibagi 8 → <b>C harus 0 atau 8</b>.<br>• Jika <b>B ganjil</b> (1,3,5,7,9), 100B sisa 4 dibagi 8 → <b>C harus 4</b>.</div>
+<div class="step"><b>4. Uji nilai terbesar: mungkinkah A + B + C = 24?</b><br>Satu-satunya kombinasi 3 digit berbeda yang berjumlah 24 adalah <code>{7, 8, 9}</code>.<br>Dari syarat bagi 8, C harus <code>0, 4, atau 8</code>, jadi wajib <b>C = 8</b>. Padahal jika C = 8, syarat bagi 8 mewajibkan <b>B harus genap</b>, sedangkan angka tersisa hanyalah 7 dan 9 (keduanya ganjil!). Jadi 24 <b>tidak mungkin</b>.</div>
+<div class="step"><b>5. Uji nilai tertinggi berikutnya: A + B + C = 15</b><br>Bisa! Contohnya <b>(A, B, C) = (2, 9, 4)</b> → <code>984 ÷ 8 = 123</code> (habis!) dan ketiganya berbeda.<br>Jadi nilai maksimum A + B + C = <b>15</b>.</div>`},
+
+{t:"Cryptarithm",q:"ABCD + ABC + AB + A = 2026, dengan A, B, C, D digit berbeda. Berapa nilai ABCD?",a:1825,v:"26:46 — kosong",p:`
+<div class="step"><b>1. Uraikan berdasarkan nilai tempatnya</b><br>• ABCD = 1000A + 100B + 10C + D<br>• ABC  =  100A +  10B +  C<br>• AB   =   10A +   B<br>• A    =    1A<br>Jika semuanya dijumlahkan:<span class="m">1111A + 111B + 11C + D = 2026</span></div>
+<div class="step"><b>2. Tentukan digit satu per satu dari kiri</b><br>• <b>Cari A:</b> Jika A = 2, maka 1111 × 2 = 2222 (melebihi 2026). Maka wajib <b>A = 1</b>.<br>  Sisa: <code>2026 − 1111 = 915</code> → <code>111B + 11C + D = 915</code><br>• <b>Cari B:</b> <code>111 × 8 = 888</code> (≤ 915). Kenapa tidak B = 7? Karena jika B = 7, sisanya <code>915 − 777 = 138</code>, padahal nilai maksimal <code>11C + D</code> hanya <code>11(9)+9 = 108</code> (tidak cukup!). Maka wajib <b>B = 8</b>.<br>  Sisa: <code>915 − 888 = 27</code> → <code>11C + D = 27</code><br>• <b>Cari C & D:</b> <code>27 ÷ 11 = 2</code> sisa <code>5</code>. Maka wajib <b>C = 2</b> dan <b>D = 5</b>.</div>
+<div class="step"><b>3. Cek hasil</b><br>Keempat digit berbeda (1, 8, 2, 5) dan:<span class="m">1825 + 182 + 18 + 1 = 2026 ✓</span>Jadi nilai ABCD = <b>1825</b>.</div>`}
+];
+const L="ABCD";let i=0,S=JSON.parse(localStorage.getItem("iob5")||"{}");S.ans=S.ans||{};S.t0=S.t0||Date.now();
+const save=()=>localStorage.setItem("iob5",JSON.stringify(S));save();
+function correct(n){const q=Q[n],a=S.ans[n];if(a==null||a==="")return null;return q.o?a===q.k:Number(String(a).replace(/\./g,''))===q.a}
+function render(){
+ const q=Q[i],a=S.ans[i],done=S.chk&&S.chk[i];
+ let h=`<div class="card"><span class="tag">No. ${i+1}</span><span class="tag">${q.o?"Pilihan Ganda":"Isian Singkat"}</span><span class="tag">${q.t}</span><div class="qt">${q.q}</div>`;
+ if(q.o)h+=q.o.map((o,j)=>{let c="";if(done){if(j===q.k)c="ok";else if(j===a)c="no"}else if(j===a)c="sel";return`<button class="opt ${c}" ${done?"disabled":""} onclick="pick(${j})"><b>${L[j]}.</b> ${o}</button>`}).join("");
+ else h+=`<input class="isi" inputmode="numeric" placeholder="Ketik jawaban…" value="${a??""}" ${done?"disabled":""} oninput="S.ans[${i}]=this.value;save();upd()">`;
+ h+=`<div style="display:flex;gap:8px;margin-top:12px">`+(done?`<button class="btn sec" onclick="ulang()">↺ Coba lagi</button>`:`<button class="btn" onclick="cek()">✔ Cek Jawaban</button>`)+`</div>`;
+ if(done){const c=correct(i);const kunci=q.o?L[q.k]+". "+q.o[q.k]:q.a;
+  h+=`<div class="res ${c?"ok":"no"}">${c?"🎉 Benar!":"❌ "+(a==null||a===""?"Belum dijawab":"Salah")} — Kunci: ${kunci}</div><div class="pemb"><b>📖 Pembahasan</b><br>${q.p}</div><div class="vid">🎬 Rekaman video ${q.v}</div>`}
+ h+="</div>";document.getElementById("soal").innerHTML=h;upd();window.scrollTo(0,0)}
+function upd(){const n=Object.values(S.ans).filter(x=>x!==""&&x!=null).length;document.getElementById("info").textContent=`Soal ${i+1}/20 · Dijawab ${n}`;document.getElementById("pg").style.width=n*5+"%"}
+function pick(j){S.ans[i]=j;save();render()}
+function cek(){S.chk=S.chk||{};S.chk[i]=1;save();render()}
+function ulang(){delete S.chk[i];delete S.ans[i];save();render()}
+function go(d){if(!document.getElementById("peta").classList.contains("hide"))return show("soal");i=Math.min(19,Math.max(0,i+d));render()}
+function show(w){const p=document.getElementById("peta"),s=document.getElementById("soal");
+ if(w==="soal"||!p.classList.contains("hide")){p.classList.add("hide");s.classList.remove("hide");return render()}
+ s.classList.add("hide");p.classList.remove("hide");
+ let b=0,h=`<div class="card"><b>Navigasi Soal</b><div class="grid" style="margin-top:10px">`;
+ Q.forEach((q,n)=>{const ch=S.chk&&S.chk[n],c=correct(n);if(c)b++;h+=`<button class="${ch?(c?"g":"r"):(S.ans[n]!=null&&S.ans[n]!==""?"a":"")}" onclick="i=${n};show('soal')">${n+1}</button>`});
+ h+=`</div></div><div class="card"><div class="big">${b*5}</div><p style="text-align:center;color:var(--mu)">Skor: ${b} benar dari 20 soal</p>
+ <div style="display:flex;gap:8px;margin-top:12px"><button class="btn" style="flex:1" onclick="cekSemua()">Kumpulkan & Cek Semua</button><button class="btn sec" onclick="reset()">Reset</button></div></div>
+ <div class="card"><b>📊 Hasil Rekaman Video (26:39)</b><table><tr><th>No</th><th>Video</th><th>Kunci</th></tr>${Q.map((q,n)=>`<tr><td>${n+1}</td><td>${q.v.split("— ")[1]}</td><td>${q.o?L[q.k]:q.a}</td></tr>`).join("")}</table></div>`;
+ p.innerHTML=h}
+function cekSemua(){S.chk={};Q.forEach((q,n)=>S.chk[n]=1);save();show("x");show("peta")}
+function reset(){if(confirm("Hapus semua jawaban?")){S={ans:{},t0:Date.now()};save();i=0;show("soal")}}
+setInterval(()=>{const s=Math.floor((Date.now()-S.t0)/1000);document.getElementById("timer").textContent="⏱ "+String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},1000);
+render();
+</script>
+</body>
+</html>
