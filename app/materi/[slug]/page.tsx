@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { materiList } from "@/lib/materi-data";
@@ -26,6 +27,14 @@ export default async function MateriPage({ params }: Props) {
   return (
     <div className="viewer">
       <div className="viewer-bar">
+        <Image
+          className="viewer-mark"
+          src="/mark-olimpiade.png"
+          alt="Olimpiade Matematika"
+          width={128}
+          height={128}
+          priority
+        />
         <Link href="/" className="viewer-back">
           <svg
             viewBox="0 0 24 24"

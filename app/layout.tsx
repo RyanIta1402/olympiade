@@ -8,13 +8,26 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
 });
 
+// Dipakai untuk alamat gambar preview saat link dibagikan (WhatsApp, Telegram, dll).
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Ruang Belajar Olimpiade",
-    template: "%s — Ruang Belajar Olimpiade",
+    default: "Ruang Belajar Olimpiade Matematika",
+    template: "%s — Olimpiade Matematika",
   },
   description:
     "Kumpulan materi, latihan soal, dan simulasi ujian olimpiade matematika SD dalam satu halaman.",
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: "Ruang Belajar Olimpiade Matematika",
+  },
 };
 
 export const viewport: Viewport = {
