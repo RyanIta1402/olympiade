@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Latihan 20 Soal — KPK, FPB &amp; Faktorisasi Bilangan Prima</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --background: #f1f5f9;
+      --foreground: #0f172a;
+      --card: #ffffff;
+      --content: #e2e8f0;
+      --border: #cbd5e1;
+      --muted-foreground: #475569;
+      --primary: #2563eb;
+      --primary-foreground: #ffffff;
+      --success: #16a34a;
+      --error: #dc2626;
+    }
+    html.dark {
+      --background: #0f172a;
+      --foreground: #f8fafc;
+      --card: #1e293b;
+      --content: #334155;
+      --border: #334155;
+      --muted-foreground: #94a3b8;
+      --primary: #3b82f6;
+      --primary-foreground: #ffffff;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-2 md:p-3 m-0">
+  <noscript>
+    <div style="background:#fee2e2;color:#991b1b;padding:16px;border-radius:12px;margin:16px auto;max-width:600px;font-family:sans-serif;text-align:center;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+      <h3 style="margin-top:0;">⚠️ JavaScript Tidak Aktif di Penampil Ini</h3>
+      <p>Simulasi latihan dan pembahasan ini membutuhkan browser yang mendukung JavaScript.</p>
+      <p><strong>Jika Anda membuka file ini di HP Android/iPhone:</strong> Silakan ketuk menu titik tiga di pojok kanan atas, lalu pilih <strong>"Buka dengan Chrome" (Open in Chrome)</strong> atau browser utama HP Anda.</p>
+    </div>
+  </noscript>
+  <div class="max-w-7xl mx-auto flex flex-col gap-2 pb-14 md:pb-2">
+
+    <!-- Top Compact Bar -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl px-3 py-2 shadow-sm flex flex-col gap-1.5">
+      <!-- Row 1: Title + Score + Theme -->
+      <div class="flex flex-wrap items-center justify-between gap-1.5">
+        <div class="flex items-center gap-1.5">
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-600 text-white">LATIHAN-20</span>
+          <h1 class="text-xs sm:text-sm md:text-base font-bold tracking-tight truncate">KPK, FPB &amp; Faktorisasi Prima • 20 Soal Latihan</h1>
+        </div>
+
+        <div class="flex items-center gap-1.5 text-xs">
+          <div id="timer-box" class="hidden px-2 py-0.5 rounded-lg border border-[var(--primary)] bg-[var(--background)] font-mono font-bold text-[var(--primary)]">
+            ⏳ <span id="timer-display">25:00</span>
+          </div>
+          <div class="px-2 py-0.5 rounded-lg bg-[var(--background)] border border-[var(--border)] font-mono">
+            Benar: <strong id="stat-correct" class="text-[var(--success)]">0</strong>/<span id="stat-answered">0</span> (<strong id="stat-score" class="text-[var(--primary)]">0</strong>%)
+          </div>
+          <button onclick="toggleDark()" id="btn-theme" class="px-2 py-0.5 rounded-lg border border-[var(--border)] bg-[var(--background)] font-medium" title="Mode Gelap/Terang">🌗</button>
+        </div>
+      </div>
+
+      <!-- Row 2: Mode, Filter & Language Controls -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs pt-1 border-t border-[var(--border)]">
+        <div class="inline-flex rounded-lg border border-[var(--border)] p-0.5 bg-[var(--background)] shrink-0">
+          <button id="mode-review" onclick="activateReviewMode()" class="px-2 py-1 rounded font-medium transition">📖 Review</button>
+          <button id="mode-practice" onclick="activatePracticeMode(false)" class="px-2 py-1 rounded font-medium transition">✍️ Latihan</button>
+          <button id="mode-timer" onclick="activatePracticeMode(true)" class="px-2 py-1 rounded font-medium transition">⏱️ Timer</button>
+        </div>
+
+        <div class="inline-flex rounded-lg border border-[var(--border)] p-0.5 bg-[var(--background)] shrink-0">
+          <button id="filter-all" onclick="setFilter('all')" class="px-2 py-1 rounded font-medium transition">Semua (20)</button>
+          <button id="filter-wrong" onclick="setFilter('wrong')" class="px-2 py-1 rounded font-medium transition">❌ Salah (0)</button>
+          <button id="filter-empty" onclick="setFilter('empty')" class="px-2 py-1 rounded font-medium transition">⚪ Kosong (20)</button>
+          <button id="filter-correct" onclick="setFilter('correct')" class="px-2 py-1 rounded font-medium transition">✅ Benar (0)</button>
+        </div>
+
+        <div class="inline-flex rounded-lg border border-[var(--border)] p-0.5 bg-[var(--background)] shrink-0 ml-auto">
+          <button id="btn-lang-id" onclick="setLang('id')" class="px-2 py-1 rounded font-medium transition">ID</button>
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 rounded font-medium transition">EN</button>
+          <button id="btn-lang-both" onclick="setLang('both')" class="px-2 py-1 rounded font-medium transition">ID+EN</button>
+        </div>
+      </div>
+
+      <!-- Row 3: Number Strip 1-20 -->
+      <div class="flex items-center gap-1 pt-1 border-t border-[var(--border)] overflow-x-auto no-scrollbar">
+        <span class="text-xs font-bold text-[var(--muted-foreground)] shrink-0 mr-0.5">No:</span>
+        <div id="palette-strip" class="flex items-center gap-1 flex-1"></div>
+      </div>
+
+      <!-- Row 4 (Mobile Only): Quick View Switcher -->
+      <div class="flex lg:hidden items-center gap-1 pt-1 border-t border-[var(--border)] text-xs">
+        <button id="mobview-split" onclick="setMobileView('split')" class="flex-1 py-1.5 rounded-lg font-semibold text-center transition">📱 Soal + Pembahasan</button>
+        <button id="mobview-question" onclick="setMobileView('question')" class="flex-1 py-1.5 rounded-lg font-semibold text-center transition">❓ Fokus Soal</button>
+        <button id="mobview-solution" onclick="setMobileView('solution')" class="flex-1 py-1.5 rounded-lg font-semibold text-center transition">🎓 Fokus Pembahasan</button>
+      </div>
+    </div>
+
+    <!-- Main 1-Screen Split Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-2.5 items-stretch">
+      <div id="left-question-panel" class="lg:col-span-5 bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 md:p-3.5 flex flex-col justify-between gap-2.5 shadow-sm"></div>
+      <div id="right-solution-panel" class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 md:p-3.5 flex flex-col justify-between gap-2.5 shadow-sm"></div>
+    </div>
+
+  </div>
+
+  <!-- Fixed Bottom Bar on Mobile -->
+  <div id="mobile-bottom-nav" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--card)] border-t border-[var(--border)] px-3 py-2 flex items-center justify-between gap-2 shadow-lg"></div>
+
+  <script>
+    const QUESTIONS = [
+      {
+        num: 1,
+        type: "mchoice",
+        topic: "Faktorisasi Bilangan Prima",
+        difficulty: "Mudah",
+        q_id: "Jika faktorisasi prima dari 360 ditulis dalam bentuk 2ᵃ × 3ᵇ × 5ᶜ, berapakah nilai dari a + b + c?",
+        q_en: "If the prime factorization of 360 is written as 2ᵃ × 3ᵇ × 5ᶜ, what is the value of a + b + c?",
+        options: [
+          { label: "A", text_id: "5", text_en: "5" },
+          { label: "B", text_id: "6", text_en: "6" },
+          { label: "C", text_id: "7", text_en: "7" },
+          { label: "D", text_id: "8", text_en: "8" }
+        ],
+        correct: "B",
+        concept: "Faktorisasi prima adalah penguraian suatu bilangan bulat menjadi perkalian faktor-faktor bilangan prima. Setiap bilangan bulat > 1 memiliki faktorisasi prima yang unik.",
+        steps: [
+          "Bagi 360 secara berulang dengan bilangan prima terkecil (2) hingga tidak bisa dibagi 2 lagi: 360 ÷ 2 = 180, 180 ÷ 2 = 90, 90 ÷ 2 = 45 (ada 3 kali pembagian oleh 2, sehingga 2³).",
+          "Lanjutkan membagi 45 dengan bilangan prima berikutnya (3): 45 ÷ 3 = 15, 15 ÷ 3 = 5 (ada 2 kali pembagian oleh 3, sehingga 3²).",
+          "Sisa terakhir adalah 5 yang sudah merupakan bilangan prima (5¹).",
+          "Jadi faktorisasi prima 360 = 2³ × 3² × 5¹, sehingga a = 3, b = 2, dan c = 1.",
+          "Hitung jumlah pangkatnya: a + b + c = 3 + 2 + 1 = 6."
+        ],
+        fastTrick: "Pecah 360 = 36 × 10 = (4 × 9) × (2 × 5) = (2² × 3²) × (2¹ × 5¹) = 2³ × 3² × 5¹. Jumlah pangkat = 3 + 2 + 1 = 6!",
+        mistakeAnalysis: "Jebakan umum: lupa menghitung pangkat 1 pada angka 5 (sehingga menjawab 3 + 2 = 5), atau salah memfaktorkan 36 sebagai 2³ × 3.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-2">
+          <div class="font-semibold text-[var(--primary)]">🌳 Pohon Faktor / Pembagian Berulang 360</div>
+          <div class="flex flex-wrap items-center gap-1.5 font-mono">
+            <span class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)] font-bold">360</span>
+            <span>÷2→</span>
+            <span class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)]">180</span>
+            <span>÷2→</span>
+            <span class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)]">90</span>
+            <span>÷2→</span>
+            <span class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)]">45</span>
+            <span>÷3→</span>
+            <span class="px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)]">15</span>
+            <span>÷3→</span>
+            <span class="px-2 py-1 rounded bg-[var(--primary)] text-[var(--primary-foreground)] font-bold">5</span>
+          </div>
+          <div class="font-mono">360 = <b>2³ × 3² × 5¹</b> → a + b + c = 3 + 2 + 1 = <b class="text-[var(--primary)]">6 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 2,
+        type: "mchoice",
+        topic: "Faktorisasi Prima & Banyak Faktor Positif",
+        difficulty: "Sedang",
+        q_id: "Berapa banyak seluruh faktor (pembagi) positif yang dimiliki oleh bilangan 720?",
+        q_en: "How many positive factors (divisors) does the number 720 have in total?",
+        options: [
+          { label: "A", text_id: "24", text_en: "24" },
+          { label: "B", text_id: "28", text_en: "28" },
+          { label: "C", text_id: "30", text_en: "30" },
+          { label: "D", text_id: "36", text_en: "36" }
+        ],
+        correct: "C",
+        concept: "Jika faktorisasi prima suatu bilangan adalah p₁ᵃ × p₂ᵇ × p₃ᶜ, maka banyaknya faktor positif adalah (a + 1) × (b + 1) × (c + 1).",
+        steps: [
+          "Ubah 720 menjadi faktorisasi prima: 720 = 72 × 10.",
+          "Faktorkan masing-masing: 72 = 8 × 9 = 2³ × 3², dan 10 = 2¹ × 5¹.",
+          "Gabungkan pangkat bilangan prima yang sama: 720 = 2^(3+1) × 3² × 5¹ = 2⁴ × 3² × 5¹.",
+          "Gunakan rumus banyak faktor: tambahkan 1 pada setiap pangkat lalu kalikan.",
+          "Banyak faktor = (4 + 1) × (2 + 1) × (1 + 1) = 5 × 3 × 2 = 30 faktor."
+        ],
+        fastTrick: "Jangan didaftar satu per satu! Cukup hafalkan: 720 = 2⁴ × 3² × 5¹, lalu kalikan (pangkat + 1): 5 × 3 × 2 = 30!",
+        mistakeAnalysis: "Kesalahan tersering: hanya mengalikan pangkatnya langsung (4 × 2 × 1 = 8) atau lupa menambahkan 1 pada pangkat 5¹ sehingga menghitung 5 × 3 = 15.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🔢 Rumus Banyak Faktor Positif</div>
+          <div>720 = 2⁴ × 3² × 5¹</div>
+          <div>Pilihan pangkat 2: {0, 1, 2, 3, 4} → <b>5 cara</b></div>
+          <div>Pilihan pangkat 3: {0, 1, 2} → <b>3 cara</b></div>
+          <div>Pilihan pangkat 5: {0, 1} → <b>2 cara</b></div>
+          <div>Total = 5 × 3 × 2 = <b class="text-[var(--primary)]">30 faktor ✓</b></div>
+        </div>`
+      },
+      {
+        num: 3,
+        type: "mchoice",
+        topic: "Sifat Bilangan Prima (Paritas)",
+        difficulty: "Sedang",
+        q_id: "Jumlah dua bilangan prima adalah 45. Berapakah hasil kali kedua bilangan prima tersebut?",
+        q_en: "The sum of two prime numbers is 45. What is the product of these two prime numbers?",
+        options: [
+          { label: "A", text_id: "86", text_en: "86" },
+          { label: "B", text_id: "114", text_en: "114" },
+          { label: "C", text_id: "130", text_en: "130" },
+          { label: "D", text_id: "158", text_en: "158" }
+        ],
+        correct: "A",
+        concept: "Satu-satunya bilangan prima yang genap adalah 2. Semua bilangan prima lainnya bernilai ganjil. Penjumlahan dua bilangan menghasilkan bilangan ganjil HANYA jika salah satunya genap dan satunya ganjil.",
+        steps: [
+          "Diketahui jumlah dua bilangan prima = 45 (bilangan ganjil).",
+          "Karena Ganjil + Ganjil = Genap, tidak mungkin kedua bilangan prima tersebut ganjil.",
+          "Maka salah satu bilangan prima PASTI genap. Satu-satunya prima genap adalah 2.",
+          "Bilangan prima yang lainnya = 45 − 2 = 43 (cek: 43 adalah bilangan prima ✓).",
+          "Hasil kali kedua bilangan = 2 × 43 = 86."
+        ],
+        fastTrick: "Begitu melihat jumlah dua bilangan prima = GANJIL, langsung pastikan salah satunya adalah 2! Jadi pasangannya = 45 − 2 = 43, hasil kali = 2 × 43 = 86.",
+        mistakeAnalysis: "Peserta sering mencoba-coba banyak pasangan ganjil atau mengira 1 adalah bilangan prima (1 + 44, padahal 1 bukan prima dan 44 bukan prima).",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">⚖️ Analisis Paritas Bilangan Prima</div>
+          <div>Prima 1 + Prima 2 = <b>45 (Ganjil)</b></div>
+          <div>Syarat jumlah ganjil = <b>Genap + Ganjil</b></div>
+          <div>Satu-satunya prima genap = <b>2</b> → Prima lainnya = 45 − 2 = <b>43</b></div>
+          <div>Hasil kali = 2 × 43 = <b class="text-[var(--primary)]">86 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 4,
+        type: "mchoice",
+        topic: "KPK & Bilangan Kuadrat Sempurna",
+        difficulty: "Sedang",
+        q_id: "Berapakah bilangan kuadrat sempurna terkecil yang habis dibagi oleh 12, 18, dan 30?",
+        q_en: "What is the smallest perfect square number that is divisible by 12, 18, and 30?",
+        options: [
+          { label: "A", text_id: "180", text_en: "180" },
+          { label: "B", text_id: "360", text_en: "360" },
+          { label: "C", text_id: "900", text_en: "900" },
+          { label: "D", text_id: "1.800", text_en: "1,800" }
+        ],
+        correct: "C",
+        concept: "Suatu bilangan adalah kuadrat sempurna jika dan hanya jika SEMUA pangkat dalam faktorisasi primanya bernilai GENAP. Pertama cari KPK-nya, lalu genapkan pangkat primanya.",
+        steps: [
+          "Tulis faktorisasi prima masing-masing bilangan: 12 = 2² × 3¹, 18 = 2¹ × 3², dan 30 = 2¹ × 3¹ × 5¹.",
+          "Cari KPK(12, 18, 30) dengan mengambil pangkat tertinggi setiap prima: KPK = 2² × 3² × 5¹ = 180.",
+          "Periksa pangkat pada 180 = 2² × 3² × 5¹: pangkat 2 sudah genap (2), pangkat 3 sudah genap (2), tetapi pangkat 5 masih ganjil (1).",
+          "Agar menjadi kuadrat sempurna terkecil, kalikan dengan 5¹ sehingga semua pangkat genap: 2² × 3² × 5².",
+          "Hitung nilainya: 180 × 5 = 900 (yaitu 30²)."
+        ],
+        fastTrick: "KPK(12, 18, 30) = 180. Cukup cek kelipatan 180 yang merupakan kuadrat sempurna: 180 (✗), 360 (✗), 540 (✗), 720 (✗), 900 = 30² (✓)!",
+        mistakeAnalysis: "Pilihan A (180) adalah jebakan KPK biasa yang belum berbentuk kuadrat, sedangkan B (360) hanya mengalikan KPK dengan 2 tanpa mengecek apakah 360 kuadrat sempurna.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🟦 Melengkapi Pangkat Genap</div>
+          <div>• 12 = 2² × 3¹ | 18 = 2¹ × 3² | 30 = 2¹ × 3¹ × 5¹</div>
+          <div>• KPK = 2² × 3² × <b>5¹</b> = 180 (pangkat 5 masih ganjil!)</div>
+          <div>• Genapkan → 2² × 3² × <b>5²</b> = 4 × 9 × 25 = <b class="text-[var(--primary)]">900 (30²) ✓</b></div>
+        </div>`
+      },
+      {
+        num: 5,
+        type: "mchoice",
+        topic: "Faktorisasi Prima & Angka Nol di Akhir (Faktorial)",
+        difficulty: "Sulit",
+        q_id: "Berapa banyak angka nol berurutan di bagian paling akhir dari hasil perkalian 1 × 2 × 3 × … × 50?",
+        q_en: "How many consecutive trailing zeros are at the end of the product 1 × 2 × 3 × … × 50?",
+        options: [
+          { label: "A", text_id: "10", text_en: "10" },
+          { label: "B", text_id: "11", text_en: "11" },
+          { label: "C", text_id: "12", text_en: "12" },
+          { label: "D", text_id: "13", text_en: "13" }
+        ],
+        correct: "C",
+        concept: "Angka nol di akhir berasal dari faktor 10 = 2 × 5. Karena faktor prima 2 jauh lebih banyak daripada 5, banyaknya angka nol sama persis dengan banyaknya faktor prima 5.",
+        steps: [
+          "Setiap bilangan kelipatan 5 menyumbang minimal satu faktor 5: ⌊50 ÷ 5⌋ = 10 bilangan (5, 10, 15, ..., 50).",
+          "Hati-hati! Kelipatan 25 (= 5²) menyumbang SATU faktor 5 tambahan: ⌊50 ÷ 25⌋ = 2 bilangan (yaitu 25 dan 50).",
+          "Kelipatan 125 (= 5³) tidak ada karena 125 > 50.",
+          "Total faktor prima 5 = 10 + 2 = 12.",
+          "Karena faktor 2 jauh lebih dari 12, terbentuk tepat 12 pasang (2 × 5) = 12 angka nol di akhir."
+        ],
+        fastTrick: "Rumus Legendre untuk faktor 5 pada N!: bagi terus dengan 5 lalu jumlahkan hasil bulatnya: 50÷5 = 10, lalu 10÷5 = 2. Total = 10 + 2 = 12!",
+        mistakeAnalysis: "Jebakan klasik: menjawab 10 karena lupa bahwa 25 = 5×5 dan 50 = 2×5×5 masing-masing menyumbang dua buah angka 5.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">0️⃣ Menghitung Faktor 5 pada 1 × 2 × … × 50</div>
+          <div>• Kelipatan 5 (5,10,15,20,25,30,35,40,45,50): <b>10 buah</b></div>
+          <div>• Tambahan kelipatan 25 (25 dan 50): <b>+2 buah</b></div>
+          <div>Total faktor 5 = 10 + 2 = <b class="text-[var(--primary)]">12 angka nol ✓</b></div>
+        </div>`
+      },
+      {
+        num: 6,
+        type: "mchoice",
+        topic: "FPB — Soal Cerita Pembagian Sama Rata",
+        difficulty: "Mudah",
+        q_id: "Ibu memiliki 72 buku tulis, 96 pensil, dan 120 penghapus yang akan dibagikan ke dalam sebanyak-banyaknya paket dengan isi sama rata. Berapa banyak pensil di setiap paket?",
+        q_en: "Mother has 72 notebooks, 96 pencils, and 120 erasers to be packed into as many identical gift bags as possible. How many pencils are in each bag?",
+        options: [
+          { label: "A", text_id: "3", text_en: "3" },
+          { label: "B", text_id: "4", text_en: "4" },
+          { label: "C", text_id: "5", text_en: "5" },
+          { label: "D", text_id: "6", text_en: "6" }
+        ],
+        correct: "B",
+        concept: "Kata kunci 'sebanyak-banyaknya paket dengan isi sama rata' menggunakan FPB untuk mencari jumlah paket maksimal, lalu bagi jumlah barang dengan FPB untuk mencari isi per paket.",
+        steps: [
+          "Faktorkan ketiga bilangan: 72 = 2³ × 3², 96 = 2⁵ × 3¹, dan 120 = 2³ × 3¹ × 5¹.",
+          "Cari FPB(72, 96, 120) dengan mengambil prima yang sama dengan pangkat terkecil: 2³ × 3¹ = 8 × 3 = 24.",
+          "Jadi jumlah paket terbanyak adalah 24 paket.",
+          "Banyak pensil tiap paket = Jumlah pensil ÷ FPB = 96 ÷ 24 = 4 pensil."
+        ],
+        fastTrick: "Perhatikan 72, 96, 120 semuanya kelipatan 24 (72 = 3×24, 96 = 4×24, 120 = 5×24). Karena 3, 4, 5 sudah tidak punya faktor sekutu selain 1, FPB = 24 dan pensil per paket = 4!",
+        mistakeAnalysis: "Hati-hati membaca pertanyaan! Banyak siswa berhenti setelah menemukan FPB = 24, atau malah menghitung jumlah buku tulis per paket (3) atau penghapus (5).",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🎁 Pembagian ke 24 Paket (FPB = 24)</div>
+          <div>• Buku tulis : 72 ÷ 24 = <b>3</b> / paket</div>
+          <div class="text-[var(--primary)] font-bold">• Pensil     : 96 ÷ 24 = 4 / paket ✓</div>
+          <div>• Penghapus  : 120 ÷ 24 = <b>5</b> / paket</div>
+        </div>`
+      },
+      {
+        num: 7,
+        type: "mchoice",
+        topic: "FPB dalam Bentuk Faktorisasi Prima",
+        difficulty: "Mudah",
+        q_id: "Diketahui A = 2⁴ × 3² × 5 dan B = 2² × 3³ × 7. Berapakah nilai FPB dari A dan B?",
+        q_en: "Given A = 2⁴ × 3² × 5 and B = 2² × 3³ × 7. What is the GCF (FPB) of A and B?",
+        options: [
+          { label: "A", text_id: "12", text_en: "12" },
+          { label: "B", text_id: "18", text_en: "18" },
+          { label: "C", text_id: "36", text_en: "36" },
+          { label: "D", text_id: "72", text_en: "72" }
+        ],
+        correct: "C",
+        concept: "Untuk mencari FPB dari dua bilangan dalam bentuk faktorisasi prima: ambil HANYA faktor prima yang ada di KEDUA bilangan, lalu pilih pangkat TERKECIL.",
+        steps: [
+          "Bandingkan faktor prima A = 2⁴ × 3² × 5¹ dan B = 2² × 3³ × 7¹.",
+          "Faktor prima 2 ada di keduanya → pilih pangkat terkecil: 2².",
+          "Faktor prima 3 ada di keduanya → pilih pangkat terkecil: 3².",
+          "Faktor prima 5 hanya ada di A, dan 7 hanya ada di B → tidak diikutsertakan dalam FPB.",
+          "Jadi FPB(A, B) = 2² × 3² = 4 × 9 = 36."
+        ],
+        fastTrick: "Ingat singkatan FPB = Faktor Prima Bersama, Pangkat Kecil! Jadi langsung 2² × 3² = 4 × 9 = 36.",
+        mistakeAnalysis: "Kesalahan umum: mengambil pangkat terbesar (tertukar dengan aturan KPK) atau ikut mengalikan 5 dan 7.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🔍 Perbandingan Faktor Prima A dan B</div>
+          <div>A = 2⁴ × <b>3²</b> × 5</div>
+          <div>B = <b>2²</b> × 3³ × 7</div>
+          <div>FPB = 2² × 3² = 4 × 9 = <b class="text-[var(--primary)]">36 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 8,
+        type: "mchoice",
+        topic: "FPB — Memotong Tali Menjadi Bagian Sama Panjang",
+        difficulty: "Sedang",
+        q_id: "Tiga utas tali dengan panjang 84 cm, 126 cm, dan 168 cm akan dipotong menjadi beberapa bagian yang sama panjang dan sepanjang mungkin. Berapa banyak total potongan tali yang dihasilkan?",
+        q_en: "Three ropes with lengths of 84 cm, 126 cm, and 168 cm are cut into equal pieces as long as possible. How many total pieces of rope are produced?",
+        options: [
+          { label: "A", text_id: "7", text_en: "7" },
+          { label: "B", text_id: "8", text_en: "8" },
+          { label: "C", text_id: "9", text_en: "9" },
+          { label: "D", text_id: "12", text_en: "12" }
+        ],
+        correct: "C",
+        concept: "Panjang tiap potongan maksimal = FPB dari panjang seluruh tali. Jumlah potongan = (Jumlah panjang semua tali) ÷ FPB.",
+        steps: [
+          "Faktorkan ketiga panjang tali: 84 = 2² × 3 × 7, 126 = 2 × 3² × 7, dan 168 = 2³ × 3 × 7.",
+          "Cari FPB(84, 126, 168) = 2 × 3 × 7 = 42 cm (panjang tiap potongan tali).",
+          "Hitung potongan dari masing-masing tali: 84 ÷ 42 = 2 potong, 126 ÷ 42 = 3 potong, 168 ÷ 42 = 4 potong.",
+          "Total potongan tali = 2 + 3 + 4 = 9 potongan."
+        ],
+        fastTrick: "Perhatikan bahwa 126 = 84 + 42 dan 168 = 2 × 84. Selisih terkecilnya 42 membagi habis ketiga angka, jadi FPB = 42! Total potongan = (84+126+168) ÷ 42 = 378 ÷ 42 = 9.",
+        mistakeAnalysis: "Peserta sering kali hanya membagi dengan 21 (bukan FPB terbesar) sehingga mendapatkan 18 potongan, atau berhenti di panjang 42 cm.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">✂️ Potongan Tali (Panjang Maksimal = 42 cm)</div>
+          <div>• Tali 1 (84 cm)  : 84 ÷ 42  = <b>2 potongan</b></div>
+          <div>• Tali 2 (126 cm) : 126 ÷ 42 = <b>3 potongan</b></div>
+          <div>• Tali 3 (168 cm) : 168 ÷ 42 = <b>4 potongan</b></div>
+          <div>Total = 2 + 3 + 4 = <b class="text-[var(--primary)]">9 potongan ✓</b></div>
+        </div>`
+      },
+      {
+        num: 9,
+        type: "mchoice",
+        topic: "FPB dengan Sisa Pembagian",
+        difficulty: "Sedang",
+        q_id: "Berapakah bilangan bulat positif terbesar yang jika digunakan untuk membagi 67 bersisa 3, dan jika digunakan untuk membagi 95 bersisa 7?",
+        q_en: "What is the largest positive integer that divides 67 with a remainder of 3, and divides 95 with a remainder of 7?",
+        options: [
+          { label: "A", text_id: "4", text_en: "4" },
+          { label: "B", text_id: "8", text_en: "8" },
+          { label: "C", text_id: "12", text_en: "12" },
+          { label: "D", text_id: "16", text_en: "16" }
+        ],
+        correct: "B",
+        concept: "Jika bilangan N membagi A bersisa r, maka N membagi habis (A − r). Selain itu, pembagi N harus selalu lebih besar dari semua sisanya (N > r).",
+        steps: [
+          "Kurangi masing-masing bilangan dengan sisanya agar habis dibagi: 67 − 3 = 64, dan 95 − 7 = 88.",
+          "Bilangan pembagi terbesar yang membagi habis 64 dan 88 adalah FPB(64, 88).",
+          "Faktorisasi prima: 64 = 2⁶ dan 88 = 2³ × 11.",
+          "FPB(64, 88) = 2³ = 8.",
+          "Pastikan pembagi lebih besar dari sisa terbesar (7): 8 > 7 (✓). Uji: 67 ÷ 8 = 8 sisa 3, dan 95 ÷ 8 = 11 sisa 7."
+        ],
+        fastTrick: "67 − 3 = 64 dan 95 − 7 = 88. Selisih 88 − 64 = 24. Faktor terbesar dari 24 yang membagi 64 adalah 8!",
+        mistakeAnalysis: "Jika lupa mengurangkan sisa terlebih dahulu dan langsung mencari FPB(67, 95), hasilnya 1 karena 67 dan 95 saling prima.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">➗ Kurangi Sisa Terlebih Dahulu</div>
+          <div>• 67 − 3 = <b>64</b> = 2⁶</div>
+          <div>• 95 − 7 = <b>88</b> = 2³ × 11</div>
+          <div>• FPB(64, 88) = 2³ = <b class="text-[var(--primary)]">8 ✓</b> (Cek: 8 &gt; sisa 7)</div>
+        </div>`
+      },
+      {
+        num: 10,
+        type: "mchoice",
+        topic: "FPB — Pengubinan Lantai Persegi Panjang",
+        difficulty: "Sedang",
+        q_id: "Sebuah aula berbentuk persegi panjang berukuran 4,2 meter × 5,4 meter akan dipasangi ubin persegi dengan ukuran terbesar yang mungkin tanpa memotong ubin. Berapa banyak ubin yang diperlukan?",
+        q_en: "A rectangular hall measuring 4.2 m × 5.4 m will be tiled with square tiles of the largest possible size without cutting any tile. How many tiles are needed?",
+        options: [
+          { label: "A", text_id: "45", text_en: "45" },
+          { label: "B", text_id: "56", text_en: "56" },
+          { label: "C", text_id: "63", text_en: "63" },
+          { label: "D", text_id: "72", text_en: "72" }
+        ],
+        correct: "C",
+        concept: "Ubah ukuran ke sentimeter agar menjadi bilangan bulat. Panjang sisi ubin persegi terbesar = FPB(panjang, lebar). Banyak ubin = (panjang ÷ FPB) × (lebar ÷ FPB).",
+        steps: [
+          "Konversi satuan ke cm: 4,2 m = 420 cm dan 5,4 m = 540 cm.",
+          "Faktorkan: 420 = 2² × 3 × 5 × 7 dan 540 = 2² × 3³ × 5.",
+          "Cari ukuran sisi ubin terbesar: FPB(420, 540) = 2² × 3 × 5 = 60 cm.",
+          "Banyak ubin pada sisi lebar = 420 ÷ 60 = 7 ubin.",
+          "Banyak ubin pada sisi panjang = 540 ÷ 60 = 9 ubin.",
+          "Total ubin yang dibutuhkan = 7 × 9 = 63 ubin."
+        ],
+        fastTrick: "Sederhanakan perbandingan 4,2 : 5,4 dengan membagi keduanya dengan 0,6 → hasilnya 7 : 9 (saling prima!). Langsung kalikan 7 × 9 = 63 ubin!",
+        mistakeAnalysis: "Kesalahan umum: menjumlahkan 7 + 9 = 16 alih-alih mengalikan (7 × 9 = 63), karena lantai berbentuk luas persegi panjang.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🧱 Grid Ubin Persegi (Ukuran Ubin = 60 cm × 60 cm)</div>
+          <div>• Lebar  : 420 cm ÷ 60 cm = <b>7 ubin</b></div>
+          <div>• Panjang: 540 cm ÷ 60 cm = <b>9 ubin</b></div>
+          <div>• Total ubin = 7 × 9 = <b class="text-[var(--primary)]">63 ubin ✓</b></div>
+        </div>`
+      },
+      {
+        num: 11,
+        type: "mchoice",
+        topic: "KPK — Kejadian Berulang Bersamaan (Jam)",
+        difficulty: "Mudah",
+        q_id: "Tiga buah lampu hias berkedip secara teratur: lampu merah setiap 12 detik, kuning setiap 18 detik, dan hijau setiap 24 detik. Jika ketiganya menyala bersamaan pada pukul 07.15.00, pada pukul berapakah ketiganya akan menyala bersamaan lagi untuk kedua kalinya?",
+        q_en: "Three decorative lights blink regularly: red every 12 seconds, yellow every 18 seconds, and green every 24 seconds. If all three blink together at 07:15:00, at what time will they blink together again for the second time?",
+        options: [
+          { label: "A", text_id: "07.15.36", text_en: "07:15:36" },
+          { label: "B", text_id: "07.16.12", text_en: "07:16:12" },
+          { label: "C", text_id: "07.16.24", text_en: "07:16:24" },
+          { label: "D", text_id: "07.17.12", text_en: "07:17:12" }
+        ],
+        correct: "B",
+        concept: "Kata kunci 'menyala bersamaan lagi' menandakan soal KPK. Setelah mendapatkan KPK dalam detik, konversi ke menit dan detik (1 menit = 60 detik).",
+        steps: [
+          "Faktorkan interval ketiga lampu: 12 = 2² × 3, 18 = 2 × 3², dan 24 = 2³ × 3.",
+          "Cari KPK(12, 18, 24) dengan mengambil pangkat tertinggi: 2³ × 3² = 8 × 9 = 72 detik.",
+          "Ubah 72 detik menjadi menit dan detik: 72 detik = 60 detik + 12 detik = 1 menit 12 detik.",
+          "Tambahkan ke waktu awal: 07.15.00 + 00.01.12 = pukul 07.16.12."
+        ],
+        fastTrick: "Kelipatan bilangan terbesar (24): 24 (tidak habis dibagi 18), 48 (tidak habis dibagi 18), 72 (habis dibagi 12 dan 18!). Jadi KPK = 72 detik = 1 menit 12 detik → 07.16.12.",
+        mistakeAnalysis: "Pilihan A (07.15.36) berasal dari kekeliruan KPK(12,18)=36 tanpa memasukkan 24; sedangkan D (07.17.12) salah mengonversi 72 detik menjadi 2 menit 12 detik.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🚦 Waktu Kedip Bersamaan (KPK = 72 detik)</div>
+          <div>• 12 = 2² × 3 | 18 = 2 × 3² | 24 = 2³ × 3</div>
+          <div>• KPK = 2³ × 3² = <b>72 detik</b> = <b>1 menit 12 detik</b></div>
+          <div>• Waktu = 07.15.00 + 00.01.12 = <b class="text-[var(--primary)]">07.16.12 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 12,
+        type: "mchoice",
+        topic: "KPK — Roda Gigi Bersinggungan",
+        difficulty: "Sedang",
+        q_id: "Dua buah roda gigi saling bersinggungan. Roda gigi A memiliki 24 gigi dan roda gigi B memiliki 36 gigi. Setelah minimal berapa putaran penuh roda gigi A, kedua roda gigi akan kembali ke posisi awal secara bersamaan?",
+        q_en: "Two gears mesh together. Gear A has 24 teeth and Gear B has 36 teeth. After how many minimum full rotations of Gear A will both gears return to their starting position at the same time?",
+        options: [
+          { label: "A", text_id: "2 putaran", text_en: "2 rotations" },
+          { label: "B", text_id: "3 putaran", text_en: "3 rotations" },
+          { label: "C", text_id: "4 putaran", text_en: "4 rotations" },
+          { label: "D", text_id: "6 putaran", text_en: "6 rotations" }
+        ],
+        correct: "B",
+        concept: "Setiap gigi yang lewat berpasangan satu lawan satu. Keduanya kembali ke posisi awal saat jumlah gigi yang melewati titik singgung sama dengan KPK jumlah gigi keduanya.",
+        steps: [
+          "Faktorkan jumlah gigi kedua roda: 24 = 2³ × 3 dan 36 = 2² × 3².",
+          "Hitung KPK(24, 36) = 2³ × 3² = 8 × 9 = 72 gigi.",
+          "Artinya setelah 72 gigi berputar melewati titik singgung, kedua roda kembali ke posisi semula.",
+          "Banyak putaran roda gigi A = 72 ÷ 24 = 3 putaran (sementara roda B berputar 72 ÷ 36 = 2 putaran)."
+        ],
+        fastTrick: "Sederhanakan rasio 24 : 36 dengan membagi 12 → 2 : 3. Putaran roda A selalu berbalik dengan rasionya, yaitu 3 putaran (dan roda B 2 putaran)!",
+        mistakeAnalysis: "Peserta sering tertukar antara putaran roda A (3 putaran) dan putaran roda B (2 putaran).",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">⚙️ Roda Gigi A (24) &amp; B (36) → KPK = 72 Gigi</div>
+          <div class="text-[var(--primary)] font-bold">• Roda A: 72 ÷ 24 = 3 putaran penuh ✓</div>
+          <div>• Roda B: 72 ÷ 36 = 2 putaran penuh</div>
+        </div>`
+      },
+      {
+        num: 13,
+        type: "mchoice",
+        topic: "KPK & Aritmetika Kalender",
+        difficulty: "Sedang",
+        q_id: "Ani berenang setiap 4 hari sekali, Budi setiap 6 hari sekali, dan Cici setiap 8 hari sekali. Jika mereka berenang bersama pada tanggal 10 Maret 2026, tanggal berapakah mereka akan berenang bersama lagi berikutnya?",
+        q_en: "Ani swims every 4 days, Budi every 6 days, and Cici every 8 days. If they swim together on March 10, 2026, on what date will they next swim together?",
+        options: [
+          { label: "A", text_id: "2 April 2026", text_en: "April 2, 2026" },
+          { label: "B", text_id: "3 April 2026", text_en: "April 3, 2026" },
+          { label: "C", text_id: "4 April 2026", text_en: "April 4, 2026" },
+          { label: "D", text_id: "5 April 2026", text_en: "April 5, 2026" }
+        ],
+        correct: "B",
+        concept: "Cari KPK dari interval hari ketiganya, lalu tambahkan ke tanggal awal sambil memperhatikan jumlah hari pada bulan Maret (31 hari).",
+        steps: [
+          "Cari KPK(4, 6, 8): 4 = 2², 6 = 2 × 3, 8 = 2³ → KPK = 2³ × 3 = 24 hari.",
+          "Mereka berenang bersama lagi 24 hari setelah 10 Maret 2026.",
+          "Jumlahkan tanggal: 10 + 24 = 34.",
+          "Karena bulan Maret memiliki 31 hari, kurangi dengan 31: 34 − 31 = 3.",
+          "Jadi mereka berenang bersama lagi pada tanggal 3 April 2026."
+        ],
+        fastTrick: "Sisa hari di bulan Maret setelah 10 Maret adalah 31 − 10 = 21 hari. Karena butuh 24 hari, masih kurang 24 − 21 = 3 hari di bulan April → 3 April!",
+        mistakeAnalysis: "Kesalahan umum: mengira bulan Maret berjumlah 30 hari (sehingga mendapat 4 April) atau salah menghitung KPK(4,6,8) = 48.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">📅 Hitung Maju 24 Hari dari 10 Maret 2026</div>
+          <div>• KPK(4, 6, 8) = <b>24 hari</b></div>
+          <div>• Sisa hari bulan Maret (31 hari): 31 − 10 = <b>21 hari</b></div>
+          <div>• Sisa ke bulan April: 24 − 21 = <b class="text-[var(--primary)]">3 April 2026 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 14,
+        type: "mchoice",
+        topic: "KPK dengan Sisa Berselisih Tetap",
+        difficulty: "Sulit",
+        q_id: "Berapakah bilangan bulat positif terkecil yang jika dibagi 4 bersisa 3, jika dibagi 5 bersisa 4, dan jika dibagi 6 bersisa 5?",
+        q_en: "What is the smallest positive integer that leaves a remainder of 3 when divided by 4, a remainder of 4 when divided by 5, and a remainder of 5 when divided by 6?",
+        options: [
+          { label: "A", text_id: "58", text_en: "58" },
+          { label: "B", text_id: "59", text_en: "59" },
+          { label: "C", text_id: "61", text_en: "61" },
+          { label: "D", text_id: "119", text_en: "119" }
+        ],
+        correct: "B",
+        concept: "Perhatikan selisih antara pembagi dan sisanya: 4 − 3 = 1, 5 − 4 = 1, dan 6 − 5 = 1. Artinya jika bilangan N ditambah 1, maka (N + 1) habis dibagi oleh 4, 5, dan 6!",
+        steps: [
+          "Misalkan bilangan tersebut adalah N.",
+          "Karena N dibagi 4 sisa 3, dibagi 5 sisa 4, dan dibagi 6 sisa 5, semuanya sama-sama kurang 1 untuk habis dibagi.",
+          "Artinya (N + 1) merupakan kelipatan persekutuan dari 4, 5, dan 6.",
+          "Cari KPK(4, 5, 6): 4 = 2², 5 = 5, 6 = 2 × 3 → KPK = 2² × 3 × 5 = 60.",
+          "Maka nilai terkecil N + 1 = 60, sehingga N = 60 − 1 = 59.",
+          "Uji: 59 ÷ 4 = 14 sisa 3 (✓), 59 ÷ 5 = 11 sisa 4 (✓), 59 ÷ 6 = 9 sisa 5 (✓)."
+        ],
+        fastTrick: "Selisih pembagi dan sisa selalu tetap (= 1), maka langsung pakai rumus: Bilangan = KPK(4, 5, 6) − 1 = 60 − 1 = 59!",
+        mistakeAnalysis: "Jebakan: menambahkan 1 (menjawab 61) alih-alih mengurangi 1 dari KPK.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🧩 Pola Selisih Pembagi dan Sisa (= 1)</div>
+          <div>• 4 − 3 = 1 | 5 − 4 = 1 | 6 − 5 = 1</div>
+          <div>• Maka (N + 1) = KPK(4, 5, 6) = <b>60</b></div>
+          <div>• Jadi N = 60 − 1 = <b class="text-[var(--primary)]">59 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 15,
+        type: "mchoice",
+        topic: "Hubungan FPB × KPK = A × B",
+        difficulty: "Mudah",
+        q_id: "Diketahui FPB dari dua bilangan adalah 12 dan KPK-nya adalah 360. Jika salah satu bilangan tersebut adalah 60, berapakah bilangan yang lainnya?",
+        q_en: "The GCF (FPB) of two numbers is 12 and their LCM (KPK) is 360. If one of the numbers is 60, what is the other number?",
+        options: [
+          { label: "A", text_id: "48", text_en: "48" },
+          { label: "B", text_id: "60", text_en: "60" },
+          { label: "C", text_id: "72", text_en: "72" },
+          { label: "D", text_id: "84", text_en: "84" }
+        ],
+        correct: "C",
+        concept: "Untuk dua bilangan bulat positif A dan B, selalu berlaku identitas emas: A × B = FPB(A, B) × KPK(A, B).",
+        steps: [
+          "Gunakan rumus A × B = FPB × KPK.",
+          "Masukkan nilai yang diketahui: 60 × B = 12 × 360.",
+          "Sederhanakan dengan membagi kedua ruas dengan 60: B = (12 × 360) ÷ 60.",
+          "Karena 360 ÷ 60 = 6, maka B = 12 × 6 = 72.",
+          "Uji: FPB(60, 72) = 12 dan KPK(60, 72) = 360 (cocok ✓)."
+        ],
+        fastTrick: "Jangan kalikan 12 × 360 dulu! Coret langsung 360 ÷ 60 = 6, lalu kalikan 12 × 6 = 72!",
+        mistakeAnalysis: "Kesalahan berhitung terjadi jika mengalikan 12 × 360 = 4320 terlebih dahulu baru membagi 60, yang rawan salah hitung.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">⚖️ Identitas Emas Dua Bilangan</div>
+          <div>A × B = FPB × KPK</div>
+          <div>60 × B = 12 × 360</div>
+          <div>B = 12 × (360 ÷ 60) = 12 × 6 = <b class="text-[var(--primary)]">72 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 16,
+        type: "essay",
+        topic: "Faktorisasi Bilangan Prima (Isian)",
+        difficulty: "Mudah",
+        q_id: "Berapakah jumlah dari semua faktor prima yang berbeda dari bilangan 2.310?",
+        q_en: "What is the sum of all distinct prime factors of 2,310?",
+        correct: "28",
+        concept: "Uraikan 2.310 menjadi perkalian bilangan-bilangan prima, lalu jumlahkan semua bilangan prima pokoknya (tanpa mengulang yang sama).",
+        steps: [
+          "Karena berakhiran 0, bagi 2.310 dengan 10 (= 2 × 5): 2.310 = 2 × 5 × 231.",
+          "Faktorkan 231: jumlah digitnya 2 + 3 + 1 = 6 (habis dibagi 3), maka 231 ÷ 3 = 77.",
+          "Faktorkan 77: 77 = 7 × 11.",
+          "Jadi faktorisasi prima 2.310 = 2 × 3 × 5 × 7 × 11.",
+          "Jumlah semua faktor prima berbeda = 2 + 3 + 5 + 7 + 11 = 28."
+        ],
+        fastTrick: "2310 adalah hasil kali 5 bilangan prima pertama secara berurutan (primorial)! 2 + 3 + 5 + 7 + 11 = 28.",
+        mistakeAnalysis: "Pastikan tidak salah menganggap 1 sebagai bilangan prima (jangan ditambah 1), dan tidak mengira 231 atau 77 sudah prima.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🔢 5 Bilangan Prima Pertama</div>
+          <div>2.310 = 2 × 3 × 5 × 7 × 11</div>
+          <div>Jumlah = 2 + 3 + 5 + 7 + 11 = <b class="text-[var(--primary)]">28 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 17,
+        type: "essay",
+        topic: "Konstruksi Dua Bilangan dari FPB & KPK",
+        difficulty: "Sedang",
+        q_id: "Dua bilangan bulat positif P dan Q memiliki FPB(P, Q) = 15 dan KPK(P, Q) = 225. Jika kedua bilangan tersebut lebih besar dari 15, berapakah nilai P + Q?",
+        q_en: "Two positive integers P and Q have GCF(P, Q) = 15 and LCM(P, Q) = 225. If both numbers are greater than 15, what is the value of P + Q?",
+        correct: "120",
+        concept: "Jika FPB(P, Q) = d, tuliskan P = d × x dan Q = d × y dengan FPB(x, y) = 1 (saling prima). Maka KPK(P, Q) = d × x × y.",
+        steps: [
+          "Misalkan P = 15x dan Q = 15y, dengan FPB(x, y) = 1.",
+          "Gunakan rumus KPK = 15 × x × y = 225.",
+          "Bagi kedua ruas dengan 15: x × y = 225 ÷ 15 = 15.",
+          "Faktor dari 15 adalah (1, 15) atau (3, 5). Karena P dan Q harus lebih besar dari 15, maka x > 1 dan y > 1, sehingga pasangan yang memenuhi adalah x = 3 dan y = 5 (atau sebaliknya).",
+          "Diperoleh P = 15 × 3 = 45 dan Q = 15 × 5 = 75.",
+          "Jadi nilai P + Q = 45 + 75 = 120."
+        ],
+        fastTrick: "Bagi KPK dengan FPB: 225 ÷ 15 = 15 = 3 × 5. Maka P + Q = 15 × (3 + 5) = 15 × 8 = 120!",
+        mistakeAnalysis: "Jebakan: memilih pasangan (1, 15) yang menghasilkan P = 15 dan Q = 225 (jumlah 240), padahal soal mensyaratkan keduanya lebih besar dari 15.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🔗 Memecah Rasio Koprima (x, y)</div>
+          <div>• x × y = KPK ÷ FPB = 225 ÷ 15 = <b>15</b></div>
+          <div>• Syarat P, Q &gt; 15 → pilih <b>(x, y) = (3, 5)</b></div>
+          <div>• P = 45, Q = 75 → P + Q = <b class="text-[var(--primary)]">120 ✓</b></div>
+        </div>`
+      },
+      {
+        num: 18,
+        type: "essay",
+        topic: "Bilangan dengan Tepat 3 Faktor Positif",
+        difficulty: "Sulit",
+        q_id: "Berapa banyak bilangan bulat positif kurang dari 100 yang memiliki tepat 3 faktor positif?",
+        q_en: "How many positive integers less than 100 have exactly 3 positive factors?",
+        correct: "4",
+        concept: "Banyak faktor positif = (a+1)(b+1)... Agar hasilnya tepat 3 (bilangan prima!), hanya boleh ada 1 faktor prima dengan pangkat 2, yaitu p² (kuadrat bilangan prima) yang faktornya {1, p, p²}.",
+        steps: [
+          "Agar suatu bilangan memiliki tepat 3 faktor positif, bilangan tersebut HARUS berbentuk p² di mana p adalah bilangan prima.",
+          "Uji kuadrat dari bilangan prima berurutan yang nilainya kurang dari 100:",
+          "• p = 2 → 2² = 4 (faktornya: 1, 2, 4 → 3 faktor ✓)",
+          "• p = 3 → 3² = 9 (faktornya: 1, 3, 9 → 3 faktor ✓)",
+          "• p = 5 → 5² = 25 (faktornya: 1, 5, 25 → 3 faktor ✓)",
+          "• p = 7 → 7² = 49 (faktornya: 1, 7, 49 → 3 faktor ✓)",
+          "• p = 11 → 11² = 121 (sudah ≥ 100, tidak termasuk).",
+          "Jadi ada tepat 4 bilangan (yaitu 4, 9, 25, dan 49)."
+        ],
+        fastTrick: "Tepat 3 faktor = Kuadrat Bilangan Prima! Cari prima yang kurang dari √100 = 10, yaitu {2, 3, 5, 7} → langsung 4 bilangan!",
+        mistakeAnalysis: "Kesalahan umum: ikut memasukkan 16 (2⁴ memiliki 5 faktor), 36 (9 faktor), atau 64 (7 faktor), karena mengira semua bilangan kuadrat hanya punya 3 faktor.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-2">
+          <div class="font-semibold text-[var(--primary)]">💎 Daftar Bilangan Berbentuk p² (&lt; 100)</div>
+          <div class="grid grid-cols-4 gap-1.5 font-mono text-center">
+            <div class="p-1.5 rounded border border-[var(--primary)] bg-[var(--card)]"><b>2² = 4</b><br/>{1, 2, 4}</div>
+            <div class="p-1.5 rounded border border-[var(--primary)] bg-[var(--card)]"><b>3² = 9</b><br/>{1, 3, 9}</div>
+            <div class="p-1.5 rounded border border-[var(--primary)] bg-[var(--card)]"><b>5² = 25</b><br/>{1, 5, 25}</div>
+            <div class="p-1.5 rounded border border-[var(--primary)] bg-[var(--card)]"><b>7² = 49</b><br/>{1, 7, 49}</div>
+          </div>
+          <div class="font-mono text-right font-bold text-[var(--primary)]">Total = 4 bilangan ✓</div>
+        </div>`
+      },
+      {
+        num: 19,
+        type: "essay",
+        topic: "KPK & Gerak Melingkar",
+        difficulty: "Sedang",
+        q_id: "Tiga orang pelari berlari mengelilingi lintasan melingkar sepanjang 600 meter dengan kecepatan berturut-turut 6 m/detik, 5 m/detik, dan 4 m/detik, dimulai dari titik yang sama pada waktu yang sama dan ke arah yang sama. Setelah berapa detik mereka semua akan bertemu kembali di titik awal?",
+        q_en: "Three runners run around a 600-meter circular track at speeds of 6 m/s, 5 m/s, and 4 m/s respectively, starting from the same point at the same time in the same direction. After how many seconds will they all meet at the starting point again?",
+        correct: "600",
+        concept: "Cari waktu 1 putaran penuh masing-masing pelari, lalu cari KPK dari ketiga waktu tersebut agar ketiganya tepat berada di titik start secara bersamaan.",
+        steps: [
+          "Hitung waktu 1 putaran masing-masing pelari (Waktu = Jarak ÷ Kecepatan):",
+          "• Pelari 1 (6 m/detik): 600 ÷ 6 = 100 detik per putaran.",
+          "• Pelari 2 (5 m/detik): 600 ÷ 5 = 120 detik per putaran.",
+          "• Pelari 3 (4 m/detik): 600 ÷ 4 = 150 detik per putaran.",
+          "Cari KPK(100, 120, 150): 100 = 2² × 5², 120 = 2³ × 3 × 5, 150 = 2 × 3 × 5².",
+          "KPK = 2³ × 3 × 5² = 8 × 3 × 25 = 600 detik."
+        ],
+        fastTrick: "Rumus kilat Olimpiade: Waktu bertemu kembali di titik start = Panjang Lintasan ÷ FPB(v₁, v₂, v₃) = 600 ÷ FPB(6, 5, 4) = 600 ÷ 1 = 600 detik!",
+        mistakeAnalysis: "Peserta sering mencari KPK dari kecepatannya (KPK(6,5,4) = 60), padahal yang dicari KPK-nya adalah WAKTU putaran, bukan kecepatan.",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">🏃 Posisi Ketiganya Saat t = 600 Detik</div>
+          <div>• Pelari 1 (100 dtk/putaran) → 600 ÷ 100 = <b>6 putaran ✓</b></div>
+          <div>• Pelari 2 (120 dtk/putaran) → 600 ÷ 120 = <b>5 putaran ✓</b></div>
+          <div>• Pelari 3 (150 dtk/putaran) → 600 ÷ 150 = <b>4 putaran ✓</b></div>
+        </div>`
+      },
+      {
+        num: 20,
+        type: "essay",
+        topic: "FPB — Pemasangan Lampu Keliling Taman",
+        difficulty: "Sedang",
+        q_id: "Sebuah taman berbentuk persegi panjang berukuran 48 m × 36 m akan dipasangi lampu di sekelilingnya dengan jarak antar lampu sama dan sejauh mungkin. Jika di setiap sudut taman wajib dipasang lampu, berapa banyak lampu minimal yang dibutuhkan?",
+        q_en: "A rectangular park measuring 48 m × 36 m will have lamps installed around its perimeter at equal distances as far apart as possible. If a lamp must be placed at each corner, what is the minimum number of lamps needed?",
+        correct: "14",
+        concept: "Agar jarak antar lampu sama dan sejauh mungkin serta tepat di setiap sudut, jarak lampu harus sama dengan FPB(panjang, lebar). Untuk lintasan tertutup (keliling), banyak lampu = Keliling ÷ FPB.",
+        steps: [
+          "Faktorkan panjang dan lebar taman: 48 = 2⁴ × 3 dan 36 = 2² × 3².",
+          "Cari jarak antar lampu terjauh: FPB(48, 36) = 2² × 3 = 12 meter.",
+          "Hitung keliling taman persegi panjang: Keliling = 2 × (48 + 36) = 2 × 84 = 168 meter.",
+          "Karena lintasan berbentuk keliling tertutup (tidak ada ujung yang terbuka), banyak lampu = Keliling ÷ Jarak = 168 ÷ 12 = 14 lampu."
+        ],
+        fastTrick: "Sederhanakan 48 : 36 dengan dibagi 12 → 4 : 3. Jumlah sisi terbagi menjadi 4 + 3 + 4 + 3 = 14 segmen, sehingga langsung butuh 14 lampu!",
+        mistakeAnalysis: "Jebakan umum: menambahkan +1 (menjawab 15) seperti pada jalan lurus, atau lupa mengalikan 2 untuk keliling (4 + 3 = 7).",
+        visualHtml: `
+        <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs space-y-1.5 font-mono">
+          <div class="font-sans font-semibold text-[var(--primary)]">💡 Lampu Keliling Taman (Jarak FPB = 12 m)</div>
+          <div>• Jarak terjauh = FPB(48, 36) = <b>12 m</b></div>
+          <div>• Keliling = 2 × (48 + 36) = <b>168 m</b></div>
+          <div>• Banyak lampu = 168 ÷ 12 = <b class="text-[var(--primary)]">14 lampu ✓</b></div>
+        </div>`
+      }
+    ];
+
+    let state = {
+      lang: 'id',
+      mode: 'review',
+      filter: 'all',
+      solTab: 'all',
+      stepMode: 'all',
+      mobileView: 'split',
+      currentIdx: 0,
+      showSolutions: true,
+      userAnswers: {},
+      visibleStepsCount: {},
+      timerSeconds: 1500,
+      timerInterval: null
+    };
+
+    function toggleDark() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function setMobileView(v) {
+      state.mobileView = v;
+      if (v === 'solution') state.showSolutions = true;
+      render();
+    }
+
+    function getStatus(q) {
+      const ans = (state.userAnswers[q.num] || "").toString().trim();
+      if (ans === "") return 'empty';
+      return ans.toLowerCase() === q.correct.toLowerCase() ? 'correct' : 'wrong';
+    }
+
+    function getFilteredQuestions() {
+      return QUESTIONS.filter(q => {
+        if (state.filter === 'all') return true;
+        return getStatus(q) === state.filter;
+      });
+    }
+
+    function initStepCounts() {
+      QUESTIONS.forEach(q => {
+        state.visibleStepsCount[q.num] = state.stepMode === 'progressive' ? 1 : q.steps.length;
+      });
+    }
+
+    function activateReviewMode() {
+      stopTimer();
+      state.mode = 'review';
+      state.showSolutions = true;
+      initStepCounts();
+      render();
+    }
+
+    function activatePracticeMode(withTimer) {
+      stopTimer();
+      state.mode = withTimer ? 'timer' : 'practice';
+      state.userAnswers = {};
+      state.showSolutions = false;
+      state.filter = 'all';
+      state.currentIdx = 0;
+      initStepCounts();
+      if (withTimer) {
+        state.timerSeconds = 25 * 60;
+        document.getElementById('timer-box').classList.remove('hidden');
+        updateTimerDisplay();
+        state.timerInterval = setInterval(() => {
+          if (state.timerSeconds > 0) {
+            state.timerSeconds--;
+            updateTimerDisplay();
+          } else {
+            stopTimer();
+            state.showSolutions = true;
+            render();
+          }
+        }, 1000);
+      }
+      render();
+    }
+
+    function stopTimer() {
+      if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+      const tb = document.getElementById('timer-box');
+      if (tb) tb.classList.add('hidden');
+    }
+
+    function updateTimerDisplay() {
+      const m = String(Math.floor(state.timerSeconds / 60)).padStart(2, '0');
+      const s = String(state.timerSeconds % 60).padStart(2, '0');
+      const el = document.getElementById('timer-display');
+      if (el) el.textContent = `${m}:${s}`;
+    }
+
+    function setLang(l) { state.lang = l; render(); }
+    function setSolTab(t) { state.solTab = t; render(); }
+    function setStepMode(sm) { state.stepMode = sm; initStepCounts(); render(); }
+
+    function setFilter(f) {
+      state.filter = f;
+      const filtered = getFilteredQuestions();
+      if (filtered.length > 0) state.currentIdx = QUESTIONS.findIndex(q => q.num === filtered[0].num);
+      render();
+    }
+
+    function selectQuestion(idx) {
+      if (idx < 0 || idx >= QUESTIONS.length) return;
+      state.currentIdx = idx;
+      render();
+    }
+
+    function chooseOption(qNum, label) { state.userAnswers[qNum] = label; render(); }
+    function updateEssay(qNum, val) { state.userAnswers[qNum] = val.trim(); updateTopBar(); }
+    function toggleGlobalSolutions() { state.showSolutions = !state.showSolutions; render(); }
+
+    function revealNextStep(qNum, maxSteps) {
+      const cur = state.visibleStepsCount[qNum] || 1;
+      if (cur < maxSteps) { state.visibleStepsCount[qNum] = cur + 1; render(); }
+    }
+    function revealAllStepsFor(qNum, maxSteps) { state.visibleStepsCount[qNum] = maxSteps; render(); }
+    function resetStepsFor(qNum) { state.visibleStepsCount[qNum] = 1; render(); }
+
+    function isCorrect(q) {
+      const ans = (state.userAnswers[q.num] || "").toString().trim().toLowerCase();
+      if (!ans) return null;
+      return ans === q.correct.toLowerCase();
+    }
+
+    function updateTopBar() {
+      let answered = 0, correct = 0, wrong = 0, empty = 0;
+      QUESTIONS.forEach(q => {
+        const st = getStatus(q);
+        if (st === 'empty') {
+          empty++;
+        } else {
+          answered++;
+          if (st === 'correct') correct++;
+          else wrong++;
+        }
+      });
+
+      document.getElementById('stat-answered').textContent = answered;
+      document.getElementById('stat-correct').textContent = correct;
+      document.getElementById('stat-score').textContent = Math.round((correct / QUESTIONS.length) * 100);
+
+      document.getElementById('filter-all').textContent = `Semua (${QUESTIONS.length})`;
+      document.getElementById('filter-wrong').textContent = `❌ Salah (${wrong})`;
+      document.getElementById('filter-empty').textContent = `⚪ Kosong (${empty})`;
+      document.getElementById('filter-correct').textContent = `✅ Benar (${correct})`;
+
+      const filteredNums = new Set(getFilteredQuestions().map(q => q.num));
+      const strip = document.getElementById('palette-strip');
+      strip.innerHTML = '';
+
+      QUESTIONS.forEach((q, idx) => {
+        const ans = (state.userAnswers[q.num] || "").toString().trim();
+        const corr = isCorrect(q);
+        const isCurrent = state.currentIdx === idx;
+        const inFilter = filteredNums.has(q.num);
+
+        let cls = "w-7 h-7 rounded-md text-xs font-mono font-bold border transition flex items-center justify-center shrink-0 ";
+        if (!inFilter) cls += "opacity-25 ";
+        if (state.showSolutions && ans !== "") {
+          cls += corr ? "bg-[var(--success)] text-white border-transparent " : "bg-[var(--error)] text-white border-transparent ";
+        } else if (ans !== "") {
+          cls += "bg-[var(--primary)] text-[var(--primary-foreground)] border-transparent ";
+        } else {
+          cls += "bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] ";
+        }
+        if (isCurrent) cls += "ring-2 ring-[var(--foreground)] ";
+
+        const btn = document.createElement('button');
+        btn.className = cls;
+        btn.textContent = q.num;
+        btn.onclick = () => selectQuestion(idx);
+        strip.appendChild(btn);
+        if (isCurrent) {
+          setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }), 50);
+        }
+      });
+    }
+
+    function renderLeftPanel(q) {
+      const userAns = (state.userAnswers[q.num] || "").toString().trim();
+      const corr = isCorrect(q);
+
+      const filtered = getFilteredQuestions();
+      const posInFiltered = filtered.findIndex(item => item.num === q.num);
+      const prevQ = posInFiltered > 0 ? filtered[posInFiltered - 1] : null;
+      const nextQ = posInFiltered >= 0 && posInFiltered < filtered.length - 1 ? filtered[posInFiltered + 1] : null;
+      const prevIdx = prevQ ? QUESTIONS.findIndex(item => item.num === prevQ.num) : -1;
+      const nextIdx = nextQ ? QUESTIONS.findIndex(item => item.num === nextQ.num) : -1;
+
+      let qTextHtml = '';
+      if (state.lang === 'id' || state.lang === 'both') {
+        qTextHtml += `<p class="text-xs md:text-sm font-medium leading-relaxed whitespace-pre-line">${q.q_id}</p>`;
+      }
+      if (state.lang === 'en' || state.lang === 'both') {
+        qTextHtml += `<p class="text-xs leading-relaxed italic text-[var(--muted-foreground)] whitespace-pre-line ${state.lang === 'both' ? 'pt-1.5 border-t border-[var(--border)]' : ''}">${q.q_en}</p>`;
+      }
+
+      let optionsHtml = '';
+      if (q.type === 'mchoice') {
+        optionsHtml = `<div class="grid grid-cols-2 gap-2">` +
+          q.options.map(opt => {
+            const isSelected = userAns.toUpperCase() === opt.label;
+            const isRightOpt = q.correct === opt.label;
+            let optStyle = "border-[var(--border)] bg-[var(--background)] hover:bg-[var(--content)]";
+            let badge = "";
+
+            if (state.showSolutions) {
+              if (isRightOpt) {
+                optStyle = "border-[var(--success)] bg-[var(--content)] ring-2 ring-[var(--success)]";
+                badge = `<span class="ml-auto text-xs font-bold text-[var(--success)]">✓</span>`;
+              } else if (isSelected && !isRightOpt) {
+                optStyle = "border-[var(--error)] bg-[var(--content)] ring-2 ring-[var(--error)]";
+                badge = `<span class="ml-auto text-xs font-bold text-[var(--error)]">✗</span>`;
+              }
+            } else if (isSelected) {
+              optStyle = "border-[var(--primary)] bg-[var(--content)] ring-2 ring-[var(--primary)]";
+            }
+
+            const txt = state.lang === 'en' ? opt.text_en : opt.text_id;
+            return `<button onclick="chooseOption(${q.num}, '${opt.label}')" class="p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${optStyle}">
+              <span class="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold border border-[var(--border)] bg-[var(--card)] shrink-0">${opt.label}</span>
+              <span class="text-xs md:text-sm font-semibold truncate">${txt}</span>
+              ${badge}
+            </button>`;
+          }).join('') +
+          `</div>`;
+      } else {
+        optionsHtml = `<div class="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] flex flex-wrap items-center gap-2">
+          <input type="text" value="${userAns}" oninput="updateEssay(${q.num}, this.value)" placeholder="Ketik jawaban..." class="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] text-xs md:text-sm font-mono font-bold w-36 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          ${state.showSolutions ? `<span class="text-xs px-2.5 py-1 rounded-md bg-[var(--success)] text-white font-mono font-bold">Kunci: ${q.correct}</span>` : ''}
+          <span class="text-xs text-[var(--muted-foreground)]">Isian Singkat</span>
+        </div>`;
+      }
+
+      const mobNav = document.getElementById('mobile-bottom-nav');
+      if (mobNav) {
+        mobNav.innerHTML = `
+          <button onclick="selectQuestion(${prevIdx})" ${prevIdx === -1 ? 'disabled' : ''} class="px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs font-bold disabled:opacity-40">← Soal</button>
+          <button onclick="toggleGlobalSolutions()" class="px-3 py-2 rounded-lg border border-[var(--primary)] text-[var(--primary)] text-xs font-bold">${state.showSolutions ? '🙈 Tutup Kunci' : '👁️ Lihat Kunci'}</button>
+          <button onclick="selectQuestion(${nextIdx})" ${nextIdx === -1 ? 'disabled' : ''} class="px-3 py-2 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-bold disabled:opacity-40">Soal →</button>
+        `;
+      }
+
+      return `
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border)]">
+            <div class="flex items-center gap-1.5">
+              <span class="px-2.5 py-0.5 rounded-md bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-bold">Soal ${q.num}/20</span>
+              <span class="text-xs px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--background)] font-medium text-[var(--primary)] truncate max-w-[180px] sm:max-w-[240px]">${q.topic}</span>
+            </div>
+            <div class="text-xs">
+              ${userAns !== "" ? (state.showSolutions ? (corr ? '<span class="px-2 py-0.5 rounded bg-[var(--success)] text-white font-bold">✓ Benar</span>' : '<span class="px-2 py-0.5 rounded bg-[var(--error)] text-white font-bold">✗ Salah</span>') : '<span class="px-2 py-0.5 rounded bg-[var(--content)] border border-[var(--border)]">Terisi</span>') : '<span class="px-2 py-0.5 rounded border border-[var(--border)] text-[var(--muted-foreground)]">⚪ Kosong</span>'}
+            </div>
+          </div>
+
+          <div class="space-y-2 md:max-h-[220px] md:overflow-y-auto pr-1">
+            ${qTextHtml}
+          </div>
+        </div>
+
+        <div class="space-y-2.5 pt-2 border-t border-[var(--border)]">
+          ${optionsHtml}
+          <div class="hidden lg:flex items-center justify-between gap-2 pt-1">
+            <button onclick="selectQuestion(${prevIdx})" ${prevIdx === -1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs font-semibold hover:bg-[var(--content)] disabled:opacity-40 transition">← Sebelumnya</button>
+            <span class="text-xs font-mono text-[var(--muted-foreground)]">Level: <b>${q.difficulty}</b> • Kunci: <b>${state.showSolutions ? q.correct : '?'}</b></span>
+            <button onclick="selectQuestion(${nextIdx})" ${nextIdx === -1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-semibold disabled:opacity-40 transition">Selanjutnya →</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRightPanel(q) {
+      if (!state.showSolutions) {
+        return `
+          <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
+            <div class="text-2xl">🔒</div>
+            <div class="text-sm font-bold">Pembahasan Disembunyikan (Mode Latihan)</div>
+            <p class="text-xs text-[var(--muted-foreground)] max-w-sm">Pilih atau ketik jawaban terlebih dahulu, lalu ketuk tombol di bawah untuk melihat pembahasan detail.</p>
+            <button onclick="toggleGlobalSolutions()" class="px-4 py-2 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-bold transition">👁️ Buka Pembahasan Detail</button>
+          </div>
+        `;
+      }
+
+      const totalSteps = q.steps.length;
+      const shownSteps = state.stepMode === 'progressive' ? (state.visibleStepsCount[q.num] || 1) : totalSteps;
+
+      const stepsHtml = q.steps.slice(0, shownSteps).map((st, sIdx) => `
+        <div class="flex items-start gap-2 p-2 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+          <span class="w-5 h-5 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${sIdx + 1}</span>
+          <p class="text-xs leading-relaxed">${st}</p>
+        </div>
+      `).join('');
+
+      let stepControls = '';
+      if (state.stepMode === 'progressive') {
+        stepControls = `
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <span class="text-xs font-mono text-[var(--muted-foreground)]">Langkah ${shownSteps}/${totalSteps}</span>
+            <div class="flex items-center gap-1.5">
+              ${shownSteps > 1 ? `<button onclick="resetStepsFor(${q.num})" class="px-2.5 py-1 rounded border border-[var(--border)] bg-[var(--background)] text-xs font-medium">↺ Ulang</button>` : ''}
+              ${shownSteps < totalSteps ? `<button onclick="revealNextStep(${q.num}, ${totalSteps})" class="px-3 py-1 rounded bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-bold">▶ Langkah ${shownSteps + 1}</button>` : ''}
+              ${shownSteps < totalSteps ? `<button onclick="revealAllStepsFor(${q.num}, ${totalSteps})" class="px-2.5 py-1 rounded border border-[var(--border)] bg-[var(--background)] text-xs font-medium">Semua</button>` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      let tabBodyHtml = '';
+      if (state.solTab === 'all') {
+        tabBodyHtml = `
+          <div class="space-y-2.5 lg:max-h-[340px] lg:overflow-y-auto pr-1">
+            ${q.visualHtml || ''}
+            <div class="space-y-1.5">
+              <div class="text-xs font-bold text-[var(--primary)]">📝 Langkah Demi Langkah Penyelesaian:</div>
+              ${stepsHtml}
+              ${stepControls}
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--primary)] space-y-1">
+                <div class="text-xs font-bold text-[var(--primary)]">⚡ Trik Cepat Olimpiade:</div>
+                <p class="text-xs leading-relaxed">${q.fastTrick}</p>
+              </div>
+              <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1">
+                <div class="text-xs font-bold">⚠️ Jebakan &amp; Kesalahan Umum:</div>
+                <p class="text-xs leading-relaxed text-[var(--muted-foreground)]">${q.mistakeAnalysis}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (state.solTab === 'steps') {
+        tabBodyHtml = `
+          <div class="space-y-2.5 lg:max-h-[340px] lg:overflow-y-auto pr-1">
+            ${q.visualHtml || ''}
+            <div class="space-y-1.5">${stepsHtml}${stepControls}</div>
+          </div>
+        `;
+      } else if (state.solTab === 'concept') {
+        tabBodyHtml = `
+          <div class="space-y-2.5 lg:max-h-[340px] lg:overflow-y-auto pr-1">
+            <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1">
+              <div class="text-xs font-bold text-[var(--primary)]">💡 Konsep Dasar &amp; Rumus:</div>
+              <p class="text-xs md:text-sm leading-relaxed">${q.concept}</p>
+            </div>
+            <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--primary)] space-y-1">
+              <div class="text-xs font-bold text-[var(--primary)]">⚡ Trik Cepat Olimpiade (&lt; 30 Detik):</div>
+              <p class="text-xs md:text-sm leading-relaxed">${q.fastTrick}</p>
+            </div>
+            ${q.visualHtml || ''}
+          </div>
+        `;
+      } else if (state.solTab === 'eval') {
+        const curAns = (state.userAnswers[q.num] || "").toString().trim();
+        tabBodyHtml = `
+          <div class="space-y-2.5 lg:max-h-[340px] lg:overflow-y-auto pr-1">
+            <div class="grid grid-cols-2 gap-2 font-mono text-xs text-center">
+              <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--border)]">
+                <div class="text-[var(--muted-foreground)]">Jawaban Anda</div>
+                <div class="text-base font-bold mt-0.5">${curAns || '⚪ Kosong'}</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--success)]">
+                <div class="text-[var(--success)]">Kunci Jawaban</div>
+                <div class="text-base font-bold text-[var(--success)] mt-0.5">${q.correct} ✓</div>
+              </div>
+            </div>
+            <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--border)] space-y-1">
+              <div class="text-xs font-bold">⚠️ Jebakan Soal &amp; Kesalahan Umum:</div>
+              <p class="text-xs md:text-sm leading-relaxed">${q.mistakeAnalysis}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border)]">
+            <div class="inline-flex rounded-lg border border-[var(--border)] p-0.5 bg-[var(--background)] text-xs overflow-x-auto no-scrollbar">
+              <button onclick="setSolTab('all')" class="px-2 py-1 rounded font-medium transition ${state.solTab === 'all' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">📑 Lengkap</button>
+              <button onclick="setSolTab('steps')" class="px-2 py-1 rounded font-medium transition ${state.solTab === 'steps' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">📝 Langkah (${totalSteps})</button>
+              <button onclick="setSolTab('concept')" class="px-2 py-1 rounded font-medium transition ${state.solTab === 'concept' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">💡 Konsep &amp; Trik</button>
+              <button onclick="setSolTab('eval')" class="px-2 py-1 rounded font-medium transition ${state.solTab === 'eval' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">⚠️ Jebakan</button>
+            </div>
+
+            <div class="inline-flex rounded-lg border border-[var(--border)] p-0.5 bg-[var(--background)] text-xs">
+              <button onclick="setStepMode('all')" class="px-2 py-1 rounded font-medium transition ${state.stepMode === 'all' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">Semua</button>
+              <button onclick="setStepMode('progressive')" class="px-2 py-1 rounded font-medium transition ${state.stepMode === 'progressive' ? 'bg-[var(--primary)] text-[var(--primary-foreground)]' : 'text-[var(--muted-foreground)]'}">▶️ Bertahap</button>
+            </div>
+          </div>
+          ${tabBodyHtml}
+        </div>
+
+        <div class="pt-2 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+          <span>💡 Geser nomor di atas untuk lompat ke soal lain</span>
+          <span class="font-mono font-bold text-[var(--success)]">Kunci: ${q.correct}</span>
+        </div>
+      `;
+    }
+
+    function render() {
+      ['id', 'en', 'both'].forEach(l => {
+        const b = document.getElementById('btn-lang-' + l);
+        if (b) b.className = "px-2 py-1 rounded font-medium transition " + (state.lang === l ? "bg-[var(--primary)] text-[var(--primary-foreground)]" : "text-[var(--muted-foreground)]");
+      });
+      ['review', 'practice', 'timer'].forEach(md => {
+        const b = document.getElementById('mode-' + md);
+        if (b) b.className = "px-2 py-1 rounded font-medium transition " + (state.mode === md ? "bg-[var(--primary)] text-[var(--primary-foreground)]" : "text-[var(--muted-foreground)]");
+      });
+      ['all', 'wrong', 'empty', 'correct'].forEach(f => {
+        const b = document.getElementById('filter-' + f);
+        if (b) b.className = "px-2 py-1 rounded font-medium transition " + (state.filter === f ? "bg-[var(--primary)] text-[var(--primary-foreground)]" : "text-[var(--muted-foreground)]");
+      });
+      ['split', 'question', 'solution'].forEach(mv => {
+        const b = document.getElementById('mobview-' + mv);
+        if (b) b.className = "flex-1 py-1.5 rounded-lg font-semibold text-center transition " + (state.mobileView === mv ? "bg-[var(--primary)] text-[var(--primary-foreground)]" : "bg-[var(--background)] text-[var(--muted-foreground)] border border-[var(--border)]");
+      });
+
+      updateTopBar();
+
+      const q = QUESTIONS[state.currentIdx];
+      const leftEl = document.getElementById('left-question-panel');
+      const rightEl = document.getElementById('right-solution-panel');
+
+      leftEl.innerHTML = renderLeftPanel(q);
+      rightEl.innerHTML = renderRightPanel(q);
+
+      leftEl.className = `lg:col-span-5 bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 md:p-3.5 flex-col justify-between gap-2.5 shadow-sm ${state.mobileView === 'solution' ? 'hidden lg:flex' : 'flex'}`;
+      rightEl.className = `lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 md:p-3.5 flex-col justify-between gap-2.5 shadow-sm ${state.mobileView === 'question' ? 'hidden lg:flex' : 'flex'}`;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      const filtered = getFilteredQuestions();
+      const pos = filtered.findIndex(item => item.num === QUESTIONS[state.currentIdx].num);
+      if (e.key === 'ArrowRight' && pos >= 0 && pos < filtered.length - 1) {
+        selectQuestion(QUESTIONS.findIndex(item => item.num === filtered[pos + 1].num));
+      } else if (e.key === 'ArrowLeft' && pos > 0) {
+        selectQuestion(QUESTIONS.findIndex(item => item.num === filtered[pos - 1].num));
+      }
+    });
+
+    activateReviewMode();
+  </script>
+</body>
+</html>
