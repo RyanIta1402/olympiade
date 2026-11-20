@@ -268,6 +268,28 @@
   </div>
 
   <script>
+    function fmtHint(ask, guide, trap) {
+      return `
+        <div style="font-weight:700; margin-bottom:4px;">💡 Panduan Hint untuk Pengajar / Tentor</div>
+        <div><strong>💬 Tanya ke Anak:</strong> "${ask}"</div>
+        <div style="margin-top:3px;"><strong>🧭 Arah Konsep:</strong> ${guide}</div>
+        <div style="margin-top:3px;"><strong>⚠️ Waspada Jebakan:</strong> ${trap}</div>
+      `;
+    }
+
+    function fmtSol(concept, steps, trick) {
+      return `
+        <div style="font-weight:700; margin-bottom:4px;">📘 Pembahasan Lengkap (Untuk Pengajar)</div>
+        <div><strong>Konsep Dasar:</strong> ${concept}</div>
+        <div style="margin-top:4px;"><strong>Langkah Penyelesaian:</strong>
+          <ol style="margin:4px 0 4px 18px; padding:0;">
+            ${steps.map(s => `<li style="margin-bottom:2px;">${s}</li>`).join("")}
+          </ol>
+        </div>
+        <div><strong>⚡ Cara Cek Ulang / Trik:</strong> ${trick}</div>
+      `;
+    }
+
     const daysCurriculum = [
       {
         day: 1, week: 1, mode: "Simulasi Pemetaan", totalMins: 90,
@@ -282,10 +304,87 @@
           { title: "3 Jebakan Terbesar dari Ujian Sebelumnya", body: "1) Salah hitung di langkah akhir, 2) Terjebak kata 'lebih dari' (> vs ≥), 3) Kehabisan waktu di soal Essay bagian akhir." }
         ],
         problems: [
-          { tag: "Mesin Fungsi • Mudah", q: "Mesin mengubah angka: kalikan 4, lalu kurangi 2. Mulai dari 1, digunakan 5 kali. Hasil akhirnya adalah...", ans: "342", hint: "Buat tabel langkah 1 sampai 5 di kertas buram.", sol: "1 → 2 → 6 → 22 → 86 → 342." },
-          { tag: "Pencacahan • Mudah", q: "Kartu bernomor 1, 2, 3, 4, 5. Dipilih 3 kartu berbeda. Berapa cara agar jumlahnya lebih dari 9?", ans: "4", hint: "Jumlah 'lebih dari 9' berarti minimal 10 (jumlah 9 tidak ikut).", sol: "{1,4,5}, {2,3,5}, {2,4,5}, {3,4,5} → 4 cara." },
-          { tag: "Kerja Mundur • Sedang", q: "Bilangan ditambah 10, dikali 2, dikurangi 30, lalu dibagi 5 hasilnya 30. Bilangan awalnya adalah...", ans: "80", hint: "Balikkan operasi dari 30: kali 5, tambah 30, bagi 2, kurang 10.", sol: "30 × 5 = 150 → +30 = 180 → ÷2 = 90 → −10 = 80." },
-          { tag: "Kecepatan • Sedang", q: "Kereta panjang 120 m melaju 20 m/detik melewati terowongan panjang 480 m. Berapa detik waktu untuk seluruh kereta keluar?", ans: "30", hint: "Total jarak = panjang kereta + panjang terowongan.", sol: "(120 + 480) ÷ 20 = 600 ÷ 20 = 30 detik." }
+          {
+            tag: "Mesin Fungsi • Mudah",
+            q: "Mesin mengubah angka: kalikan 4, lalu kurangi 2. Mulai dari 1, digunakan 5 kali. Hasil akhirnya adalah...",
+            ans: "342",
+            hint: fmtHint(
+              "Kalau mesin ini dipakai 1 kali dari angka 1, keluar angka berapa? Coba tulis satu per satu dari ke-1 sampai ke-5.",
+              "Ini adalah fungsi berulang (iterasi): hasil keluaran langkah sebelumnya menjadi masukan langkah berikutnya.",
+              "Anak sering berhenti di langkah ke-4 (86) atau salah menjumlahkan ratusan di langkah terakhir (seperti di IOB No. 1 yang sempat terjawab 186)."
+            ),
+            sol: fmtSol(
+              "Iterasi fungsi f(x) = 4x − 2 sebanyak 5 kali berturut-turut mulai dari x = 1.",
+              [
+                "Penggunaan ke-1: (1 × 4) − 2 = 4 − 2 = 2",
+                "Penggunaan ke-2: (2 × 4) − 2 = 8 − 2 = 6",
+                "Penggunaan ke-3: (6 × 4) − 2 = 24 − 2 = 22",
+                "Penggunaan ke-4: (22 × 4) − 2 = 88 − 2 = 86",
+                "Penggunaan ke-5: (86 × 4) − 2 = 344 − 2 = <strong>342</strong>"
+              ],
+              "Cek selisih antar hasil: +1, +4, +16, +64, +256 (selalu dikali 4). Maka 86 + 256 = 342."
+            )
+          },
+          {
+            tag: "Pencacahan • Mudah",
+            q: "Kartu bernomor 1, 2, 3, 4, 5. Dipilih 3 kartu berbeda. Berapa cara agar jumlahnya lebih dari 9?",
+            ans: "4",
+            hint: fmtHint(
+              "Kalau jumlah 3 kartu tepat sama dengan 9, apakah ikut dihitung? Baca lagi syaratnya: 'lebih dari 9'.",
+              "Ajarkan anak mendaftar kombinasi secara terurut dari angka terkecil agar tidak ada yang terlewat atau ganda.",
+              "Jebakan redaksi: 'lebih dari 9' artinya > 9 (minimal 10). Kombinasi {1,3,5}=9 dan {2,3,4}=9 TIDAK ikut!"
+            ),
+            sol: fmtSol(
+              "Pencacahan sistematis 3 bilangan berbeda dari {1, 2, 3, 4, 5} yang berjumlah ≥ 10.",
+              [
+                "Daftar semua kombinasi berjumlah 10: {1, 4, 5} dan {2, 3, 5} → ada 2 cara.",
+                "Daftar kombinasi berjumlah 11: {2, 4, 5} → ada 1 cara.",
+                "Daftar kombinasi berjumlah 12: {3, 4, 5} → ada 1 cara.",
+                "Total seluruh cara = 2 + 1 + 1 = <strong>4 cara</strong>."
+              ],
+              "Trik komplemen: jumlah semua 5 kartu = 15. Memilih 3 kartu > 9 sama dengan membuang 2 kartu berjumlah ≤ 5: {1,2}, {1,3}, {1,4}, {2,3} → tepat 4 cara."
+            )
+          },
+          {
+            tag: "Kerja Mundur • Sedang",
+            q: "Bilangan ditambah 10, dikali 2, dikurangi 30, lalu dibagi 5 hasilnya 30. Bilangan awalnya adalah...",
+            ans: "80",
+            hint: fmtHint(
+              "Sebelum dibagi 5 hasilnya 30, kira-kira angkanya berapa sebelum dibagi 5?",
+              "Gunakan strategi Kerja Mundur (Working Backwards): balikkan setiap operasi dari hasil akhir ke awal.",
+              "Anak sering lupa membalik tanda: ÷5 dibalik jadi ×5, −30 dibalik jadi +30, ×2 dibalik jadi ÷2, +10 dibalik jadi −10."
+            ),
+            sol: fmtSol(
+              "Membalik urutan operasi matematika dari belakang ke depan.",
+              [
+                "Hasil akhir = 30.",
+                "Kebalikan dibagi 5 → kali 5: 30 × 5 = 150.",
+                "Kebalikan dikurangi 30 → tambah 30: 150 + 30 = 180.",
+                "Kebalikan dikali 2 → bagi 2: 180 ÷ 2 = 90.",
+                "Kebalikan ditambah 10 → kurang 10: 90 − 10 = <strong>80</strong>."
+              ],
+              "Uji maju angka 80: (80+10)=90 → ×2=180 → −30=150 → ÷5=30 (Cocok!)."
+            )
+          },
+          {
+            tag: "Kecepatan • Sedang",
+            q: "Kereta panjang 120 m melaju 20 m/detik melewati terowongan panjang 480 m. Berapa detik waktu untuk seluruh kereta keluar?",
+            ans: "30",
+            hint: fmtHint(
+              "Saat kepala kereta keluar dari ujung terowongan, apakah ekor keretanya sudah keluar?",
+              "Gambarkan kereta dan terowongan! Agar seluruh badan kereta keluar, jarak tempuhnya adalah Panjang Kereta + Panjang Terowongan.",
+              "Banyak siswa hanya membagi panjang terowongan saja (480 ÷ 20 = 24), lupa menambahkan panjang kereta 120 m."
+            ),
+            sol: fmtSol(
+              "Waktu = Jarak Total ÷ Kecepatan, dengan Jarak Total = Panjang Kereta + Panjang Terowongan.",
+              [
+                "Jarak total yang harus ditempuh kepala kereta = 120 m + 480 m = 600 m.",
+                "Kecepatan kereta = 20 m/detik.",
+                "Waktu = 600 ÷ 20 = <strong>30 detik</strong>."
+              ],
+              "Selalu gambar garis lurus: titik awal di ekor sebelum masuk, titik akhir saat ekor tepat di bibir keluar."
+            )
+          }
         ],
         closing: ["Catat topik mana yang paling lama dikerjakan.", "Pastikan anak menulis langkah di kertas buram dengan rapi."]
       },
@@ -303,11 +402,105 @@
           { title: "Bar Model untuk Rasio & Pecahan Teleskopik", body: "Gambarkan kotak-kotak untuk perbandingan. Untuk pecahan 1/(n(n+1)), pecah menjadi 1/n − 1/(n+1) agar saling mencoret." }
         ],
         problems: [
-          { tag: "Deret Gauss • Mudah", q: "Hitung jumlah dari 1 + 2 + 3 + ... + 50.", ans: "1275", hint: "Pasangkan 1+50, 2+49, dst. Ada berapa pasang?", sol: "(1 + 50) × 50 ÷ 2 = 51 × 25 = 1275." },
-          { tag: "Distributif • Mudah", q: "Hitung nilai dari 25 × 36 + 25 × 64.", ans: "2500", hint: "Keluarkan angka 25 dengan sifat distributif.", sol: "25 × (36 + 64) = 25 × 100 = 2500." },
-          { tag: "Rasio • Sedang", q: "Perbandingan uang Ali dan Budi adalah 3 : 5. Selisih uang mereka Rp24.000. Berapa jumlah uang mereka berdua? (tulis angka saja, misal: 50000)", ans: "96000", hint: "Selisih 5 − 3 = 2 bagian = 24.000. Cari nilai 1 bagian lalu kalikan (3+5).", sol: "1 bagian = 12.000. Jumlah = 8 × 12.000 = 96000." },
-          { tag: "Teleskopik • Sedang", q: "Hitung hasil dari 1/2 + 1/6 + 1/12 + 1/20 (tulis pecahan a/b).", ans: "4/5", hint: "Ubah menjadi (1 − 1/2) + (1/2 − 1/3) + (1/3 − 1/4) + (1/4 − 1/5).", sol: "Suku tengah saling habis, tersisa 1 − 1/5 = 4/5." },
-          { tag: "Kerja Mundur • Sedang", q: "Sebuah bilangan dibagi 3, ditambah 7, lalu dikali 4 menghasilkan 44. Berapakah bilangan itu?", ans: "12", hint: "Mulai dari 44: bagi 4, kurangi 7, kali 3.", sol: "(44 ÷ 4 − 7) × 3 = (11 − 7) × 3 = 12." }
+          {
+            tag: "Deret Gauss • Mudah",
+            q: "Hitung jumlah dari 1 + 2 + 3 + ... + 50.",
+            ans: "1275",
+            hint: fmtHint(
+              "Coba pasangkan angka paling depan dan paling belakang: 1 + 50 berapa? Lalu 2 + 49 berapa?",
+              "Gunakan metode pasangan Gauss: setiap pasangan memiliki jumlah yang sama (51).",
+              "Pastikan anak membagi 2 banyak angkanya (50 ÷ 2 = 25 pasang), jangan dikalikan 50 langsung."
+            ),
+            sol: fmtSol(
+              "Rumus deret aritmetika Gauss: Jumlah = (Suku Awal + Suku Akhir) × Banyak Suku ÷ 2.",
+              [
+                "Pasangkan dari ujung: (1 + 50) = 51, (2 + 49) = 51, ..., (25 + 26) = 51.",
+                "Banyak suku ada 50, sehingga terbentuk 50 ÷ 2 = 25 pasang.",
+                "Total = 51 × 25 = <strong>1275</strong>."
+              ],
+              "Untuk menghitung 51 × 25 dengan cepat: (50 × 25) + (1 × 25) = 1250 + 25 = 1275."
+            )
+          },
+          {
+            tag: "Distributif • Mudah",
+            q: "Hitung nilai dari 25 × 36 + 25 × 64.",
+            ans: "2500",
+            hint: fmtHint(
+              "Apakah ada angka yang sama muncul di kedua perkalian? Angka 25-nya bisa kita keluarkan!",
+              "Gunakan sifat distributif: a × b + a × c = a × (b + c).",
+              "Jangan biarkan anak mengalikan 25 × 36 dan 25 × 64 satu per satu secara manual karena rawan salah hitung."
+            ),
+            sol: fmtSol(
+              "Sifat distributif perkalian terhadap penjumlahan.",
+              [
+                "Faktorkan angka yang sama (25): 25 × (36 + 64).",
+                "Jumlahkan di dalam kurung terlebih dahulu: 36 + 64 = 100.",
+                "Kalikan: 25 × 100 = <strong>2500</strong>."
+              ],
+              "Jika melihat angka pasangan puluhan/ratusan seperti 36 dan 64, hampir pasti soal meminta sifat distributif."
+            )
+          },
+          {
+            tag: "Rasio • Sedang",
+            q: "Perbandingan uang Ali dan Budi adalah 3 : 5. Selisih uang mereka Rp24.000. Berapa jumlah uang mereka berdua? (tulis angka saja, misal: 50000)",
+            ans: "96000",
+            hint: fmtHint(
+              "Kalau uang Ali 3 kotak dan Budi 5 kotak, selisihnya ada berapa kotak? Nah, kotak itulah yang nilainya Rp24.000.",
+              "Gunakan metode Bar Model (kotak satuan): cari nilai 1 kotak terlebih dahulu.",
+              "Jangan membagi 24.000 dengan (3 + 5), karena 24.000 adalah SELISIH (5 − 3 = 2 kotak), bukan jumlah!"
+            ),
+            sol: fmtSol(
+              "Pemodelan perbandingan dengan Bar Model (unit kotak).",
+              [
+                "Ali = 3 kotak, Budi = 5 kotak.",
+                "Selisih = 5 − 3 = 2 kotak = Rp24.000.",
+                "Nilai 1 kotak = Rp24.000 ÷ 2 = Rp12.000.",
+                "Jumlah uang mereka = 3 + 5 = 8 kotak = 8 × Rp12.000 = <strong>96000</strong>."
+              ],
+              "Cek ulang: Ali = 3×12.000 = 36.000, Budi = 5×12.000 = 60.000. Selisih = 24.000, Jumlah = 96.000 (Cocok!)."
+            )
+          },
+          {
+            tag: "Teleskopik • Sedang",
+            q: "Hitung hasil dari 1/2 + 1/6 + 1/12 + 1/20 (tulis pecahan a/b).",
+            ans: "4/5",
+            hint: fmtHint(
+              "Perhatikan penyebutnya: 2 = 1×2, 6 = 2×3, 12 = 3×4, 20 = 4×5. Coba cek berapa hasil 1/2 − 1/3?",
+              "Pecah setiap suku menjadi selisih dua pecahan: 1/(n(n+1)) = 1/n − 1/(n+1).",
+              "Menyamakan penyebut secara manual (per 60) masih bisa, tapi jika soal diperpanjang sampai 1/2026×2027 harus pakai trik teleskopik."
+            ),
+            sol: fmtSol(
+              "Deret teleskopik: suku tengah saling menghilangkan (mencoret).",
+              [
+                "1/2 = 1 − 1/2",
+                "1/6 = 1/2 − 1/3",
+                "1/12 = 1/3 − 1/4",
+                "1/20 = 1/4 − 1/5",
+                "Jumlahkan semua: (1 − 1/2) + (1/2 − 1/3) + (1/3 − 1/4) + (1/4 − 1/5) = 1 − 1/5 = <strong>4/5</strong>."
+              ],
+              "Untuk bentuk berurutan mulai dari 1/(1×2) sampai 1/(n×(n+1)), hasilnya selalu n/(n+1). Di sini n=4, jadi 4/5."
+            )
+          },
+          {
+            tag: "Kerja Mundur • Sedang",
+            q: "Sebuah bilangan dibagi 3, ditambah 7, lalu dikali 4 menghasilkan 44. Berapakah bilangan itu?",
+            ans: "12",
+            hint: fmtHint(
+              "Sebelum dikali 4 hasilnya 44, berapa angkanya? Terus mundur satu langkah demi satu langkah.",
+              "Balikkan setiap operasi dari akhir (44) ke awal.",
+              "Jangan lupa urutan membalik harus persis dari belakang: ÷4 dulu, lalu −7, baru ×3."
+            ),
+            sol: fmtSol(
+              "Strategi Kerja Mundur (Working Backwards).",
+              [
+                "Hasil akhir = 44.",
+                "Kebalikan dikali 4 → bagi 4: 44 ÷ 4 = 11.",
+                "Kebalikan ditambah 7 → kurang 7: 11 − 7 = 4.",
+                "Kebalikan dibagi 3 → kali 3: 4 × 3 = <strong>12</strong>."
+              ],
+              "Uji maju: 12 ÷ 3 = 4 → 4 + 7 = 11 → 11 × 4 = 44 (Cocok!)."
+            )
+          }
         ],
         closing: ["Pastikan anak bisa menggambar Bar Model untuk soal rasio.", "Review kembali cara memecah pecahan teleskopik."]
       },
@@ -326,12 +519,129 @@
           { title: "KPK Gerak Melingkar & Sisa", body: "Cari waktu 1 putaran penuh tiap anak (Keliling ÷ Kecepatan), lalu cari KPK-nya untuk bertemu di titik start." }
         ],
         problems: [
-          { tag: "Keterbagian 4 & 9 • Mudah", q: "Bilangan 5 angka 24A8B habis dibagi 36. Jika A dan B berbeda, nilai terbesar A + B adalah...", ans: "13", hint: "Habis dibagi 36 berarti habis dibagi 4 dan 9.", sol: "8B habis dibagi 4 → B ∈ {0,4,8}. Jumlah digit 14+A+B = 27 → A+B = 13 (valid saat B=8, A=5)." },
-          { tag: "Keterbagian 11 • Sedang", q: "Bilangan 4 angka 4X5Y habis dibagi 11. Jika X = 2Y dan Y bukan nol, bilangan 4X5Y adalah...", ans: "4653", hint: "Selisih (4 + 5) dan (X + Y) harus 0 atau kelipatan 11.", sol: "9 − 3Y = 0 → Y = 3, X = 6 → 4653." },
-          { tag: "KPK & Sisa • Mudah-Sedang", q: "Kelereng Andi kurang dari 150. Dibagi ke 4, 5, atau 6 teman selalu sisa 3. Banyak kelereng terbanyak adalah...", ans: "123", hint: "Cari KPK(4,5,6) lalu tambah 3.", sol: "KPK = 60. Kelipatan 60 + 3 < 150 terbanyak adalah 123." },
-          { tag: "KPK Melingkar • Sedang", q: "Lintasan melingkar 400 m. Rafi lari 5 m/detik, Bima 4 m/detik dari start & arah sama. Bertemu lagi di start setelah ... detik.", ans: "400", hint: "Hitung waktu 1 putaran masing-masing, lalu cari KPK.", sol: "Rafi = 80s, Bima = 100s. KPK(80, 100) = 400 detik." },
-          { tag: "Digit Satuan • Sedang", q: "Tentukan angka satuan dari 3^2025 + 7^2026.", ans: "2", hint: "Siklus satuan pangkat 3 dan 7 berulang setiap 4.", sol: "3^2025 (sisa 1) → 3. 7^2026 (sisa 2) → 9. 3 + 9 = 12 → satuan 2." },
-          { tag: "Modulo Kalender • Sedang-Sulit", q: "Hari ini Rabu. Jatuh pada hari apakah 2^100 hari lagi? (tulis nama hari)", ans: "jumat", hint: "Cari pola sisa 2^n dibagi 7: {2, 4, 1} berulang tiap 3.", sol: "100 ÷ 3 sisa 1 → sisa 2. Rabu + 2 hari = Jumat." }
+          {
+            tag: "Keterbagian 4 & 9 • Mudah",
+            q: "Bilangan 5 angka 24A8B habis dibagi 36. Jika A dan B berbeda, nilai terbesar A + B adalah...",
+            ans: "13",
+            hint: fmtHint(
+              "Supaya habis dibagi 36, bilangan harus habis dibagi dua angka berapa saja yang mudah dicek? (Coba 4 dan 9!)",
+              "Cek aturan habis dibagi 4 pada 2 digit terakhir (8B), lalu cek aturan habis dibagi 9 pada jumlah semua digit.",
+              "Jangan lupa syarat 'A dan B adalah angka yang berbeda' dan masing-masing hanya 1 digit (0–9)."
+            ),
+            sol: fmtSol(
+              "36 = 4 × 9 (keduanya saling prima), sehingga bilangan habis dibagi 36 jika habis dibagi 4 DAN 9.",
+              [
+                "Syarat habis dibagi 4: dua digit terakhir (8B) harus habis dibagi 4 → B hanya bisa 0, 4, atau 8.",
+                "Syarat habis dibagi 9: jumlah digit 2 + 4 + A + 8 + B = 14 + A + B harus kelipatan 9.",
+                "Karena A dan B maksimal 9, nilai 14 + A + B paling besar adalah 14 + 9 + 8 = 31 (tidak sampai 36).",
+                "Maka kelipatan 9 terbesar yang mungkin adalah 27 → 14 + A + B = 27 → A + B = <strong>13</strong>.",
+                "Cek validitas (A ≠ B): jika B = 8 maka A = 5 (valid, 5 ≠ 8); jika B = 4 maka A = 9 (valid, 9 ≠ 4)."
+              ],
+              "Selalu uji kembali minimal satu pasang angka (misal 24588 ÷ 36 = 683, habis!)."
+            )
+          },
+          {
+            tag: "Keterbagian 11 • Sedang",
+            q: "Bilangan 4 angka 4X5Y habis dibagi 11. Jika X = 2Y dan Y bukan nol, bilangan 4X5Y adalah...",
+            ans: "4653",
+            hint: fmtHint(
+              "Ingat ciri habis dibagi 11: jumlahkan angka posisi ke-1 & ke-3, lalu kurangkan dengan angka posisi ke-2 & ke-4!",
+              "Tuliskan (4 + 5) − (X + Y). Hasilnya harus 0 atau kelipatan 11. Lalu ganti X dengan 2Y.",
+              "Perhatikan syarat X = 2Y harus tetap 1 digit (≤ 9), sehingga Y paling besar hanya 4."
+            ),
+            sol: fmtSol(
+              "Ciri keterbagian 11: selisih jumlah digit posisi ganjil dan posisi genap adalah 0 atau kelipatan 11.",
+              [
+                "Jumlah posisi ganjil = 4 + 5 = 9. Jumlah posisi genap = X + Y.",
+                "Substitusikan X = 2Y, sehingga X + Y = 2Y + Y = 3Y.",
+                "Selisihnya = 9 − 3Y. Karena Y ∈ {1, 2, 3, 4}, nilai 3Y ∈ {3, 6, 9, 12}.",
+                "Satu-satunya yang membuat (9 − 3Y) bernilai 0 atau kelipatan 11 adalah 9 − 3Y = 0 → 3Y = 9 → Y = 3.",
+                "Maka X = 2 × 3 = 6, sehingga bilangannya adalah <strong>4653</strong>."
+              ],
+              "Cek bagi manual: 4653 ÷ 11 = 423 (tepat habis!)."
+            )
+          },
+          {
+            tag: "KPK & Sisa • Mudah-Sedang",
+            q: "Kelereng Andi kurang dari 150. Dibagi ke 4, 5, atau 6 teman selalu sisa 3. Banyak kelereng terbanyak adalah...",
+            ans: "123",
+            hint: fmtHint(
+              "Kalau 3 kelereng sisa itu kita sisihkan dulu di kantong, berarti sisanya bisa dibagi habis oleh 4, 5, dan 6. Cari KPK-nya dulu!",
+              "Bentuk bilangan adalah (kelipatan KPK(4, 5, 6)) + 3.",
+              "Jangan berhenti di angka 63! Soal meminta banyak kelereng TERBANYAK yang kurang dari 150."
+            ),
+            sol: fmtSol(
+              "Bilangan yang bersisa sama (S) saat dibagi A, B, C berbentuk (k × KPK(A, B, C)) + S.",
+              [
+                "Cari KPK(4, 5, 6): faktorisasi prima 4=2², 5=5, 6=2×3 → KPK = 2² × 3 × 5 = 60.",
+                "Tambahkan sisa 3 pada kelipatan 60: 60+3 = 63; 120+3 = 123; 180+3 = 183.",
+                "Karena kurang dari 150, nilai terbanyak yang memenuhi adalah <strong>123</strong>."
+              ],
+              "Uji: 123 ÷ 4 = 30 sisa 3; 123 ÷ 5 = 24 sisa 3; 123 ÷ 6 = 20 sisa 3 (Cocok!)."
+            )
+          },
+          {
+            tag: "KPK Melingkar • Sedang",
+            q: "Lintasan melingkar 400 m. Rafi lari 5 m/detik, Bima 4 m/detik dari start & arah sama. Bertemu lagi di start setelah ... detik.",
+            ans: "400",
+            hint: fmtHint(
+              "Berapa detik waktu yang dibutuhkan Rafi untuk 1 putaran penuh? Lalu Bima berapa detik?",
+              "Cari waktu 1 putaran masing-masing (Jarak ÷ Kecepatan), baru cari KPK dari kedua waktu tersebut.",
+              "Ini bukan soal berpapasan di tengah lintasan, melainkan bertemu kembali tepat di TITIK START."
+            ),
+            sol: fmtSol(
+              "Kedua pelari kembali ke titik start secara bersamaan pada kelipatan persekutuan terkecil (KPK) waktu putaran mereka.",
+              [
+                "Waktu 1 putaran Rafi = 400 m ÷ 5 m/detik = 80 detik.",
+                "Waktu 1 putaran Bima = 400 m ÷ 4 m/detik = 100 detik.",
+                "Cari KPK(80, 100): kelipatan 100 adalah 100, 200, 300, 400... yang habis dibagi 80 adalah <strong>400 detik</strong>."
+              ],
+              "Dalam 400 detik, Rafi tepat menyelesaikan 5 putaran dan Bima tepat 4 putaran di titik start."
+            )
+          },
+          {
+            tag: "Digit Satuan • Sedang",
+            q: "Tentukan angka satuan dari 3^2025 + 7^2026.",
+            ans: "2",
+            hint: fmtHint(
+              "Coba tulis angka satuan dari 3¹, 3², 3³, 3⁴, 3⁵... Apakah angkanya berulang? Lalu lakukan hal yang sama untuk angka 7.",
+              "Cari siklus 4 pangkat pertama masing-masing basis, lalu bagi pangkatnya dengan 4 untuk melihat sisanya.",
+              "Yang dijumlahkan adalah angka satuannya saja, dan hasil akhirnya (3 + 9 = 12) juga diambil satuannya saja (2)."
+            ),
+            sol: fmtSol(
+              "Pola digit satuan perpangkatan bilangan bulat selalu berulang secara periodik (siklus 4 untuk basis 3 dan 7).",
+              [
+                "Pola satuan 3ⁿ: 3¹=3, 3²=9, 3³=27(7), 3⁴=81(1), 3⁵=...3 → siklus 4: {3, 9, 7, 1}.",
+                "Bagi pangkat 2025 dengan 4: 2025 ÷ 4 = 506 sisa 1 → ambil urutan ke-1, yaitu 3.",
+                "Pola satuan 7ⁿ: 7¹=7, 7²=49(9), 7³=343(3), 7⁴=...1 → siklus 4: {7, 9, 3, 1}.",
+                "Bagi pangkat 2026 dengan 4: 2026 ÷ 4 = 506 sisa 2 → ambil urutan ke-2, yaitu 9.",
+                "Jumlahkan satuannya: 3 + 9 = 12 → angka satuannya adalah <strong>2</strong>."
+              ],
+              "Untuk mengecek sisa bagi 4 dari angka besar seperti 2026, cukup bagi 2 digit terakhirnya saja (26 ÷ 4 sisa 2)."
+            )
+          },
+          {
+            tag: "Modulo Kalender • Sedang-Sulit",
+            q: "Hari ini Rabu. Jatuh pada hari apakah 2^100 hari lagi? (tulis nama hari)",
+            ans: "jumat",
+            hint: fmtHint(
+              "Hari berulang setiap 7 hari. Jadi kita perlu tahu sisa pembagian 2^100 jika dibagi 7. Coba cek sisa 2¹, 2², 2³, 2⁴ saat dibagi 7!",
+              "Cari pola sisa pembagian 2ⁿ oleh 7, lalu bagi pangkat 100 dengan panjang siklusnya.",
+              "Siklus sisa bagi 7 untuk pangkat 2 bukan 4, melainkan 3 ({2, 4, 1}). Hati-hati jangan langsung dibagi 4!"
+            ),
+            sol: fmtSol(
+              "Kalender berulang setiap 7 hari (modulo 7), sehingga kita mencari sisa pembagian 2¹⁰⁰ oleh 7.",
+              [
+                "2¹ = 2 → dibagi 7 sisa 2.",
+                "2² = 4 → dibagi 7 sisa 4.",
+                "2³ = 8 → dibagi 7 sisa 1.",
+                "2⁴ = 16 → dibagi 7 sisa 2 (pola kembali ke awal!). Siklus berulang setiap 3 langkah: {2, 4, 1}.",
+                "Bagi pangkat 100 dengan 3: 100 ÷ 3 = 33 sisa 1 → ambil urutan ke-1 dari siklus, yaitu sisa 2.",
+                "Rabu + 2 hari = <strong>Jumat</strong>."
+              ],
+              "Trik cepat: 2³ = 8 bersisa 1 saat dibagi 7. Maka 2¹⁰⁰ = (2³)³³ × 2¹ → bersisa 1³³ × 2 = 2."
+            )
+          }
         ],
         closing: ["Pastikan anak paham ciri habis dibagi 11.", "Ingatkan: pangkat habis dibagi 4 (sisa 0) ambil urutan ke-4, bukan 0."]
       },
@@ -348,11 +658,99 @@
           { title: "Ketaksamaan Segitiga & Kubus Dicat", body: "Pada segitiga, jumlah dua sisi mana pun HARUS lebih besar dari sisi ketiga (a + b > c). Kubus 3×3×3 dicat luar: tepat 2 sisi dicat ada di tengah tiap rusuk (12 rusuk)." }
         ],
         problems: [
-          { tag: "Keliling • Mudah", q: "Persegi panjang 12 cm × 8 cm dipotong satu sudutnya membentuk tangga (tanpa lekukan ke dalam). Keliling bangun baru adalah ... cm.", ans: "40", hint: "Geser sisi-sisi tangga ke luar membentuk persegi panjang utuh.", sol: "Keliling tetap 2 × (12 + 8) = 40 cm." },
-          { tag: "Luas Segitiga • Mudah", q: "Sebuah segitiga memiliki alas 10 cm dan tinggi 6 cm. Luasnya adalah ... cm².", ans: "30", hint: "Luas = ½ × alas × tinggi.", sol: "½ × 10 × 6 = 30 cm²." },
-          { tag: "Sudut Poligon • Sedang", q: "Berapa besar satu sudut dalam segi-5 beraturan? (dalam derajat)", ans: "108", hint: "Total sudut segi-5 = (5−2) × 180° = 540°.", sol: "540° ÷ 5 = 108°." },
-          { tag: "Ketaksamaan Segitiga • Sedang", q: "Dua sisi segitiga adalah 5 cm dan 9 cm. Panjang sisi ketiga bilangan bulat. Berapa panjang terbesar yang mungkin? (cm)", ans: "13", hint: "Sisi ketiga harus kurang dari 5 + 9.", sol: "Sisi < 14, bilangan bulat terbesar adalah 13." },
-          { tag: "Kubus Satuan • Sedang-Sulit", q: "Kubus 3×3×3 dicat merah seluruh permukaannya. Berapa banyak kubus satuan yang terkena cat pada tepat 2 sisi?", ans: "12", hint: "Kubus yang kena 2 sisi berada di tengah setiap rusuk (bukan di pojok).", sol: "Ada 12 rusuk, tiap rusuk ada 1 kubus tengah → 12 kubus." }
+          {
+            tag: "Keliling • Mudah",
+            q: "Persegi panjang 12 cm × 8 cm dipotong satu sudutnya membentuk tangga (tanpa lekukan ke dalam). Keliling bangun baru adalah ... cm.",
+            ans: "40",
+            hint: fmtHint(
+              "Coba dorong garis-garis tangga yang mendatar ke atas, dan yang tegak ke samping. Bentuk apa yang terjadi?",
+              "Gunakan teknik geser sisi (proyeksi): panjang total sisi mendatar dan tegak tidak berubah selama tidak ada lekukan masuk.",
+              "Anak sering mengira karena dipotong, kelilingnya pasti berkurang (padahal luasnya berkurang, kelilingnya tetap)."
+            ),
+            sol: fmtSol(
+              "Teknik menggeser sisi pada bangun datar berlekuk tangga.",
+              [
+                "Setiap potongan mendatar pada tangga jika digeser ke atas akan tepat mengisi panjang 12 cm.",
+                "Setiap potongan tegak pada tangga jika digeser ke samping akan tepat mengisi lebar 8 cm.",
+                "Maka keliling bangun baru sama persis dengan keliling persegi panjang awal = 2 × (12 + 8) = <strong>40 cm</strong>."
+              ],
+              "Ingat: memotong pojok persegi panjang mengurangi LUAS, tapi KELILING tetap sama."
+            )
+          },
+          {
+            tag: "Luas Segitiga • Mudah",
+            q: "Sebuah segitiga memiliki alas 10 cm dan tinggi 6 cm. Luasnya adalah ... cm².",
+            ans: "30",
+            hint: fmtHint(
+              "Dua segitiga yang sama kalau digabung bisa jadi persegi panjang. Jadi luas 1 segitiga setengahnya!",
+              "Gunakan rumus Luas Segitiga = ½ × alas × tinggi.",
+              "Jangan lupa membagi 2 (sering tertukar dengan luas persegi panjang)."
+            ),
+            sol: fmtSol(
+              "Luas segitiga = ½ × alas × tinggi.",
+              [
+                "Alas = 10 cm, tinggi = 6 cm.",
+                "Luas = ½ × 10 × 6 = 5 × 6 = <strong>30 cm²</strong>."
+              ],
+              "Bagi 2 angka yang genap terlebih dahulu (10 ÷ 2 = 5) agar perkalian lebih cepat."
+            )
+          },
+          {
+            tag: "Sudut Poligon • Sedang",
+            q: "Berapa besar satu sudut dalam segi-5 beraturan? (dalam derajat)",
+            ans: "108",
+            hint: fmtHint(
+              "Dari satu titik sudut segi-5, bisa dibagi jadi berapa segitiga? Satu segitiga jumlah sudutnya 180°.",
+              "Hitung total sudut dalam segi-n dengan rumus (n − 2) × 180°, lalu bagi dengan n karena beraturan.",
+              "Jangan keliru membagi 360° dengan 5 (360° ÷ 5 = 72° itu sudut LUAR, bukan sudut DALAM)."
+            ),
+            sol: fmtSol(
+              "Jumlah sudut dalam segi-n = (n − 2) × 180°. Segi-n beraturan memiliki n sudut sama besar.",
+              [
+                "Total sudut dalam segi-5 = (5 − 2) × 180° = 3 × 180° = 540°.",
+                "Karena beraturan (kelima sudut sama besar), 1 sudut = 540° ÷ 5 = <strong>108°</strong>."
+              ],
+              "Cara alternatif lewat sudut luar: sudut luar = 360° ÷ 5 = 72°, maka sudut dalam = 180° − 72° = 108°."
+            )
+          },
+          {
+            tag: "Ketaksamaan Segitiga • Sedang",
+            q: "Dua sisi segitiga adalah 5 cm dan 9 cm. Panjang sisi ketiga bilangan bulat. Berapa panjang terbesar yang mungkin? (cm)",
+            ans: "13",
+            hint: fmtHint(
+              "Kalau sisi ketiga panjangnya 14 cm, apakah dua sisi 5 cm dan 9 cm bisa bertemu membentuk segitiga, atau malah rata jadi garis lurus?",
+              "Syarat terbentuknya segitiga (Ketaksamaan Segitiga): jumlah dua sisi pendek harus LEBIH BESAR dari sisi terpanjang.",
+              "Jebakan: 5 + 9 = 14, tapi 14 TIDAK boleh dipakai karena akan menjadi garis lurus, jadi maksimal 13!"
+            ),
+            sol: fmtSol(
+              "Teorema Ketaksamaan Segitiga: a + b > c (ketiga sisi harus memenuhi).",
+              [
+                "Misalkan sisi ketiga adalah x.",
+                "Agar x bisa menjadi sisi terpanjang, harus berlaku: x < 5 + 9 → x < 14.",
+                "Karena x harus bilangan bulat, nilai terbesar yang kurang dari 14 adalah <strong>13 cm</strong>."
+              ],
+              "Jika ditanya panjang TERKECIL yang mungkin: x > 9 − 5 → x > 4, jadi terkecilnya 5 cm."
+            )
+          },
+          {
+            tag: "Kubus Satuan • Sedang-Sulit",
+            q: "Kubus 3×3×3 dicat merah seluruh permukaannya. Berapa banyak kubus satuan yang terkena cat pada tepat 2 sisi?",
+            ans: "12",
+            hint: fmtHint(
+              "Bayangkan dadu atau rubik 3×3×3. Kubus yang di pojok kena berapa sisi? Yang di tengah-tengah rusuk kena berapa sisi?",
+              "Kubus yang kena cat tepat 2 sisi selalu terletak di antara dua pojok pada setiap rusuk kubus.",
+              "Jangan menghitung kubus pojok (kena 3 sisi) atau kubus tengah muka (kena 1 sisi). Hitung jumlah rusuk kubus (12)."
+            ),
+            sol: fmtSol(
+              "Klasifikasi posisi kubus satuan pada kubus besar n × n × n.",
+              [
+                "Kubus besar memiliki 12 rusuk.",
+                "Pada ukuran 3×3×3, setiap rusuk terdiri dari 3 kubus: 2 di ujung (pojok, kena 3 sisi) dan 1 tepat di tengah rusuk (kena 2 sisi).",
+                "Total kubus yang kena tepat 2 sisi = 12 rusuk × 1 = <strong>12 kubus</strong>."
+              ],
+              "Rumus umum kubus n×n×n: kena 3 sisi selalu 8; kena 2 sisi = 12 × (n − 2); kena 1 sisi = 6 × (n − 2)²."
+            )
+          }
         ],
         closing: ["Perkuat konsep ketaksamaan segitiga (pernah keluar di IOB No. 9).", "Biasakan menggambar sketsa sebelum menghitung geometri."]
       },
@@ -369,11 +767,104 @@
           { title: "Prinsip Sarang Merpati (Pigeonhole)", body: "Untuk mencari 'minimal ambil agar PASTI dapat...', bayangkan skenario TERBURUK (paling sial) lalu tambah 1." }
         ],
         problems: [
-          { tag: "Filling Slots • Mudah", q: "Banyak bilangan 3-angka berbeda yang dapat disusun dari angka {1, 2, 3, 4, 5} adalah...", ans: "60", hint: "Ada 5 pilihan ratusan, lalu 4 puluhan, lalu 3 satuan.", sol: "5 × 4 × 3 = 60." },
-          { tag: "Jabat Tangan • Mudah", q: "Ada 8 anak saling berjabat tangan satu sama lain tepat 1 kali. Total jabat tangan adalah...", ans: "28", hint: "Gunakan rumus n × (n − 1) ÷ 2.", sol: "8 × 7 ÷ 2 = 28." },
-          { tag: "Grid Path • Sedang", q: "Banyak jalur terpendek dari kiri bawah ke kanan atas pada petak 3 × 2 (3 kanan, 2 atas) adalah...", ans: "10", hint: "Jumlahkan angka di sudut kotak mulai dari 1 di tepi kiri dan bawah.", sol: "C(5, 2) = (5 × 4) ÷ 2 = 10 jalur." },
-          { tag: "Pigeonhole • Sedang", q: "Di kotak ada 5 kaos kaki merah, 4 biru, 3 kuning. Minimal berapa harus diambil tanpa melihat agar PASTI dapat sepasang warna sama?", ans: "4", hint: "Skenario terburuk: terambil 1 merah, 1 biru, 1 kuning (3 buah masih beda semua).", sol: "3 + 1 = 4 kaos kaki." },
-          { tag: "Inklusi-Eksklusi • Sedang", q: "Dari 30 siswa, 18 suka Matematika, 15 suka IPA, 5 tidak suka keduanya. Berapa yang suka keduanya?", ans: "8", hint: "Yang suka minimal satu = 30 − 5 = 25.", sol: "18 + 15 − 25 = 8 siswa." }
+          {
+            tag: "Filling Slots • Mudah",
+            q: "Banyak bilangan 3-angka berbeda yang dapat disusun dari angka {1, 2, 3, 4, 5} adalah...",
+            ans: "60",
+            hint: fmtHint(
+              "Buat 3 kotak: Ratusan, Puluhan, Satuan. Kalau 1 angka sudah dipakai di ratusan, sisa berapa pilihan untuk puluhan?",
+              "Gunakan aturan perkalian (Filling Slots) dengan mengurangi 1 pilihan di setiap kotak karena syarat 'berbeda'.",
+              "Anak sering lupa kata 'berbeda' lalu mengalikan 5 × 5 × 5 = 125."
+            ),
+            sol: fmtSol(
+              "Aturan Perkalian / Pengisian Tempat (Filling Slots) tanpa pengulangan.",
+              [
+                "Kotak Ratusan: bebas pilih dari {1, 2, 3, 4, 5} → ada 5 pilihan.",
+                "Kotak Puluhan: 1 angka sudah dipakai di ratusan → sisa 4 pilihan.",
+                "Kotak Satuan: 2 angka sudah dipakai → sisa 3 pilihan.",
+                "Total bilangan = 5 × 4 × 3 = <strong>60 bilangan</strong>."
+              ],
+              "Jika boleh berulang, baru 5 × 5 × 5 = 125. Selalu cek apakah ada syarat 'angka berbeda'."
+            )
+          },
+          {
+            tag: "Jabat Tangan • Mudah",
+            q: "Ada 8 anak saling berjabat tangan satu sama lain tepat 1 kali. Total jabat tangan adalah...",
+            ans: "28",
+            hint: fmtHint(
+              "Kalau ada 8 anak, masing-masing anak bersalaman dengan berapa teman? Lalu kenapa hasilnya harus dibagi 2?",
+              "Setiap salaman melibatkan 2 orang (A salaman dengan B sama dengan B salaman dengan A), sehingga dihitung n × (n − 1) ÷ 2.",
+              "Jangan lupa membagi 2 agar tidak terhitung ganda!"
+            ),
+            sol: fmtSol(
+              "Kombinasi 2 orang dari n orang: C(n, 2) = n × (n − 1) ÷ 2.",
+              [
+                "Setiap anak dari 8 anak bersalaman dengan 7 anak lainnya → 8 × 7 = 56.",
+                "Karena A–B dan B–A adalah salaman yang sama (terhitung 2 kali), kita bagi 2.",
+                "Total jabat tangan = 56 ÷ 2 = <strong>28 kali</strong>."
+              ],
+              "Sama dengan penjumlahan 7 + 6 + 5 + 4 + 3 + 2 + 1 = 28."
+            )
+          },
+          {
+            tag: "Grid Path • Sedang",
+            q: "Banyak jalur terpendek dari kiri bawah ke kanan atas pada petak 3 × 2 (3 kanan, 2 atas) adalah...",
+            ans: "10",
+            hint: fmtHint(
+              "Untuk sampai ke satu titik sudut, kita hanya bisa datang dari arah kiri atau dari arah bawah. Jadi jumlahkan saja angka dari kiri dan bawah!",
+              "Gunakan metode penjumlahan sudut pada petak (seperti Segitiga Pascal) mulai dari titik awal bernilai 1.",
+              "Pastikan anak menghitung titik sudut garisnya (ada 4×3 titik untuk petak 3×2)."
+            ),
+            sol: fmtSol(
+              "Metode penjumlahan jalur pada titik sudut kisi (Grid Path).",
+              [
+                "Tulis angka 1 di semua titik sepanjang tepi bawah dan tepi kiri.",
+                "Baris ke-1 (1 langkah ke atas): 1, (1+1)=2, (2+1)=3, (3+1)=4.",
+                "Baris ke-2 (2 langkah ke atas): 1, (1+2)=3, (3+3)=6, (6+4)=<strong>10 jalur</strong>."
+              ],
+              "Rumus kombinasinya: total 5 langkah (3 kanan + 2 atas) → C(5, 2) = (5 × 4) ÷ 2 = 10."
+            )
+          },
+          {
+            tag: "Pigeonhole • Sedang",
+            q: "Di kotak ada 5 kaos kaki merah, 4 biru, 3 kuning. Minimal berapa harus diambil tanpa melihat agar PASTI dapat sepasang warna sama?",
+            ans: "4",
+            hint: fmtHint(
+              "Bayangkan hari ini anak sedang paling tidak beruntung: ambil 1 dapat merah, ambil lagi dapat biru, ambil lagi dapat kuning. Masih belum sepasang kan?",
+              "Prinsip Sarang Merpati (Pigeonhole): hitung skenario terburuk (semua warna terambil 1 buah), lalu tambah 1.",
+              "Banyak siswa menjawab 5 + 4 + 1 = 10 (itu kalau disyaratkan warna TERTENTU, padahal soal hanya minta 'warna sama' apa saja)."
+            ),
+            sol: fmtSol(
+              "Prinsip Sarang Merpati (Worst-Case Scenario).",
+              [
+                "Ada 3 jenis warna (merah, biru, kuning).",
+                "Skenario paling sial: 3 pengambilan pertama menghasilkan warna yang berbeda semua (1 merah, 1 biru, 1 kuning).",
+                "Pada pengambilan ke-4, warna apa pun yang terambil pasti sudah ada pasangannya di antara 3 kaos kaki tadi.",
+                "Minimal pengambilan = 3 + 1 = <strong>4 kaos kaki</strong>."
+              ],
+              "Jika ada k jenis warna dan butuh sepasang (2 sama), jawabannya selalu k + 1."
+            )
+          },
+          {
+            tag: "Inklusi-Eksklusi • Sedang",
+            q: "Dari 30 siswa, 18 suka Matematika, 15 suka IPA, 5 tidak suka keduanya. Berapa yang suka keduanya?",
+            ans: "8",
+            hint: fmtHint(
+              "Dari 30 siswa, ada 5 yang tidak suka keduanya. Berarti ada berapa siswa yang suka Matematika atau IPA?",
+              "Gunakan diagram Venn atau Prinsip Inklusi-Eksklusi: Suka Keduanya = (Mat + IPA) − (Total − Tidak Suka).",
+              "Jangan langsung menjumlahkan 18 + 15 − 30 = 3 (lupa mengeluarkan 5 siswa yang tidak suka keduanya)."
+            ),
+            sol: fmtSol(
+              "Prinsip Inklusi-Eksklusi pada 2 himpunan.",
+              [
+                "Banyak siswa yang menyukai minimal satu pelajaran = 30 − 5 = 25 siswa.",
+                "Jumlah peminat Matematika + IPA = 18 + 15 = 33.",
+                "Kelebihan jumlah (33 − 25) terjadi karena siswa yang suka keduanya terhitung 2 kali.",
+                "Suka keduanya = 33 − 25 = <strong>8 siswa</strong>."
+              ],
+              "Cek diagram Venn: hanya Mat (18−8=10) + keduanya (8) + hanya IPA (15−8=7) + tidak suka (5) = 30 (Cocok!)."
+            )
+          }
         ],
         closing: ["Pastikan anak paham beda Filling Slots (dikali) vs penjumlahan.", "Ulangi trik skenario terburuk pada soal Pigeonhole."]
       },
@@ -389,10 +880,85 @@
           { title: "3 Jurus Saat Lupa Rumus", body: "1) Uji angka kecil (ganti 100 jadi 4 dulu), 2) Buat daftar teratur/tabel agar tidak ada yang terlewat, 3) Bekerja mundur dari kondisi akhir." }
         ],
         problems: [
-          { tag: "Pengelompokan • Mudah", q: "Hitung hasil dari 1 − 2 + 3 − 4 + 5 − 6 + ... + 99 − 100.", ans: "-50", hint: "Kelompokkan per dua angka: (1−2) + (3−4) + ...", sol: "Ada 50 pasang, tiap pasang bernilai −1 → 50 × (−1) = −50." },
-          { tag: "Daftar Teratur • Sedang", q: "Banyak cara menukar Rp10.000 dengan uang Rp5.000 dan/atau Rp2.000 adalah ... cara.", ans: "2", hint: "Coba dari banyak lembar Rp5.000: 2 lembar, 1 lembar, 0 lembar.", sol: "(2×5000) dan (5×2000). Jika 1×5000 sisa 5000 tak bisa dibagi 2000. Total 2 cara." },
-          { tag: "Kerja Mundur • Sulit", q: "Ibu membagi permen ke 3 anak berturut-turut; tiap anak mengambil setengah sisa lalu ditambah 1. Setelah anak ke-3 permen habis (0). Permen mula-mula ada...", ans: "14", hint: "Mundur dari 0: tambah 1 lalu kali 2, ulangi 3 kali.", sol: "0 → (0+1)×2=2 → (2+1)×2=6 → (6+1)×2=14." },
-          { tag: "Pola Berulang • Mudah", q: "Tentukan angka ke-50 dari pola 2, 5, 8, 1, 2, 5, 8, 1, ...", ans: "5", hint: "Pola berulang tiap 4 angka. Bagi 50 dengan 4.", sol: "50 ÷ 4 = 12 sisa 2 → angka ke-2 adalah 5." }
+          {
+            tag: "Pengelompokan • Mudah",
+            q: "Hitung hasil dari 1 − 2 + 3 − 4 + 5 − 6 + ... + 99 − 100.",
+            ans: "-50",
+            hint: fmtHint(
+              "Coba lihat hasilnya kalau cuma sampai 4: (1 − 2) + (3 − 4) = berapa? Ada berapa pasang dari 1 sampai 100?",
+              "Kelompokkan dua angka berurutan menjadi pasangan yang selisihnya sama (−1).",
+              "Jangan lupa tanda minus (−) di depan angka 50!"
+            ),
+            sol: fmtSol(
+              "Pengelompokan suku berpasangan (Telescoping / Pairing).",
+              [
+                "Pasangkan: (1 − 2) + (3 − 4) + (5 − 6) + ... + (99 − 100).",
+                "Setiap pasang bernilai −1.",
+                "Dari 1 sampai 100 ada 100 ÷ 2 = 50 pasang.",
+                "Total = 50 × (−1) = <strong>−50</strong>."
+              ],
+              "Uji kasus kecil (sampai 6): 1−2+3−4+5−6 = −3 (yaitu −(6÷2)). Untuk 100, hasilnya −50."
+            )
+          },
+          {
+            tag: "Daftar Teratur • Sedang",
+            q: "Banyak cara menukar Rp10.000 dengan uang Rp5.000 dan/atau Rp2.000 adalah ... cara.",
+            ans: "2",
+            hint: fmtHint(
+              "Coba mulai dari kemungkinan uang Rp5.000-nya paling banyak: 2 lembar, 1 lembar, lalu 0 lembar. Sisanya bisa dibagi Rp2.000 tidak?",
+              "Buat daftar sistematis berdasarkan jumlah lembar Rp5.000 agar tidak ada kombinasi yang terlewat.",
+              "Perhatikan kata 'dan/atau', artinya boleh memakai satu jenis pecahan saja (misal semuanya Rp5.000 atau semuanya Rp2.000)."
+            ),
+            sol: fmtSol(
+              "Pencacahan sistematis menggunakan tabel.",
+              [
+                "Jika 2 lembar Rp5.000 (= 10.000) + 0 lembar Rp2.000 → ✅ Valid (Cara ke-1).",
+                "Jika 1 lembar Rp5.000 (= 5.000), sisa 5.000 tidak habis dibagi 2.000 → ❌ Tidak bisa.",
+                "Jika 0 lembar Rp5.000 + 5 lembar Rp2.000 (= 10.000) → ✅ Valid (Cara ke-2).",
+                "Total hanya ada <strong>2 cara</strong>."
+              ],
+              "Selalu mulai pencacahan dari nilai uang yang paling besar (Rp5.000) supaya jumlah kasusnya sedikit."
+            )
+          },
+          {
+            tag: "Kerja Mundur • Sulit",
+            q: "Ibu membagi permen ke 3 anak berturut-turut; tiap anak mengambil setengah sisa lalu ditambah 1. Setelah anak ke-3 permen habis (0). Permen mula-mula ada...",
+            ans: "14",
+            hint: fmtHint(
+              "Anak ke-3 mengambil setengah sisa lalu tambah 1, setelah itu habis (0). Berarti sebelum dia tambah 1, permennya masih ada 1! Itu adalah setengahnya.",
+              "Kerja mundur dari 0 sebanyak 3 kali: pada setiap tahap, operasi kebalikannya adalah (sisa + 1) × 2.",
+              "Kesalahan paling sering: mengalikan 2 dulu baru menambah 1 (padahal saat maju: bagi 2 dulu baru kurang 1, jadi saat mundur: tambah 1 dulu baru kali 2)."
+            ),
+            sol: fmtSol(
+              "Kerja mundur bertingkat: jika maju adalah (S ÷ 2) − 1, maka mundur adalah (S_baru + 1) × 2.",
+              [
+                "Sisa akhir setelah anak ke-3 = 0.",
+                "Sebelum anak ke-3: (0 + 1) × 2 = 2 permen.",
+                "Sebelum anak ke-2: (2 + 1) × 2 = 6 permen.",
+                "Sebelum anak ke-1 (mula-mula): (6 + 1) × 2 = <strong>14 permen</strong>."
+              ],
+              "Uji maju: 14 → anak 1 ambil (7+1=8), sisa 6 → anak 2 ambil (3+1=4), sisa 2 → anak 3 ambil (1+1=2), sisa 0 (Cocok!)."
+            )
+          },
+          {
+            tag: "Pola Berulang • Mudah",
+            q: "Tentukan angka ke-50 dari pola 2, 5, 8, 1, 2, 5, 8, 1, ...",
+            ans: "5",
+            hint: fmtHint(
+              "Ada berapa angka dalam satu kelompok pola sebelum dia mengulang lagi dari angka 2?",
+              "Hitung panjang siklus pengulangan (4), lalu bagi 50 dengan 4 untuk melihat sisanya.",
+              "Jika sisa 0, ambil angka terakhir dalam siklus (urutan ke-4), bukan urutan ke-0."
+            ),
+            sol: fmtSol(
+              "Pola periodik (berulang setiap 4 suku).",
+              [
+                "Siklus pola: {2, 5, 8, 1} (panjang siklus = 4).",
+                "Bagi 50 dengan 4: 50 ÷ 4 = 12 sisa 2.",
+                "Karena bersisa 2, ambil suku urutan ke-2 pada siklus, yaitu <strong>5</strong>."
+              ],
+              "12 siklus penuh berakhir di suku ke-48 (angka 1). Suku ke-49 adalah 2, suku ke-50 adalah 5."
+            )
+          }
         ],
         closing: ["Review semua soal yang salah dari Hari 2 sampai Hari 5.", "Istirahat cukup untuk menyambut Hari 7."]
       },
@@ -408,10 +974,30 @@
           { title: "Kenapa Istirahat Penting?", body: "Otak butuh jeda untuk menguatkan memori konsep Minggu 1. Cukup main 1–2 teka-teki santai lalu istirahat." }
         ],
         problems: [
-          { tag: "Teka-teki Logika • Santai", q: "Seekor siput memanjat sumur 10 m. Tiap siang naik 3 m, tiap malam turun 2 m. Pada hari ke berapa siput sampai di puncak?", ans: "8", hint: "Pada malam ke-7 siput ada di ketinggian 7 m. Besok siangnya naik 3 m langsung sampai!", sol: "Hari ke-8 siang (7 + 3 = 10 m, tidak perlu turun lagi)." }
+          {
+            tag: "Teka-teki Logika • Santai",
+            q: "Seekor siput memanjat sumur 10 m. Tiap siang naik 3 m, tiap malam turun 2 m. Pada hari ke berapa siput sampai di puncak?",
+            ans: "8",
+            hint: fmtHint(
+              "Hati-hati! Jangan langsung membagi 10 m dengan (3 − 2 = 1 m/hari). Begitu siang hari sudah menyentuh 10 m, apakah siputnya masih turun malamnya?",
+              "Sisakan dulu lonjakan siang terakhir (3 m): hitung berapa hari untuk mencapai 10 − 3 = 7 m.",
+              "Jebakan klasik: menjawab 10 hari karena mengira naik bersih 1 m/hari."
+            ),
+            sol: fmtSol(
+              "Masalah gerak naik-turun: saat target tercapai di siang hari, proses selesai (tidak turun lagi).",
+              [
+                "Dalam 1 hari penuh (siang + malam), siput naik bersih 3 − 2 = 1 meter.",
+                "Selama 7 hari penuh (sampai malam ke-7), siput berada di ketinggian 7 meter.",
+                "Pada siang hari ke-8, siput naik 3 meter → 7 + 3 = 10 meter (sampai di puncak!).",
+                "Jadi siput sampai pada hari ke-<strong>8</strong>."
+              ],
+              "Rumus cepat: ((Tinggi − Naik) ÷ (Naik − Turun)) + 1 = ((10 − 3) ÷ 1) + 1 = 8."
+            )
+          }
         ],
         closing: ["Tutup laptop/buku setelah teka-teki ini dan istirahat penuh."]
-      },
+      }
+    ];
       {
         day: 8, week: 2, mode: "Simulasi 1", totalMins: 90,
         tabMins: ["10m", "15m", "45m", "20m"],
@@ -424,11 +1010,98 @@
           { title: "Fokus Simulasi 1", body: "Kerjakan mandiri tanpa bantuan, pastikan soal nomor akhir sempat dibaca dan dikerjakan." }
         ],
         problems: [
-          { tag: "Rata-rata • Mudah", q: "Rata-rata 4 bilangan adalah 15. Jika ditambah 1 bilangan lagi, rata-ratanya menjadi 16. Bilangan ke-5 adalah...", ans: "20", hint: "Cari total 5 bilangan dikurangi total 4 bilangan.", sol: "(5 × 16) − (4 × 15) = 80 − 60 = 20." },
-          { tag: "Sisa Pembagian • Mudah", q: "Berapakah sisa pembagian 2026 oleh 9?", ans: "1", hint: "Jumlahkan digit-digitnya lalu bagi 9.", sol: "2 + 0 + 2 + 6 = 10 → 10 ÷ 9 sisa 1." },
-          { tag: "Geometri • Mudah", q: "Luas persegi panjang 48 cm² dengan panjang 8 cm. Kelilingnya adalah ... cm.", ans: "28", hint: "Cari lebarnya dulu (48 ÷ 8).", sol: "Lebar = 6 cm. Keliling = 2 × (8 + 6) = 28 cm." },
-          { tag: "Kecepatan • Sedang", q: "Budi bersepeda 12 km/jam selama 45 menit. Jarak tempuhnya adalah ... km.", ans: "9", hint: "45 menit = 3/4 jam.", sol: "12 × 3/4 = 9 km." },
-          { tag: "Kombinatorika • Sedang", q: "Banyak bilangan genap 2-angka dari digit {1, 2, 3, 4} jika angka boleh berulang adalah...", ans: "8", hint: "Puluhan: 4 pilihan, Satuan (genap): 2 pilihan (2 atau 4).", sol: "4 × 2 = 8 bilangan." }
+          {
+            tag: "Rata-rata • Mudah",
+            q: "Rata-rata 4 bilangan adalah 15. Jika ditambah 1 bilangan lagi, rata-ratanya menjadi 16. Bilangan ke-5 adalah...",
+            ans: "20",
+            hint: fmtHint(
+              "Kalau 4 bilangan rata-ratanya 15, jumlah total 4 bilangan itu berapa? Kalau 5 bilangan rata-ratanya 16, jumlah totalnya berapa?",
+              "Gunakan konsep Jumlah Total = Rata-rata × Banyak Data, lalu kurangkan total baru dengan total lama.",
+              "Jangan langsung menjawab 16 − 15 = 1 atau 16 + 1 = 17."
+            ),
+            sol: fmtSol(
+              "Hubungan Rata-rata: Jumlah = Rata-rata × Banyak Data.",
+              [
+                "Jumlah 4 bilangan awal = 4 × 15 = 60.",
+                "Jumlah 5 bilangan setelah ditambah = 5 × 16 = 80.",
+                "Bilangan ke-5 = 80 − 60 = <strong>20</strong>."
+              ],
+              "Trik selisih: supaya rata-rata 4 angka lama naik +1 (butuh +4) dan angka baru ikut rata-rata 16, angka ke-5 = 16 + 4 = 20."
+            )
+          },
+          {
+            tag: "Sisa Pembagian • Mudah",
+            q: "Berapakah sisa pembagian 2026 oleh 9?",
+            ans: "1",
+            hint: fmtHint(
+              "Ingat aturan keterbagian 9? Kita cukup menjumlahkan digit-digitnya saja!",
+              "Sisa pembagian suatu bilangan oleh 9 selalu sama dengan sisa pembagian jumlah digit-digitnya oleh 9.",
+              "Tidak perlu membagi bersusun 2026 ÷ 9 secara manual."
+            ),
+            sol: fmtSol(
+              "Sifat modulo 9: N mod 9 ≡ (jumlah digit N) mod 9.",
+              [
+                "Jumlahkan digit-digit 2026: 2 + 0 + 2 + 6 = 10.",
+                "Bagi 10 dengan 9: 10 ÷ 9 = 1 sisa <strong>1</strong>."
+              ],
+              "Cek manual: 2025 habis dibagi 9 (225 × 9 = 2025), maka 2026 bersisa 1."
+            )
+          },
+          {
+            tag: "Geometri • Mudah",
+            q: "Luas persegi panjang 48 cm² dengan panjang 8 cm. Kelilingnya adalah ... cm.",
+            ans: "28",
+            hint: fmtHint(
+              "Untuk mencari keliling, kita butuh panjang dan lebar. Lebarnya berapa jika luasnya 48 cm²?",
+              "Cari lebar terlebih dahulu dari Luas ÷ Panjang, baru hitung Keliling = 2 × (Panjang + Lebar).",
+              "Sering ada anak yang lupa mengalikan 2 saat menghitung keliling (hanya 8 + 6 = 14)."
+            ),
+            sol: fmtSol(
+              "Luas = p × l, dan Keliling = 2 × (p + l).",
+              [
+                "Lebar (l) = 48 ÷ 8 = 6 cm.",
+                "Keliling = 2 × (8 + 6) = 2 × 14 = <strong>28 cm</strong>."
+              ],
+              "Cek ulang: panjang 8 + 8 + lebar 6 + 6 = 28 cm."
+            )
+          },
+          {
+            tag: "Kecepatan • Sedang",
+            q: "Budi bersepeda 12 km/jam selama 45 menit. Jarak tempuhnya adalah ... km.",
+            ans: "9",
+            hint: fmtHint(
+              "Kecepatannya dalam km per JAM, tapi waktunya masih dalam MENIT. 45 menit itu berapa bagian dari 1 jam?",
+              "Ubah satuan menit ke jam terlebih dahulu (45/60 = 3/4 jam), baru kalikan dengan kecepatan.",
+              "Jangan langsung mengalikan 12 × 45!"
+            ),
+            sol: fmtSol(
+              "Jarak = Kecepatan × Waktu (dengan satuan waktu yang sama).",
+              [
+                "Konversi waktu: 45 menit = 45/60 jam = 3/4 jam.",
+                "Jarak = 12 km/jam × 3/4 jam = (12 ÷ 4) × 3 = 3 × 3 = <strong>9 km</strong>."
+              ],
+              "Cara nalar: 1 jam = 12 km, berarti tiap 15 menit (seperempat jam) = 3 km. 45 menit = 3 × 3 = 9 km."
+            )
+          },
+          {
+            tag: "Kombinatorika • Sedang",
+            q: "Banyak bilangan genap 2-angka dari digit {1, 2, 3, 4} jika angka boleh berulang adalah...",
+            ans: "8",
+            hint: fmtHint(
+              "Supaya bilangannya GENAP, angka satuannya (belakang) harus angka berapa saja dari {1, 2, 3, 4}?",
+              "Buat 2 kotak slot [Puluhan] × [Satuan]. Isi kotak yang punya syarat khusus terlebih dahulu (Satuan).",
+              "Perhatikan kata 'boleh berulang', artinya angka di satuan boleh dipakai lagi di puluhan."
+            ),
+            sol: fmtSol(
+              "Filling Slots dengan pengulangan dan syarat bilangan genap.",
+              [
+                "Slot Satuan (harus genap): hanya boleh diisi 2 atau 4 → ada 2 pilihan.",
+                "Slot Puluhan (bebas & boleh berulang): boleh diisi 1, 2, 3, atau 4 → ada 4 pilihan.",
+                "Total = 4 × 2 = <strong>8 bilangan</strong>."
+              ],
+              "Karena sedikit, bisa dicek manual: 12, 14, 22, 24, 32, 34, 42, 44 (tepat 8)."
+            )
+          }
         ],
         closing: ["Catat 1–2 topik yang masih salah untuk dibenahi di Hari 9."]
       },
@@ -444,10 +1117,83 @@
           { title: "Diskon Bertingkat & Sudut Jam", body: "Diskon 20% lalu 10% BUKAN 30%, melainkan dikali 0,8 × 0,9 = 0,72. Pada jam, tiap 1 jam jarum bergeser 30°." }
         ],
         problems: [
-          { tag: "Pencacahan • Sedang", q: "Sebuah segitiga besar dibagi menjadi 3 bagian oleh garis-garis dari puncak ke alas. Total seluruh segitiga yang terlihat ada...", ans: "6", hint: "Hitung segitiga ukuran 1 bagian, 2 bagian, dan 3 bagian.", sol: "3 + 2 + 1 = 6 segitiga." },
-          { tag: "Persen Bertingkat • Sedang", q: "Harga baju Rp100.000 didiskon 20%, lalu didiskon lagi 10%. Harga akhirnya Rp... (tulis angka saja)", ans: "72000", hint: "Setelah diskon 20% jadi 80.000, lalu diskon 10% dari 80.000.", sol: "100.000 × 0,8 × 0,9 = 72000." },
-          { tag: "FPB • Mudah", q: "Tentukan FPB dari 36 dan 48.", ans: "12", hint: "Faktor terbesar yang bisa membagi 36 dan 48.", sol: "FPB(36, 48) = 12." },
-          { tag: "Sudut Jam • Mudah-Sedang", q: "Besar sudut terkecil antara jarum jam dan jarum menit pada pukul 04.00 adalah ... derajat.", ans: "120", hint: "Setiap angka pada jam berjarak 30°.", sol: "4 × 30° = 120°." }
+          {
+            tag: "Pencacahan • Sedang",
+            q: "Sebuah segitiga besar dibagi menjadi 3 bagian oleh garis-garis dari puncak ke alas. Total seluruh segitiga yang terlihat ada...",
+            ans: "6",
+            hint: fmtHint(
+              "Selain 3 segitiga kecil, apakah gabungan 2 segitiga kecil juga membentuk segitiga? Bagaimana dengan gabungan ketiganya?",
+              "Hitung berdasarkan ukuran gabungan: segitiga ukuran 1-bagian, 2-bagian, dan 3-bagian.",
+              "Anak sering hanya menghitung segitiga kecilnya saja (3)."
+            ),
+            sol: fmtSol(
+              "Pencacahan bangun datar bertingkat dari satu titik sudut.",
+              [
+                "Segitiga ukuran 1 bagian: ada 3 buah.",
+                "Segitiga ukuran 2 bagian (gabungan dua segitiga bersebelahan): ada 2 buah.",
+                "Segitiga ukuran 3 bagian (segitiga paling besar): ada 1 buah.",
+                "Total = 3 + 2 + 1 = <strong>6 segitiga</strong>."
+              ],
+              "Trik cepat: jika alas terbagi menjadi n bagian dari satu puncak, total segitiga = 1 + 2 + ... + n."
+            )
+          },
+          {
+            tag: "Persen Bertingkat • Sedang",
+            q: "Harga baju Rp100.000 didiskon 20%, lalu didiskon lagi 10%. Harga akhirnya Rp... (tulis angka saja)",
+            ans: "72000",
+            hint: fmtHint(
+              "Diskon pertama 20% dari 100.000, harganya jadi berapa? Nah, diskon kedua 10% dihitung dari harga BARU itu ya!",
+              "Hitung diskon bertahap satu per satu (diskon kedua bukan dari harga awal Rp100.000).",
+              "Jebakan klasik: langsung menjumlahkan diskon 20% + 10% = 30% sehingga menjawab 70.000."
+            ),
+            sol: fmtSol(
+              "Persentase perubahan bertingkat (diskon ganda).",
+              [
+                "Setelah diskon 20%: bayar 80% × Rp100.000 = Rp80.000.",
+                "Diskon lagi 10% dari Rp80.000 = Rp8.000.",
+                "Harga akhir = Rp80.000 − Rp8.000 = <strong>72000</strong>."
+              ],
+              "Trik pengali: Harga akhir = 100.000 × (1 − 0,2) × (1 − 0,1) = 100.000 × 0,8 × 0,9 = 72000."
+            )
+          },
+          {
+            tag: "FPB • Mudah",
+            q: "Tentukan FPB dari 36 dan 48.",
+            ans: "12",
+            hint: fmtHint(
+              "Angka paling besar berapa yang bisa membagi habis 36 dan juga membagi habis 48?",
+              "Gunakan faktorisasi prima (ambil pangkat terkecil dari faktor yang sama) atau metode selisih: FPB(36, 48) membagi 48 − 36 = 12.",
+              "Jangan tertukar antara FPB (faktor, lebih kecil/sama) dan KPK (kelipatan, lebih besar/sama)."
+            ),
+            sol: fmtSol(
+              "Faktor Persekutuan Terbesar (FPB).",
+              [
+                "36 = 2² × 3²",
+                "48 = 2⁴ × 3¹",
+                "Ambil faktor prima yang sama dengan pangkat terkecil: 2² × 3¹ = 4 × 3 = <strong>12</strong>."
+              ],
+              "Trik selisih (Euclid): 48 − 36 = 12. Karena 12 bisa membagi 36 dan 48, maka FPB = 12!"
+            )
+          },
+          {
+            tag: "Sudut Jam • Mudah-Sedang",
+            q: "Besar sudut terkecil antara jarum jam dan jarum menit pada pukul 04.00 adalah ... derajat.",
+            ans: "120",
+            hint: fmtHint(
+              "Satu putaran penuh jam adalah 360° dan ada 12 angka. Berarti jarak 1 angka ke angka berikutnya berapa derajat?",
+              "Hitung sudut per 1 jam = 360° ÷ 12 = 30°. Pukul 04.00 jarum tepat di angka 12 dan 4 (berjarak 4 langkah).",
+              "Pastikan yang ditanya sudut TERKECIL (< 180°), bukan sudut refleksnya (240°)."
+            ),
+            sol: fmtSol(
+              "Sudut pada jam dinding: 1 jam = 360° ÷ 12 = 30°.",
+              [
+                "Pada pukul 04.00, jarum menit tepat di angka 12 dan jarum jam tepat di angka 4.",
+                "Jarak antara angka 12 dan angka 4 adalah 4 bagian.",
+                "Besar sudut = 4 × 30° = <strong>120°</strong>."
+              ],
+              "Ingat patokan jam: 03.00 = 90° (siku-siku), 06.00 = 180° (lurus)."
+            )
+          }
         ],
         closing: ["Pastikan tidak terkecoh menjumlahkan persentase diskon bertingkat secara langsung."]
       },
@@ -463,11 +1209,98 @@
           { title: "Disiplin Putaran 1 & Putaran 2", body: "35 menit pertama fokus menyapu soal pasti bisa. 25 menit berikutnya baru kerjakan soal yang dilewati. 10 menit terakhir cek ulang!" }
         ],
         problems: [
-          { tag: "Putaran 1 • Mudah", q: "Hitung: 999 × 15 + 15.", ans: "15000", hint: "Sifat distributif: (999 + 1) × 15.", sol: "1000 × 15 = 15000." },
-          { tag: "Putaran 1 • Mudah", q: "Keliling sebuah persegi adalah 36 cm. Luasnya adalah ... cm².", ans: "81", hint: "Cari panjang sisinya dulu (36 ÷ 4).", sol: "Sisi = 9 cm → Luas = 9 × 9 = 81 cm²." },
-          { tag: "Putaran 1 • Sedang", q: "Jumlah dua bilangan adalah 30 dan selisihnya 8. Bilangan yang paling besar adalah...", ans: "19", hint: "Bilangan besar = (Jumlah + Selisih) ÷ 2.", sol: "(30 + 8) ÷ 2 = 19." },
-          { tag: "Putaran 2 • Sulit", q: "Tentukan angka satuan dari 7^100.", ans: "1", hint: "Siklus satuan 7^n adalah {7, 9, 3, 1}. 100 habis dibagi 4 (sisa 0).", sol: "Sisa 0 ambil urutan ke-4 dari {7, 9, 3, 1}, yaitu 1." },
-          { tag: "Putaran 2 • Sedang", q: "Banyak cara memilih 2 siswa dari 6 siswa untuk menjadi Ketua dan Wakil Ketua adalah...", ans: "30", hint: "Urutan diperhatikan (Ketua ≠ Wakil): 6 pilihan ketua × 5 pilihan wakil.", sol: "6 × 5 = 30 cara." }
+          {
+            tag: "Putaran 1 • Mudah",
+            q: "Hitung: 999 × 15 + 15.",
+            ans: "15000",
+            hint: fmtHint(
+              "Angka 15 di belakang itu sama dengan 1 × 15. Kalau digabung dengan 999 × 15, jadi berapa kali 15?",
+              "Gunakan sifat distributif: 999 × 15 + 1 × 15 = (999 + 1) × 15.",
+              "Jangan mengalikan 999 × 15 secara bersusun."
+            ),
+            sol: fmtSol(
+              "Sifat distributif perkalian.",
+              [
+                "Ubah + 15 menjadi + (1 × 15).",
+                "Faktorkan 15: (999 + 1) × 15 = 1000 × 15 = <strong>15000</strong>."
+              ],
+              "Soal seperti ini harus diselesaikan dalam < 15 detik di Putaran 1!"
+            )
+          },
+          {
+            tag: "Putaran 1 • Mudah",
+            q: "Keliling sebuah persegi adalah 36 cm. Luasnya adalah ... cm².",
+            ans: "81",
+            hint: fmtHint(
+              "Persegi punya 4 sisi sama panjang. Kalau kelilingnya 36 cm, panjang 1 sisinya berapa?",
+              "Cari panjang sisi = Keliling ÷ 4, lalu hitung Luas = sisi × sisi.",
+              "Jangan langsung mengalikan 36 × 36."
+            ),
+            sol: fmtSol(
+              "Keliling persegi = 4 × s, Luas persegi = s × s.",
+              [
+                "Panjang sisi (s) = 36 ÷ 4 = 9 cm.",
+                "Luas = 9 × 9 = <strong>81 cm²</strong>."
+              ],
+              "Cek ulang: 9 + 9 + 9 + 9 = 36 cm (Cocok!)."
+            )
+          },
+          {
+            tag: "Putaran 1 • Sedang",
+            q: "Jumlah dua bilangan adalah 30 dan selisihnya 8. Bilangan yang paling besar adalah...",
+            ans: "19",
+            hint: fmtHint(
+              "Kalau jumlahnya 30 dan selisihnya 8, coba bayangkan dua bilangan itu: A + B = 30 dan A − B = 8.",
+              "Gunakan rumus cepat Jumlah-Selisih: Bilangan Besar = (Jumlah + Selisih) ÷ 2.",
+              "Pastikan yang ditanya bilangan BESAR (19) bukan bilangan KECIL (11)."
+            ),
+            sol: fmtSol(
+              "Sistem persamaan jumlah dan selisih dua bilangan.",
+              [
+                "Bilangan Besar = (30 + 8) ÷ 2 = 38 ÷ 2 = <strong>19</strong>.",
+                "Bilangan Kecil = 30 − 19 = 11."
+              ],
+              "Uji: 19 + 11 = 30 dan 19 − 11 = 8 (Cocok!)."
+            )
+          },
+          {
+            tag: "Putaran 2 • Sulit",
+            q: "Tentukan angka satuan dari 7^100.",
+            ans: "1",
+            hint: fmtHint(
+              "Cari pola satuan 7¹, 7², 7³, 7⁴ dulu. Lalu bagi 100 dengan 4—kalau habis dibagi (sisa 0), ambil urutan ke berapa?",
+              "Siklus satuan pangkat 7 adalah {7, 9, 3, 1}. Sisa 0 berarti tepat di akhir siklus (urutan ke-4).",
+              "Jebakan: siswa sering mengira sisa 0 artinya jawabannya 0 (padahal urutan ke-4, yaitu 1)."
+            ),
+            sol: fmtSol(
+              "Siklus digit satuan perpangkatan 7 berulang setiap 4 langkah.",
+              [
+                "Pola satuan 7ⁿ: 7¹=7, 7²=49(9), 7³=343(3), 7⁴=...1 → {7, 9, 3, 1}.",
+                "Bagi pangkat 100 dengan 4: 100 ÷ 4 = 25 sisa 0.",
+                "Karena habis dibagi 4 (sisa 0), ambil urutan ke-4 dari siklus, yaitu <strong>1</strong>."
+              ],
+              "Ingat: 7⁴ satuannya 1, dan 1 dipangkatkan berapa pun tetap 1. Maka 7¹⁰⁰ = (7⁴)²⁵ satuannya 1²⁵ = 1."
+            )
+          },
+          {
+            tag: "Putaran 2 • Sedang",
+            q: "Banyak cara memilih 2 siswa dari 6 siswa untuk menjadi Ketua dan Wakil Ketua adalah...",
+            ans: "30",
+            hint: fmtHint(
+              "Apakah memilih Budi sebagai Ketua & Ani sebagai Wakil sama dengan Ani sebagai Ketua & Budi sebagai Wakil? Beda kan!",
+              "Karena jabatan berbeda (urutan diperhatikan), gunakan aturan perkalian slot tanpa dibagi 2.",
+              "Jangan dibagi 2 seperti soal jabat tangan, karena Ketua dan Wakil adalah posisi yang berbeda."
+            ),
+            sol: fmtSol(
+              "Permutasi / Filling Slots dengan posisi jabatan berbeda.",
+              [
+                "Pilihan untuk Ketua: ada 6 siswa.",
+                "Pilihan untuk Wakil Ketua: sisa 5 siswa.",
+                "Total cara = 6 × 5 = <strong>30 cara</strong>."
+              ],
+              "Selalu tanyakan: 'Kalau A dan B ditukar posisinya, apakah jadi kasus baru?' Jika YA, jangan dibagi 2."
+            )
+          }
         ],
         closing: ["Evaluasi apakah 10 menit terakhir benar-benar dipakai untuk cek ulang jawaban."]
       },
@@ -483,10 +1316,83 @@
           { title: "4 Jebakan Paling Sering di OSN SD", body: "1) Ditanya nilai beberapa tahun lagi (bukan sekarang), 2) Satuan berbeda (m vs cm vs liter), 3) Tanda > vs ≥, 4) Ditanya keliling padahal yang dihitung luas." }
         ],
         problems: [
-          { tag: "Jebakan Tanya • Sedang", q: "Usia Kakak 2 kali usia Adik. Jumlah usia mereka sekarang 24 tahun. Berapa usia Kakak 3 tahun lagi?", ans: "19", hint: "Cari usia Kakak sekarang dulu, lalu JANGAN lupa tambah 3!", sol: "Adik = 8, Kakak = 16. 3 tahun lagi = 16 + 3 = 19 tahun." },
-          { tag: "Jebakan Satuan • Sedang", q: "Balok panjang 2 m, lebar 150 cm, tinggi 100 cm. Berapa liter volumenya? (1 liter = 1 dm³)", ans: "3000", hint: "Ubah semua ukuran ke dm terlebih dahulu (1 m = 10 dm, 10 cm = 1 dm).", sol: "20 dm × 15 dm × 10 dm = 3000 liter." },
-          { tag: "Jebakan Tanda • Mudah", q: "Banyak bilangan bulat x yang memenuhi 3 < x ≤ 8 adalah...", ans: "5", hint: "3 tidak ikut (<), sedangkan 8 ikut (≤).", sol: "4, 5, 6, 7, 8 → ada 5 bilangan." },
-          { tag: "Jebakan Keliling • Sedang", q: "Kebun persegi luasnya 64 m². Di sekelilingnya dipasang pagar dengan biaya Rp10.000/meter. Total biaya adalah Rp... (tulis angka saja)", ans: "320000", hint: "Cari sisi (√64 = 8), hitung KELILING (4 × 8), baru kali Rp10.000.", sol: "Keliling = 32 m → Biaya = 32 × 10.000 = 320000." }
+          {
+            tag: "Jebakan Tanya • Sedang",
+            q: "Usia Kakak 2 kali usia Adik. Jumlah usia mereka sekarang 24 tahun. Berapa usia Kakak 3 tahun lagi?",
+            ans: "19",
+            hint: fmtHint(
+              "Hati-hati baca kalimat terakhir! Yang ditanya usia Kakak SEKARANG atau 3 TAHUN LAGI?",
+              "Cari usia Adik dan Kakak sekarang dengan Bar Model (1 kotak + 2 kotak = 3 kotak = 24), lalu tambahkan 3.",
+              "Banyak anak langsung menjawab 16 (usia Kakak sekarang) karena terburu-buru."
+            ),
+            sol: fmtSol(
+              "Pemodelan rasio + ketelitian membaca kalimat tanya akhir.",
+              [
+                "Adik = 1 kotak, Kakak = 2 kotak → Total = 3 kotak = 24 tahun.",
+                "1 kotak (Adik) = 24 ÷ 3 = 8 tahun. Kakak sekarang = 2 × 8 = 16 tahun.",
+                "Usia Kakak 3 tahun lagi = 16 + 3 = <strong>19 tahun</strong>."
+              ],
+              "Biasakan menggarisbawahi kata terakhir di kalimat tanya ('3 tahun lagi')."
+            )
+          },
+          {
+            tag: "Jebakan Satuan • Sedang",
+            q: "Balok panjang 2 m, lebar 150 cm, tinggi 100 cm. Berapa liter volumenya? (1 liter = 1 dm³)",
+            ans: "3000",
+            hint: fmtHint(
+              "Lihat satuannya: ada meter (m), ada sentimeter (cm), tapi yang ditanya LITER (dm³). Yuk ubah semua ke dm dulu sebelum dikali!",
+              "Konversi ke dm: 1 m = 10 dm, 10 cm = 1 dm. Baru kalikan p × l × t.",
+              "Mengalikan 2 × 150 × 100 langsung akan menghasilkan angka yang salah satuannya."
+            ),
+            sol: fmtSol(
+              "Konversi satuan panjang ke desimeter (dm) sebelum menghitung volume dalam liter (dm³).",
+              [
+                "Panjang = 2 m = 20 dm.",
+                "Lebar = 150 cm = 15 dm.",
+                "Tinggi = 100 cm = 10 dm.",
+                "Volume = 20 × 15 × 10 = <strong>3000 liter</strong>."
+              ],
+              "Mengubah ke dm di awal membuat angkanya jauh lebih kecil dan mudah dikalikan."
+            )
+          },
+          {
+            tag: "Jebakan Tanda • Mudah",
+            q: "Banyak bilangan bulat x yang memenuhi 3 < x ≤ 8 adalah...",
+            ans: "5",
+            hint: fmtHint(
+              "Beda tanda '<' dan '≤': angka 3 ikut tidak? Angka 8 ikut tidak?",
+              "Daftarkan semua bilangan bulatnya: tanda '<' tidak mengikutkan batas, sedangkan '≤' mengikutkan batasnya.",
+              "Sering terbalik menghitung 8 − 3 − 1 = 4 atau ikut memasukkan angka 3."
+            ),
+            sol: fmtSol(
+              "Membaca pertidaksamaan ketat (<) vs tidak ketat (≤).",
+              [
+                "3 < x berarti x harus lebih besar dari 3 (angka 3 TIDAK ikut).",
+                "x ≤ 8 berarti x kurang dari atau sama dengan 8 (angka 8 IKUT).",
+                "Bilangan bulat yang memenuhi: {4, 5, 6, 7, 8} → ada <strong>5 bilangan</strong>."
+              ],
+              "Cukup tuliskan anggotanya satu per satu jika rentangnya kecil agar 100% pasti."
+            )
+          },
+          {
+            tag: "Jebakan Keliling • Sedang",
+            q: "Kebun persegi luasnya 64 m². Di sekelilingnya dipasang pagar dengan biaya Rp10.000/meter. Total biaya adalah Rp... (tulis angka saja)",
+            ans: "320000",
+            hint: fmtHint(
+              "Pagar dipasang di SEKELILING kebun. Yang diketahui baru LUAS (64 m²). Cari sisinya dulu, lalu hitung kelilingnya!",
+              "Sisi = √64 = 8 m, lalu Keliling = 4 × 8 = 32 m, baru kalikan biaya per meter.",
+              "Jebakan: langsung mengalikan luas 64 × 10.000 = 640.000."
+            ),
+            sol: fmtSol(
+              "Mengubah informasi Luas menjadi Keliling persegi.",
+              [
+                "Luas = s × s = 64 → panjang sisi (s) = 8 m.",
+                "Keliling pagar = 4 × 8 m = 32 m.",
+                "Total biaya = 32 × Rp10.000 = <strong>320000</strong>."
+              ],
+              "Kata kunci 'sekeliling' selalu berarti KELILING, bukan luas."
+            )
+          }
         ],
         closing: ["Biasakan menggarisbawahi kata terakhir pada kalimat tanya di setiap soal."]
       },
@@ -502,9 +1408,65 @@
           { title: "Aturan Hari 12", body: "Baca ulang semua catatan Error Log. Pastikan tidak ada lagi salah hitung operasi campuran atau salah baca syarat soal." }
         ],
         problems: [
-          { tag: "Operasi Campuran • Mudah", q: "Hitung: 100 − 20 × 3 + 10.", ans: "50", hint: "Perkalian didahulukan sebelum pengurangan/penjumlahan.", sol: "100 − 60 + 10 = 50." },
-          { tag: "Sisa Pembagian • Sedang", q: "Berapakah sisa pembagian 3^12 oleh 4?", ans: "1", hint: "Cek pola sisa: 3^1 ÷ 4 sisa 3, 3^2 ÷ 4 sisa 1, 3^3 sisa 3...", sol: "Pangkat genap selalu bersisa 1 → jawab 1." },
-          { tag: "Bilangan Prima • Mudah", q: "Berapa banyak bilangan prima antara 10 dan 20?", ans: "4", hint: "Daftarkan bilangan ganjil antara 10 dan 20, lalu cek yang tidak punya pembagi lain.", sol: "11, 13, 17, 19 → 4 bilangan." }
+          {
+            tag: "Operasi Campuran • Mudah",
+            q: "Hitung: 100 − 20 × 3 + 10.",
+            ans: "50",
+            hint: fmtHint(
+              "Mana yang harus dikerjakan lebih dulu: pengurangan atau perkalian?",
+              "Aturan urutan operasi (KABATAKU): perkalian/pembagian dikerjakan sebelum penjumlahan/pengurangan.",
+              "Jangan dihitung urut dari kiri (100 − 20 = 80, lalu × 3 = 240)."
+            ),
+            sol: fmtSol(
+              "Prioritas operasi hitung campuran.",
+              [
+                "Kerjakan perkalian terlebih dahulu: 20 × 3 = 60.",
+                "Substitusikan kembali: 100 − 60 + 10.",
+                "Hitung dari kiri ke kanan: 40 + 10 = <strong>50</strong>."
+              ],
+              "Beri tanda kurung pada bagian perkalian: 100 − (20 × 3) + 10 agar tidak terkecoh."
+            )
+          },
+          {
+            tag: "Sisa Pembagian • Sedang",
+            q: "Berapakah sisa pembagian 3^12 oleh 4?",
+            ans: "1",
+            hint: fmtHint(
+              "Coba cari sisa pembagian 3¹, 3², 3³, 3⁴ saat dibagi 4. Polanya sangat pendek lho!",
+              "Amati pola sisa untuk pangkat ganjil vs pangkat genap.",
+              "Tidak perlu menghitung nilai 3¹² secara penuh."
+            ),
+            sol: fmtSol(
+              "Pola sisa pembagian (modulo 4).",
+              [
+                "3¹ = 3 → dibagi 4 sisa 3.",
+                "3² = 9 → dibagi 4 sisa 1.",
+                "3³ = 27 → dibagi 4 sisa 3; 3⁴ = 81 → dibagi 4 sisa 1.",
+                "Polanya: pangkat ganjil sisa 3, pangkat genap sisa 1.",
+                "Karena 12 adalah pangkat genap, sisanya adalah <strong>1</strong>."
+              ],
+              "Trik: 3 dibagi 4 bersisa −1. Maka (−1)¹² = +1."
+            )
+          },
+          {
+            tag: "Bilangan Prima • Mudah",
+            q: "Berapa banyak bilangan prima antara 10 dan 20?",
+            ans: "4",
+            hint: fmtHint(
+              "Bilangan genap di atas 2 pasti bukan prima. Jadi cukup cek angka ganjil di antara 10 dan 20: 11, 13, 15, 17, 19. Mana yang masih bisa dibagi?",
+              "Bilangan prima hanya memiliki tepat 2 faktor: 1 dan dirinya sendiri.",
+              "Angka 15 sering lolos padahal 15 = 3 × 5 (bukan prima!)."
+            ),
+            sol: fmtSol(
+              "Identifikasi bilangan prima antara 10 dan 20.",
+              [
+                "Kandidat ganjil: 11, 13, 15, 17, 19.",
+                "15 = 3 × 5 (bukan prima).",
+                "Yang merupakan bilangan prima: 11, 13, 17, 19 → ada <strong>4 bilangan</strong>."
+              ],
+              "Ingat: 1 bukan bilangan prima, dan 2 adalah satu-satunya prima genap."
+            )
+          }
         ],
         closing: ["Ringkas 3 pengingat paling penting yang harus dibawa anak saat ujian."]
       },
@@ -520,9 +1482,60 @@
           { title: "Menjaga Kepercayaan Diri", body: "Hari ini cukup kerjakan soal kategori Mudah agar pikiran tetap tajam dan mental siap tempur." }
         ],
         problems: [
-          { tag: "Pecahan & Persen • Mudah", q: "Hitung hasil dari 1/4 + 0,5 + 25% (dalam desimal/bulat).", ans: "1", hint: "Ubah semua ke desimal atau persen.", sol: "0,25 + 0,5 + 0,25 = 1." },
-          { tag: "Lingkaran • Mudah", q: "Keliling lingkaran dengan jari-jari 7 cm (π = 22/7) adalah ... cm.", ans: "44", hint: "Keliling = 2 × π × r.", sol: "2 × (22/7) × 7 = 44 cm." },
-          { tag: "Hitung Cepat • Mudah", q: "Hitung: 125 × 8.", ans: "1000", hint: "Pasangan perkalian spesial.", sol: "125 × 8 = 1000." }
+          {
+            tag: "Pecahan & Persen • Mudah",
+            q: "Hitung hasil dari 1/4 + 0,5 + 25% (dalam desimal/bulat).",
+            ans: "1",
+            hint: fmtHint(
+              "Ubah semua bentuknya menjadi desimal atau persen semua agar mudah dijumlahkan!",
+              "1/4 = 0,25 = 25% dan 0,5 = 50%.",
+              "Pastikan tidak keliru menulis 0,5 sebagai 5%."
+            ),
+            sol: fmtSol(
+              "Konversi pecahan, desimal, dan persen.",
+              [
+                "1/4 = 0,25",
+                "25% = 0,25",
+                "Jumlahkan: 0,25 + 0,5 + 0,25 = <strong>1</strong>."
+              ],
+              "Hafalkan konversi cepat: 1/4 = 25% = 0,25; 1/2 = 50% = 0,5; 3/4 = 75% = 0,75."
+            )
+          },
+          {
+            tag: "Lingkaran • Mudah",
+            q: "Keliling lingkaran dengan jari-jari 7 cm (π = 22/7) adalah ... cm.",
+            ans: "44",
+            hint: fmtHint(
+              "Jangan tertukar rumus keliling dan luas lingkaran! Keliling = 2 × π × r.",
+              "Substitusikan π = 22/7 dan r = 7, lalu coret angka 7-nya.",
+              "Jika menjawab 154, itu adalah LUAS lingkaran, bukan keliling."
+            ),
+            sol: fmtSol(
+              "Keliling lingkaran = 2 × π × r.",
+              [
+                "K = 2 × (22/7) × 7.",
+                "Angka 7 saling mencoret → 2 × 22 = <strong>44 cm</strong>."
+              ],
+              "Patokan hafalan cepat: r = 7 cm → Keliling = 44 cm, Luas = 154 cm²."
+            )
+          },
+          {
+            tag: "Hitung Cepat • Mudah",
+            q: "Hitung: 125 × 8.",
+            ans: "1000",
+            hint: fmtHint(
+              "Ini pasangan perkalian istimewa yang sering muncul di soal olimpiade!",
+              "125 × 2 = 250, 125 × 4 = 500, maka 125 × 8 = ...",
+              "Jangan sampai salah nol-nya (100 vs 1000)."
+            ),
+            sol: fmtSol(
+              "Pasangan perkalian istimewa berbasis 10.",
+              [
+                "125 × 8 = 125 × 2 × 4 = 250 × 4 = <strong>1000</strong>."
+              ],
+              "Hafalkan 3 pasangan emas: 5×2=10, 25×4=100, 125×8=1000."
+            )
+          }
         ],
         closing: ["Puji progres anak selama 13 hari ini!"]
       },
@@ -538,7 +1551,24 @@
           { title: "Checklist Perlengkapan & Mental", body: "Siapkan pensil 2B (2 buah), penghapus bersih, rautan, kartu peserta, dan botol air minum. Ingat: kerjakan soal mudah dulu saat lomba!" }
         ],
         problems: [
-          { tag: "Pemanasan Mental • Santai", q: "Hitung santai: 2026 − 2000 + 26.", ans: "52", hint: "26 + 26.", sol: "52. Selamat berjuang di hari lomba!" }
+          {
+            tag: "Pemanasan Mental • Santai",
+            q: "Hitung santai: 2026 − 2000 + 26.",
+            ans: "52",
+            hint: fmtHint(
+              "Kerjakan dari kiri ke kanan dengan santai!",
+              "2026 − 2000 = 26, lalu tambah 26.",
+              "Hari ini tidak ada jebakan—cukup jaga rasa percaya diri!"
+            ),
+            sol: fmtSol(
+              "Pemanasan ringan H-1 lomba.",
+              [
+                "2026 − 2000 = 26.",
+                "26 + 26 = <strong>52</strong>."
+              ],
+              "Tutup buku setelah ini. Tidur cukup dan sarapan bergizi besok pagi. Selamat berjuang!"
+            )
+          }
         ],
         closing: ["Tidur cukup lebih awal dan sarapan bergizi besok pagi. Semoga sukses!"]
       }
@@ -682,8 +1712,8 @@
             <button class="btn p-sol-btn" data-idx="${i}">Pembahasan</button>
           </div>
           <div id="p-fb-${i}" class="feedback"></div>
-          <div id="p-hint-${i}" class="hint-box hidden"><strong>Hint Tentor:</strong> ${p.hint}</div>
-          <div id="p-sol-${i}" class="sol-box hidden"><strong>Pembahasan:</strong> ${p.sol}</div>
+          <div id="p-hint-${i}" class="hint-box hidden">${p.hint}</div>
+          <div id="p-sol-${i}" class="sol-box hidden">${p.sol}</div>
         </div>
       `).join("");
 
